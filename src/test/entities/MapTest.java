@@ -13,10 +13,4 @@ public class MapTest {
         assertEquals(c1, m.getCoordinateMin());
         assertEquals(c2, m.getCoordinateMax());
     }
-
-    @Test
-    public void testFailure() {
-        assertEquals(1, 0);
-    }
-
 }
