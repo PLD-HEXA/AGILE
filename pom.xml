@@ -13,11 +13,7 @@
                 <directory>src/main/java</directory>
             </resource>
         </resources>
-        <testResources>
-            <testResource>
-                <directory>src/test</directory>
-            </testResource>
-        </testResources>
+        <testSourceDirectory>src/test</testSourceDirectory>
     </build>
     <dependencies>
         <dependency>
@@ -30,5 +26,7 @@
     <properties>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 </project>
