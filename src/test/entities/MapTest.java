@@ -1,12 +1,12 @@
 package entities;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class MapTest {
+class MapTest {
     @Test
-    public void testMap(){
+    void testMap(){
         Coordinate c1 = new Coordinate(123.0, 23.6);
         Coordinate c2 = new Coordinate(24.5, 53.1);
         Map m = new Map(c1, c2);
