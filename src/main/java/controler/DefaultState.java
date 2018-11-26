@@ -41,7 +41,8 @@ public class DefaultState implements State{
 			map.setMapId(mapId);
 			map.setGraph(graph);
 			System.out.println(map);
-			mainWindow.getGraphicalView().drawPlan(map);
+                        mainWindow.getGraphicalView().setMap(map);
+                        mainWindow.getGraphicalView().repaint();
 			controler.setCurState(controler.planState);
 			
 		}
