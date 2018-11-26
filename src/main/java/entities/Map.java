@@ -19,9 +19,7 @@ public class Map {
 
     private int[] tabDeliveryPoints;
 
-    public Map(Coordinate coordinateMin, Coordinate coordinateMax) {
-        this.coordinateMin = coordinateMin;
-        this.coordinateMax = coordinateMax;
+    public Map() {
     }
 
     @Override
