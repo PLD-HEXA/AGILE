@@ -3,13 +3,17 @@ package entities;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 public class Map {
     private Coordinate coordinateMin;
 
     private Coordinate coordinateMax;
 
+
     private List<List<Segment>> graph;
+
+
 
     private HashMap<Long, Integer> mapId;
 
@@ -17,14 +21,20 @@ public class Map {
 
     private int wareHouse;
 
+
     private int[] tabDeliveryPoints;
+
+
 
     public Map(Coordinate coordinateMin, Coordinate coordinateMax) {
         this.coordinateMin = coordinateMin;
         this.coordinateMax = coordinateMax;
     }
 
+   
+
     @Override
+
     public String toString() {
         return "Map{" +
                 "coordinateMin=" + coordinateMin +
@@ -37,7 +47,11 @@ public class Map {
                 '}';
     }
 
-    public Coordinate getCoordinateMin() {
+
+
+
+
+	public Coordinate getCoordinateMin() {
         return coordinateMin;
     }
 
@@ -53,11 +67,16 @@ public class Map {
         this.coordinateMax = coordinateMax;
     }
 
+
     public List<List<Segment>> getGraph() {
         return graph;
     }
 
     public void setGraph(List<List<Segment>> graph) {
+    }
+   
+    public void setGraph(Vector<List<Segment>> graph) {
+
         this.graph = graph;
     }
 
@@ -85,11 +104,16 @@ public class Map {
         this.wareHouse = wareHouse;
     }
 
-    public int[] getTaxDeliveryPoints() {
+    public int[] getTabDeliveryPoints() {
+
         return tabDeliveryPoints;
     }
 
-    public void setTaxDeliveryPoints(int[] taxDeliveryPoints) {
-        this.tabDeliveryPoints = taxDeliveryPoints;
+    public void setTabDeliveryPoints(int[] tabDeliveryPoints) {
+        this.tabDeliveryPoints = tabDeliveryPoints;
+
+        
     }
+
+    
 }

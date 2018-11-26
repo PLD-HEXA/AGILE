@@ -7,7 +7,7 @@ public class Segment {
 
     private double length;
 
-    public Segment(int destId, String streetName, int length) {
+    public Segment(int destId, String streetName, double length) {
         this.destId = destId;
         this.streetName = streetName;
         this.length = length;
@@ -42,7 +42,7 @@ public class Segment {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(double length) {
         this.length = length;
     }
 }
