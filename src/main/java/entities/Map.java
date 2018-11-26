@@ -9,15 +9,15 @@ public class Map {
 
     private Coordinate coordinateMax;
 
-    private List<Segment>[] graph;
+    private List<List<Segment>> graph;
 
-    private HashMap<Integer, Integer> mapId;
+    private HashMap<Long, Integer> mapId;
 
     private Coordinate[] coordinates;
 
     private int wareHouse;
 
-    private int[] taxDeliveryPoints;
+    private int[] tabDeliveryPoints;
 
     public Map(Coordinate coordinateMin, Coordinate coordinateMax) {
         this.coordinateMin = coordinateMin;

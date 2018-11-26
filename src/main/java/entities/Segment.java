@@ -1,11 +1,11 @@
 package entities;
 
 public class Segment {
-    private int destId;
+    private long destId;
 
     private String streetName;
 
-    private int length;
+    private double length;
 
     public Segment(int destId, String streetName, int length) {
         this.destId = destId;
