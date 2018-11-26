@@ -22,7 +22,7 @@ public class Segment {
                 '}';
     }
 
-    public int getDestId() {
+    public long getDestId() {
         return destId;
     }
 
@@ -38,7 +38,7 @@ public class Segment {
         this.streetName = streetName;
     }
 
-    public int getLength() {
+    public double getLength() {
         return length;
     }
 
