@@ -9,15 +9,15 @@ public class Map {
 
     private Coordinate coordinateMax;
 
-    private List<Segment>[] graph;
+    private List<List<Segment>> graph;
 
-    private HashMap<Integer, Integer> mapId;
+    private HashMap<Long, Integer> mapId;
 
     private Coordinate[] coordinates;
 
     private int wareHouse;
 
-    private int[] taxDeliveryPoints;
+    private int[] tabDeliveryPoints;
 
     public Map(Coordinate coordinateMin, Coordinate coordinateMax) {
         this.coordinateMin = coordinateMin;
@@ -29,11 +29,11 @@ public class Map {
         return "Map{" +
                 "coordinateMin=" + coordinateMin +
                 ", coordinateMax=" + coordinateMax +
-                ", graph=" + Arrays.toString(graph) +
+                ", graph=" + graph +
                 ", mapId=" + mapId +
                 ", coordinates=" + Arrays.toString(coordinates) +
                 ", wareHouse=" + wareHouse +
-                ", taxDeliveryPoints=" + Arrays.toString(taxDeliveryPoints) +
+                ", taxDeliveryPoints=" + Arrays.toString(tabDeliveryPoints) +
                 '}';
     }
 
@@ -53,19 +53,19 @@ public class Map {
         this.coordinateMax = coordinateMax;
     }
 
-    public List<Segment>[] getGraph() {
+    public List<List<Segment>> getGraph() {
         return graph;
     }
 
-    public void setGraph(List<Segment>[] graph) {
+    public void setGraph(List<List<Segment>> graph) {
         this.graph = graph;
     }
 
-    public HashMap<Integer, Integer> getMapId() {
+    public HashMap<Long, Integer> getMapId() {
         return mapId;
     }
 
-    public void setMapId(HashMap<Integer, Integer> mapId) {
+    public void setMapId(HashMap<Long, Integer> mapId) {
         this.mapId = mapId;
     }
 
@@ -86,10 +86,10 @@ public class Map {
     }
 
     public int[] getTaxDeliveryPoints() {
-        return taxDeliveryPoints;
+        return tabDeliveryPoints;
     }
 
     public void setTaxDeliveryPoints(int[] taxDeliveryPoints) {
-        this.taxDeliveryPoints = taxDeliveryPoints;
+        this.tabDeliveryPoints = taxDeliveryPoints;
     }
 }
