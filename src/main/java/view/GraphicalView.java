@@ -2,11 +2,13 @@ package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.List;
 
 import javax.swing.JPanel;
 
 import entities.Coordinate;
 import entities.Map;
+import entities.Segment;
 
 public class GraphicalView extends JPanel {
 	
@@ -42,7 +44,7 @@ public class GraphicalView extends JPanel {
 			for(int i =0;i<1;i++) {
 				int numberOfSuccessors = map.getGraph().get(i).size();//taille de la ième liste de segments dans graph
 				for(int j=0;j<numberOfSuccessors;j++) {//pour chaque successeur
-					Coordinate curSuccessor= map.getCoordinates()[map.getMapId().get(map.getGraph().get(i).get(j).getDestId())];
+					Coordinate curSuccessor= map.getCoordinates()[map.getMapId().get((int)map.getGraph().get(i).get(j).getDestId())];
 					g.drawLine((int)((latMax-map.getCoordinates()[i].getLatitude())*widthScale), (int)((longMax-map.getCoordinates()[i].getLongitude())*heightScale),
 							(int)((latMax-curSuccessor.getLatitude())*widthScale), (int)((longMax-curSuccessor.getLongitude())*heightScale));
 				}						
@@ -64,7 +66,9 @@ public class GraphicalView extends JPanel {
 		for(int i =0;i<1;i++) {
 			int numberOfSuccessors = map.getGraph().get(i).size();//taille de la ième liste de segments dans graph
 			for(int j=0;j<numberOfSuccessors;j++) {//pour chaque successeur
-				Coordinate curSuccessor= map.getCoordinates()[map.getMapId().get(map.getGraph().get(i).get(j).getDestId())];
+				System.out.println("destId "+ map.getGraph().get(i).get(j).getDestId());
+//				System.out.printlmap.getMapId().get((int)map.getGraph().get(i).get(j).getDestId());
+				Coordinate curSuccessor= map.getCoordinates()[map.getMapId().get((int)map.getGraph().get(i).get(j).getDestId())];
 				//Coordonee de l'index du successeur
 				System.out.println("Cursuccessor "+curSuccessor);
 				System.out.println("Origin "+map.getCoordinates()[i]);

@@ -3,7 +3,6 @@ package entities;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 public class Map {
     private Coordinate coordinateMin;
@@ -73,10 +72,6 @@ public class Map {
     }
 
     public void setGraph(List<List<Segment>> graph) {
-    }
-   
-    public void setGraph(Vector<List<Segment>> graph) {
-
         this.graph = graph;
     }
 
