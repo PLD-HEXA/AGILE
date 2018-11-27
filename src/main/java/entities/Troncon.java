@@ -1,6 +1,7 @@
 package entities;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.util.Objects;
 
 public class Troncon {
 
@@ -63,5 +64,33 @@ public class Troncon {
 		return "Troncon [destination=" + destination + ", longueur=" + longueur + ", nomRue=" + nomRue + ", origine="
 				+ origine + "]";
 	}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Troncon other = (Troncon) obj;
+        if (!Objects.equals(this.destination, other.destination)) {
+            return false;
+        }
+        if (!Objects.equals(this.longueur, other.longueur)) {
+            return false;
+        }
+        if (!Objects.equals(this.nomRue, other.nomRue)) {
+            return false;
+        }
+        if (!Objects.equals(this.origine, other.origine)) {
+            return false;
+        }
+        return true;
+    }
 	
+        
 }
