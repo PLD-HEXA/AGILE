@@ -20,14 +20,14 @@ public class Map {
     private Pair<Integer,String> wareHouse;
     
     // Changer pour avoir 2 infos : l'index + le temps pour livrer (pair<index,duree> ou Livraison changer l'id)
-    private HashMap<Integer,Integer> tabDeliveryPoints;
+    private List<Pair<Integer,Integer>> tabDeliveryPoints;
 
     public Map() {
         coordinateMax = new Coordinate(-90.0,-180.0);
         coordinateMin = new Coordinate(90.0,180.0);
         mapId = new HashMap<Long,Integer>();
         graph = new ArrayList<>();
-        tabDeliveryPoints = new HashMap<>();
+        tabDeliveryPoints = new ArrayList<>();
     }
 
     @Override
@@ -88,11 +88,11 @@ public class Map {
         this.wareHouse = wareHouse;
     }
 
-    public HashMap<Integer, Integer> getTabDeliveryPoints() {
+    public List<Pair<Integer, Integer>> getTabDeliveryPoints() {
         return tabDeliveryPoints;
     }
 
-    public void setTabDeliveryPoints(HashMap<Integer, Integer> tabDeliveryPoints) {
+    public void setTabDeliveryPoints(List<Pair<Integer, Integer>> tabDeliveryPoints) {
         this.tabDeliveryPoints = tabDeliveryPoints;
     }
     
@@ -147,7 +147,7 @@ public class Map {
             //Verifier que la duree est bien superieure à 0 si non fait dans le parser
             int dureeLivraison = livraison[i].getDuree();
             if (dureeLivraison > 0) {
-                tabDeliveryPoints.put(indexLivraison, dureeLivraison);
+                tabDeliveryPoints.add(new Pair<>(indexLivraison, dureeLivraison));
             }
         }
     }

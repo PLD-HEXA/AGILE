@@ -7,6 +7,7 @@ package entities;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -176,15 +177,14 @@ public class MapTest {
         // Then
         
         Pair<Integer,String> wareHouse = map.getWareHouse();
-        HashMap<Integer,Integer> tabDeliveryPoints = map.getTabDeliveryPoints();
+        List<Pair<Integer,Integer>> tabDeliveryPoints = map.getTabDeliveryPoints();
         assertNotNull(wareHouse);
         assertNotNull(tabDeliveryPoints);
         
         assertEquals(wareHouse, wareHouseExpected);
-        System.out.println(indexDelPointExpected);
-        System.out.println(tabDeliveryPoints.get(indexDelPointExpected));
-        assertEquals(delPointExpected1.getValue(), tabDeliveryPoints.get(indexDelPointExpected));
-        assertEquals(delPointExpected2.getValue(), tabDeliveryPoints.get(indexDelPointExpected2));
-        assertEquals(delPointExpected3.getValue(), tabDeliveryPoints.get(indexDelPointExpected3));
+        
+        assertEquals(delPointExpected1, tabDeliveryPoints.get(0));
+        assertEquals(delPointExpected2, tabDeliveryPoints.get(1));
+        assertEquals(delPointExpected3, tabDeliveryPoints.get(2));
     }
 }
