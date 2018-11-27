@@ -18,9 +18,9 @@ public class Map {
 
     // Pareil que pour tabDeliveryPoints : pair<index,depart>
     private int wareHouse;
-    
-    // Changer pour avoir 2 infos : l'index + le temps pour livrer (pair<index,duree> ou Livraison changer l'id)
+  
     private int[] tabDeliveryPoints;
+    
 
     public Map() {
         coordinateMax = new Coordinate(-90.0,-180.0);
@@ -30,6 +30,7 @@ public class Map {
     }
 
     @Override
+
     public String toString() {
         return "Map{" +
                 "coordinateMin=" + coordinateMin +
@@ -42,7 +43,7 @@ public class Map {
                 '}';
     }
 
-    public Coordinate getCoordinateMin() {
+	public Coordinate getCoordinateMin() {
         return coordinateMin;
     }
 
@@ -57,6 +58,7 @@ public class Map {
     public void setCoordinateMax(Coordinate coordinateMax) {
         this.coordinateMax = coordinateMax;
     }
+
 
     public List<List<Segment>> getGraph() {
         return graph;
@@ -90,12 +92,15 @@ public class Map {
         this.wareHouse = wareHouse;
     }
 
-    public int[] getTaxDeliveryPoints() {
+    public int[] getTabDeliveryPoints() {
+
         return tabDeliveryPoints;
     }
 
-    public void setTaxDeliveryPoints(int[] taxDeliveryPoints) {
-        this.tabDeliveryPoints = taxDeliveryPoints;
+    public void setTabDeliveryPoints(int[] tabDeliveryPoints) {
+        this.tabDeliveryPoints = tabDeliveryPoints;
+
+        
     }
     
     public void fillMapIdAndCoordinate(Reseau res) {
@@ -103,15 +108,15 @@ public class Map {
         coordinates = new Coordinate[coordinatesLength];
         for(int i = 0; i < coordinatesLength; i++) {
             // Ici, qu'est-ce qu'on en fait de la coordinate
-                Coordinate coord = res.getNoeud()[i].getCoordinate();
-                if(validCoordinate(coord)) {
-                        checkMinMaxCoord(coord);
-                        Long id = Long.valueOf(res.getNoeud()[i].getId());
-                        mapId.put(id, i);
-                        coordinates[i] = res.getNoeud()[i].getCoordinate();
-                        List<Segment> listSegment = new ArrayList<>();
-                        graph.add(i,listSegment);
-                }
+            Coordinate coord = res.getNoeud()[i].getCoordinate();
+            if(validCoordinate(coord)) {
+                checkMinMaxCoord(coord);
+                Long id = Long.valueOf(res.getNoeud()[i].getId());
+                mapId.put(id, i);
+                coordinates[i] = res.getNoeud()[i].getCoordinate();
+                List<Segment> listSegment = new ArrayList<>();
+                graph.add(i,listSegment);
+            }
         }
     }
 
@@ -119,7 +124,7 @@ public class Map {
         Troncon[] troncon = res.getTroncon();
         for (int i=0; i<troncon.length; i++) {
             int indexOrigine = mapId.get(Long.valueOf(troncon[i].getOrigine()));
-            // faille : est-ce que l'Id de la destination est forcément une origine de base? --> Vérification
+            // faille : est-ce que l'Id de la destination est forcÃ©ment une origine de base? --> VÃ©rification
             int indexDestination = mapId.get(Long.valueOf(troncon[i].getDestination()));
             double length = Double.valueOf(troncon[i].getLongueur());
             Segment segment = new Segment (indexDestination, troncon[i].getNomRue(), length);
@@ -129,7 +134,7 @@ public class Map {
     }
     
     public boolean validCoordinate(Coordinate coord) {
-        // Faire les verifs liées à une latitude et une longitude
+        // Faire les verifs liÃ©es Ã  une latitude et une longitude
         if (coord.getLatitude() > 90.0 || coord.getLatitude() < -90.0 || coord.getLongitude() > 180.0
                 || coord.getLongitude() < -180.0) {
             return false;

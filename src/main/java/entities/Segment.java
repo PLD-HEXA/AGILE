@@ -23,7 +23,7 @@ public class Segment {
                 ", length=" + length +
                 '}';
     }
-
+      
     public int getDestIndex() {
         return destIndex;
     }
@@ -44,7 +44,7 @@ public class Segment {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(double length) {
         this.length = length;
     }
 
