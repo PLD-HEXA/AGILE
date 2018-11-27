@@ -24,13 +24,6 @@ public class Map {
     public Map() {
     }
 
-    public Map() {
-        coordinateMax = new Coordinate(-90.0,-180.0);
-        coordinateMin = new Coordinate(90.0,180.0);
-        mapId = new HashMap<Long,Integer>();
-        graph = new ArrayList<>();
-    }
-
     @Override
 
     public String toString() {

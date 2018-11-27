@@ -23,10 +23,6 @@ public class Segment {
                 ", length=" + length +
                 '}';
     }
-
-    public long getDestIndex() {
-        return destIndex;
-    }
       
     public int getDestIndex() {
         return destIndex;
