@@ -12,6 +12,6 @@ public class Main {
         Coordinate c2 = new Coordinate(24.5, 53.1);
         Map m = new Map(c1, c2);
         System.out.println(s);
-        System.out.println(m);
+        System.out.println(m);     
     }
 }
