@@ -52,7 +52,7 @@ public class GraphicalView extends JPanel {
         heightScale = this.getHeight() / (longMax - map.getCoordinateMin().getLongitude());
         widthScale = this.getWidth() / (latMax - map.getCoordinateMin().getLatitude());
         for (int i = 0; i < 1; i++) {
-            int numberOfSuccessors = map.getGraph().get(i).size();//taille de la ième liste de segments dans graph
+            int numberOfSuccessors = map.getGraph().get(i).size();//taille de la iÃ¨me liste de segments dans graph
             for (int j = 0; j < numberOfSuccessors; j++) {//pour chaque successeur
                 Coordinate curSuccessor = map.getCoordinates()[map.getMapId().get((int) map.getGraph().get(i).get(j).getDestIndex())];
                 g.drawLine((int) ((latMax - map.getCoordinates()[i].getLatitude()) * widthScale), (int) ((longMax - map.getCoordinates()[i].getLongitude()) * heightScale),

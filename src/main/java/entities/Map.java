@@ -76,6 +76,10 @@ public class Map {
         this.mapId = mapId;
     }
 
+    public Coordinate getCoordinate(int index) {
+        return this.coordinates[index];
+    }
+
     public Coordinate[] getCoordinates() {
         return coordinates;
     }
