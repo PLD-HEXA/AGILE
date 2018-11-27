@@ -22,6 +22,7 @@ public class Map {
     // Changer pour avoir 2 infos : l'index + le temps pour livrer (pair<index,duree> ou Livraison changer l'id)
     private List<Pair<Integer,Integer>> tabDeliveryPoints;
 
+
     public Map() {
         coordinateMax = new Coordinate(-90.0,-180.0);
         coordinateMin = new Coordinate(90.0,180.0);
@@ -31,6 +32,7 @@ public class Map {
     }
 
     @Override
+
     public String toString() {
         return "Map{" + "coordinateMin=" + coordinateMin + ", coordinateMax=" 
                 + coordinateMax + ", graph=" + graph + ", mapId=" + mapId 
@@ -38,9 +40,7 @@ public class Map {
                 + ", tabDeliveryPoints=" + tabDeliveryPoints + '}';
     }
 
-    
-
-    public Coordinate getCoordinateMin() {
+	  public Coordinate getCoordinateMin() {
         return coordinateMin;
     }
 
@@ -56,6 +56,7 @@ public class Map {
         this.coordinateMax = coordinateMax;
     }
 
+
     public List<List<Segment>> getGraph() {
         return graph;
     }
@@ -70,6 +71,10 @@ public class Map {
 
     public void setMapId(HashMap<Long, Integer> mapId) {
         this.mapId = mapId;
+    }
+
+    public Coordinate getCoordinate(int index) {
+        return this.coordinates[index];
     }
 
     public Coordinate[] getCoordinates() {
@@ -119,7 +124,7 @@ public class Map {
         Troncon[] troncon = res.getTroncon();
         for (int i=0; i<troncon.length; i++) {
             int indexOrigine = mapId.get(Long.valueOf(troncon[i].getOrigine()));
-            // faille : est-ce que l'Id de la destination est forcément une origine de base? --> Vérification
+            // faille : est-ce que l'Id de la destination est forcÃ©ment une origine de base? --> VÃ©rification
             int indexDestination = mapId.get(Long.valueOf(troncon[i].getDestination()));
             double length = Double.valueOf(troncon[i].getLongueur());
             Segment segment = new Segment (indexDestination, troncon[i].getNomRue(), length);
@@ -132,7 +137,7 @@ public class Map {
         // On remplit d'abord l'objet wareHouse
         Long idEntrepot = Long.valueOf(ddl.getEntrepot().getAdresse());
         int indexEntrepot = mapId.get(idEntrepot);
-        // Vérifier que l'heure de départ est valide
+        // Vï¿½rifier que l'heure de dï¿½part est valide
         verifyHour(ddl.getEntrepot().getHeureDepart());
         
         wareHouse = new Pair<>(indexEntrepot,ddl.getEntrepot().getHeureDepart());
@@ -140,11 +145,11 @@ public class Map {
         // On remplit maintenant les deliveryPoint
         Livraison[] livraison = ddl.getLivraison();
         for (int i = 0; i < livraison.length; i++) {
-            // On récupére l'index de la livraison
+            // On rï¿½cupï¿½re l'index de la livraison
             Long idLivraison = Long.valueOf(livraison[i].getId());
             int indexLivraison = mapId.get(idLivraison);
             
-            //Verifier que la duree est bien superieure à 0 si non fait dans le parser
+            //Verifier que la duree est bien superieure ï¿½ 0 si non fait dans le parser
             int dureeLivraison = livraison[i].getDuree();
             if (dureeLivraison > 0) {
                 tabDeliveryPoints.add(new Pair<>(indexLivraison, dureeLivraison));
@@ -152,7 +157,7 @@ public class Map {
         }
     }
     
-    // Vérifier que l'heure de départ est correcte
+    // Vï¿½rifier que l'heure de dï¿½part est correcte
     private boolean verifyHour(String hourToVerify) {
         String[] hourDecomposed = hourToVerify.split(":");
         int heure = Integer.valueOf(hourDecomposed[0]);
@@ -167,7 +172,7 @@ public class Map {
     }
     
     public boolean validCoordinate(Coordinate coord) {
-        // Faire les verifs liées à une latitude et une longitude
+        // Faire les verifs liÃ©es Ã  une latitude et une longitude
         if (coord.getLatitude() > 90.0 || coord.getLatitude() < -90.0 || coord.getLongitude() > 180.0
                 || coord.getLongitude() < -180.0) {
             return false;
