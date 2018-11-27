@@ -24,7 +24,7 @@ public class DefaultState implements State{
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
-			//Ici rajouter l'appel à la méthode qui traite l'xml
+			//Ici rajouter l'appel Ã  la mÃ©thode qui traite l'xml
 			
 			
 			HashMap mapId=new HashMap<Long,Integer>();
