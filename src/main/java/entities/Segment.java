@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.Objects;
+
 public class Segment {
     private int destIndex;
 
@@ -25,8 +27,12 @@ public class Segment {
     public long getDestIndex() {
         return destIndex;
     }
+      
+    public int getDestIndex() {
+        return destIndex;
+    }
 
-    public void setDestId(int destIndex) {
+    public void setDestIndex(int destIndex) {
         this.destIndex = destIndex;
     }
 
@@ -45,4 +51,30 @@ public class Segment {
     public void setLength(double length) {
         this.length = length;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Segment other = (Segment) obj;
+        if (this.destIndex != other.destIndex) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.length) != Double.doubleToLongBits(other.length)) {
+            return false;
+        }
+        if (!Objects.equals(this.streetName, other.streetName)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
