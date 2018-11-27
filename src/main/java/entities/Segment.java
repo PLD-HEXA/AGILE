@@ -1,14 +1,14 @@
 package entities;
 
 public class Segment {
-    private long destId;
+    private int destIndex;
 
     private String streetName;
 
     private double length;
 
-    public Segment(int destId, String streetName, double length) {
-        this.destId = destId;
+    public Segment(int destIndex, String streetName, double length) {
+        this.destIndex = destIndex;
         this.streetName = streetName;
         this.length = length;
     }
@@ -16,18 +16,18 @@ public class Segment {
     @Override
     public String toString() {
         return "Segment{" +
-                "destId=" + destId +
+                "destId=" + destIndex +
                 ", streetName='" + streetName + '\'' +
                 ", length=" + length +
                 '}';
     }
 
-    public long getDestId() {
-        return destId;
+    public long getDestIndex() {
+        return destIndex;
     }
 
-    public void setDestId(int destId) {
-        this.destId = destId;
+    public void setDestId(int destIndex) {
+        this.destIndex = destIndex;
     }
 
     public String getStreetName() {

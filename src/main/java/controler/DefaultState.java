@@ -30,13 +30,19 @@ public class DefaultState implements State{
 			HashMap mapId=new HashMap<Long,Integer>();
 			mapId.put(25175791, 0);
 			mapId.put(2129259178, 1);
-			Coordinate [] coordinates= {new Coordinate(10.0,300.0),new Coordinate(300.0,10.0)};
+			mapId.put(25175792, 2);
+			mapId.put(2129259179, 3);
+			mapId.put(25175793, 4);
+			Coordinate [] coordinates= {new Coordinate(10.0,300.0),new Coordinate(300.0,10.0),new Coordinate(20.0,40.0),new Coordinate(50.0,70.0),
+					new Coordinate(100.0,130.0)};
 			List<Segment> segments = new ArrayList<Segment>();
 			segments.add(new Segment(2129259178, "Rue Claudius Penet", 104));
 			List<List<Segment>> graph = new ArrayList<List<Segment>>();
 			graph.add(segments);
 			System.out.println(graph);
-			Map map = new Map(new Coordinate(10.0,10.0),new Coordinate(300.0,300.0));
+			Map map = new Map();
+			map.setCoordinateMin(new Coordinate(10.0,10.0));
+			map.setCoordinateMax(new Coordinate(300.0,300.0));
 			map.setCoordinates(coordinates);
 			map.setMapId(mapId);
 			map.setGraph(graph);

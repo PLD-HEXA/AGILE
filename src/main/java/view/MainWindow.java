@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -26,18 +27,21 @@ public class MainWindow extends JFrame {
 	public MainWindow(Controler controler) {
 		//Components initialisation
 		graphicalView = new GraphicalView(this);
-		textualView = new TextualView();
-		inputView = new InputView();
+		textualView = new TextualView(this);
+		inputView = new InputView(this);
 		//Buttons
 		createButtons(controler);
 		//Display characteristics
 		setLayout(null);
-		setExtendedState(JFrame.MAXIMIZED_BOTH );
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setWindowSize();
 		this.setLayout(new BorderLayout());
-		this.getContentPane().add(inputView, BorderLayout.NORTH);
-//		this.getContentPane().add(graphicalView, BorderLayout.CENTER);
-		this.getContentPane().add(new JButton("SOUTH"), BorderLayout.SOUTH);
+	    this.getContentPane().add(inputView, BorderLayout.NORTH);
+	    this.getContentPane().add(textualView, BorderLayout.EAST);
+	    this.getContentPane().add(graphicalView, BorderLayout.CENTER);
+//		this.add(inputView);
+//		this.add(textualView);
+//		this.add(graphicalView);
 		setTitle("Best Delivery Rounds");
 		setVisible(true);
 	}
@@ -50,6 +54,11 @@ public class MainWindow extends JFrame {
 		buttonListener = new ButtonListener(controler);
 		inputView.createButtons(controler,buttonListener);
 		
+	}
+	
+	public void setWindowSize() {
+		setExtendedState(JFrame.MAXIMIZED_BOTH );
+
 	}
 
 	public GraphicalView getGraphicalView() {

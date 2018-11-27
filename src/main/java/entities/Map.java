@@ -25,9 +25,7 @@ public class Map {
 
 
 
-    public Map(Coordinate coordinateMin, Coordinate coordinateMax) {
-        this.coordinateMin = coordinateMin;
-        this.coordinateMax = coordinateMax;
+    public Map() {
     }
 
    
