@@ -23,7 +23,7 @@ public class PlanState extends DefaultState {
 			System.out.println(selectedFile.getAbsolutePath());
 			int[] tab={0,1,2,3};
 			mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(tab);
-			mainWindow.getGraphicalView().getMap().setWareHouse(4);
+			mainWindow.getGraphicalView().getMap().setWareHouse(5);
             mainWindow.getGraphicalView().repaint();
 		}
 		controler.setCurState(controler.deliveriesState);

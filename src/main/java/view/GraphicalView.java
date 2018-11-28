@@ -34,7 +34,7 @@ public class GraphicalView extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.red);
+        g.setColor(Color.white);
         if (map != null) {
             drawPlan(g);
             if(map.getTabDeliveryPoints() != null) {
@@ -51,12 +51,12 @@ public class GraphicalView extends JPanel {
         double latMax = map.getCoordinateMax().getLatitude();
         heightScale = this.getHeight() / (longMax - map.getCoordinateMin().getLongitude());
         widthScale = this.getWidth() / (latMax - map.getCoordinateMin().getLatitude());
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < map.getGraph().size(); i++) {
             int numberOfSuccessors = map.getGraph().get(i).size();//taille de la ième liste de segments dans graph
             for (int j = 0; j < numberOfSuccessors; j++) {//pour chaque successeur
-                Coordinate curSuccessor = map.getCoordinates()[map.getMapId().get((int) map.getGraph().get(i).get(j).getDestIndex())];
-                g.drawLine((int) ((latMax - map.getCoordinates()[i].getLatitude()) * widthScale), (int) ((longMax - map.getCoordinates()[i].getLongitude()) * heightScale),
-                        (int) ((latMax - curSuccessor.getLatitude()) * widthScale), (int) ((longMax - curSuccessor.getLongitude()) * heightScale));
+                Coordinate curSuccessor = map.getCoordinates()[ map.getGraph().get(i).get(j).getDestIndex()];
+                g.drawLine((int) (this.getWidth()-(longMax - map.getCoordinates()[i].getLongitude()) * heightScale), (int) ((latMax - map.getCoordinates()[i].getLatitude()) * widthScale),
+                		(int) (this.getWidth()-(longMax - curSuccessor.getLongitude()) * heightScale), (int) ((latMax - curSuccessor.getLatitude()) * widthScale));
             }
         }
     }

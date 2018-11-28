@@ -1,9 +1,11 @@
 package controler;
 
+import entities.Parser;
 import view.MainWindow;
 
 public class Controler {
 	
+	private Parser parser;
 	private CmdList cmdList;
 	private State curState;
 	private MainWindow mainWindow;
@@ -12,6 +14,7 @@ public class Controler {
 	protected final DeliveriesState deliveriesState = new DeliveriesState();
 	
 	public Controler() {
+		parser = new Parser();
 		cmdList = new CmdList();
 		curState = initState;
 		mainWindow = new MainWindow( this);
@@ -30,7 +33,10 @@ public class Controler {
 	public void loadDeliveries() {
 		curState.loadDeliveries(this, mainWindow);
 	}
-
+	
+	public Parser getParser() {
+		return parser;
+	}
 	
 
 }
