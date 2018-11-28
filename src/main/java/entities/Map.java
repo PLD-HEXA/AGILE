@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import javafx.util.Pair;
 
 public class Map {
     private Coordinate coordinateMin;
@@ -15,35 +16,31 @@ public class Map {
     private HashMap<Long, Integer> mapId;
 
     private Coordinate[] coordinates;
-
-    // Pareil que pour tabDeliveryPoints : pair<index,depart>
-    private int wareHouse;
-  
-    private int[] tabDeliveryPoints;
     
+    private Pair<Integer,String> wareHouse;
+    
+    // Changer pour avoir 2 infos : l'index + le temps pour livrer (pair<index,duree> ou Livraison changer l'id)
+    private List<Pair<Integer,Integer>> tabDeliveryPoints;
+
 
     public Map() {
         coordinateMax = new Coordinate(-90.0,-180.0);
         coordinateMin = new Coordinate(90.0,180.0);
         mapId = new HashMap<Long,Integer>();
         graph = new ArrayList<>();
+        tabDeliveryPoints = new ArrayList<>();
     }
 
     @Override
 
     public String toString() {
-        return "Map{" +
-                "coordinateMin=" + coordinateMin +
-                ", coordinateMax=" + coordinateMax +
-                ", graph=" + graph +
-                ", mapId=" + mapId +
-                ", coordinates=" + Arrays.toString(coordinates) +
-                ", wareHouse=" + wareHouse +
-                ", taxDeliveryPoints=" + Arrays.toString(tabDeliveryPoints) +
-                '}';
+        return "Map{" + "coordinateMin=" + coordinateMin + ", coordinateMax=" 
+                + coordinateMax + ", graph=" + graph + ", mapId=" + mapId 
+                + ", coordinates=" + coordinates + ", wareHouse=" + wareHouse
+                + ", tabDeliveryPoints=" + tabDeliveryPoints + '}';
     }
 
-	public Coordinate getCoordinateMin() {
+	  public Coordinate getCoordinateMin() {
         return coordinateMin;
     }
 
@@ -88,23 +85,20 @@ public class Map {
         this.coordinates = coordinates;
     }
 
-    public int getWareHouse() {
+    public Pair<Integer, String> getWareHouse() {
         return wareHouse;
     }
 
-    public void setWareHouse(int wareHouse) {
+    public void setWareHouse(Pair<Integer, String> wareHouse) {
         this.wareHouse = wareHouse;
     }
 
-    public int[] getTabDeliveryPoints() {
-
+    public List<Pair<Integer, Integer>> getTabDeliveryPoints() {
         return tabDeliveryPoints;
     }
 
-    public void setTabDeliveryPoints(int[] tabDeliveryPoints) {
+    public void setTabDeliveryPoints(List<Pair<Integer, Integer>> tabDeliveryPoints) {
         this.tabDeliveryPoints = tabDeliveryPoints;
-
-        
     }
     
     public void fillMapIdAndCoordinate(Reseau res) {
@@ -112,15 +106,17 @@ public class Map {
         coordinates = new Coordinate[coordinatesLength];
         for(int i = 0; i < coordinatesLength; i++) {
             // Ici, qu'est-ce qu'on en fait de la coordinate
-            Coordinate coord = res.getNoeud()[i].getCoordinate();
-            if(validCoordinate(coord)) {
-                checkMinMaxCoord(coord);
-                Long id = Long.valueOf(res.getNoeud()[i].getId());
-                mapId.put(id, i);
-                coordinates[i] = res.getNoeud()[i].getCoordinate();
-                List<Segment> listSegment = new ArrayList<>();
-                graph.add(i,listSegment);
-            }
+                Coordinate coord = res.getNoeud()[i].getCoordinate();
+                if(validCoordinate(coord)) {
+                        checkMinMaxCoord(coord);
+                        Long id = Long.valueOf(res.getNoeud()[i].getId());
+                        mapId.put(id, i);
+                        coordinates[i] = res.getNoeud()[i].getCoordinate();
+                        
+                        // initialisation des list dans graph
+                        List<Segment> listSegment = new ArrayList<>();
+                        graph.add(i,listSegment);
+                }
         }
     }
 
@@ -135,6 +131,44 @@ public class Map {
             
             graph.get(indexOrigine).add(segment);
         }
+    }
+    
+    public void fillTabDeliveryPoint(DemandeDeLivraisons ddl) {
+        // On remplit d'abord l'objet wareHouse
+        Long idEntrepot = Long.valueOf(ddl.getEntrepot().getAdresse());
+        int indexEntrepot = mapId.get(idEntrepot);
+        // V�rifier que l'heure de d�part est valide
+        verifyHour(ddl.getEntrepot().getHeureDepart());
+        
+        wareHouse = new Pair<>(indexEntrepot,ddl.getEntrepot().getHeureDepart());
+        
+        // On remplit maintenant les deliveryPoint
+        Livraison[] livraison = ddl.getLivraison();
+        for (int i = 0; i < livraison.length; i++) {
+            // On r�cup�re l'index de la livraison
+            Long idLivraison = Long.valueOf(livraison[i].getId());
+            int indexLivraison = mapId.get(idLivraison);
+            
+            //Verifier que la duree est bien superieure � 0 si non fait dans le parser
+            int dureeLivraison = livraison[i].getDuree();
+            if (dureeLivraison > 0) {
+                tabDeliveryPoints.add(new Pair<>(indexLivraison, dureeLivraison));
+            }
+        }
+    }
+    
+    // V�rifier que l'heure de d�part est correcte
+    private boolean verifyHour(String hourToVerify) {
+        String[] hourDecomposed = hourToVerify.split(":");
+        int heure = Integer.valueOf(hourDecomposed[0]);
+        int minute = Integer.valueOf(hourDecomposed[1]);
+        int second = Integer.valueOf(hourDecomposed[2]);
+        if (heure < 0 || heure > 23 || minute < 0 || minute > 59 || 
+                second < 0 || second > 59) {
+            System.err.println("Erreur dans l'heure de depart de l'entrepot");
+            return false;
+        }
+        return true;
     }
     
     public boolean validCoordinate(Coordinate coord) {

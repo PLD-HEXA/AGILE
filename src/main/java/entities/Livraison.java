@@ -1,58 +1,66 @@
 package entities;
 
-
-
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.util.Objects;
 
 public class Livraison {
 	
-	@JacksonXmlProperty(localName = "id", isAttribute = true)
-	private String id;
-	
-	@JsonUnwrapped
-	private Integer duree;
-	
-	
+    @JacksonXmlProperty(localName = "adresse", isAttribute = true)
+    private String adresse;
+
+    @JacksonXmlProperty(localName = "duree", isAttribute = true)
+    private Integer duree;
+
+    public Livraison() {
+    }
+
+    public Livraison(String adresse, Integer duree) {
+            this.adresse = adresse;
+            this.duree = duree;
+    }
 
 
+    public String getId() {
+            return adresse;
+    }
 
-	public Livraison(String id, Integer duree) {
-		this.id = id;
-		this.duree = duree;
-	}
+    public void setAdresse(String adresse) {
+            this.adresse = adresse;
+    }
 
+    public Integer getDuree() {
+            return duree;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setDuree(Integer duree) {
+            this.duree = duree;
+    }
 
+    @Override
+    public String toString() {
+            return "Noeud [adresse=" + adresse + ", duree=" + duree + "]";
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public Integer getdDuree() {
-		return duree;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Livraison other = (Livraison) obj;
+        if (!Objects.equals(this.adresse, other.adresse)) {
+            return false;
+        }
+        if (!Objects.equals(this.duree, other.duree)) {
+            return false;
+        }
+        return true;
+    }
 
-
-	public void setDuree(Integer duree) {
-		this.duree = duree;
-	}
-
-
-	
-
-
-	@Override
-	public String toString() {
-		return "Noeud [id=" + id + ", duree=" + duree + "]";
-	}
-
-
-	
-	
-	
-
+    
 }
