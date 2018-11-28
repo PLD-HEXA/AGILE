@@ -89,7 +89,7 @@ public class PathFinder {
             dijkstra.executeDijkstra(targets.get(i), targets);
             distance = dijkstra.getDistance();
             for(int j = 0; j< targets.size(); j++){
-                adjMatrix[i][j] = distance[targets.get(j)]; //+ ajouter la durée
+                adjMatrix[i][j] = distance[targets.get(j)]; //+ ajouter la durÃ©e
             }
         }
         
@@ -98,8 +98,8 @@ public class PathFinder {
         //TSP algorithm to find the best order
         
         //Pour chaque cluster de points faire:
-            //Construire la matrice d'adjascence associée
-            //Exécuter tsp
+            //Construire la matrice d'adjascence associÃ©e
+            //ExÃ©cuter tsp
             
         TSP tsp = new TSP();
         int[] order =  tsp.getOrder(adjMatrix);

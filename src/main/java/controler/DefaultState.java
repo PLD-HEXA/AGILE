@@ -29,7 +29,7 @@ public class DefaultState implements State{
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
-			//Ici rajouter l'appel à la méthode qui traite l'xml
+			//Ici rajouter l'appel ï¿½ la mï¿½thode qui traite l'xml
 			try {
 				Reseau reseau= controler.getParser().parseCityPlan(selectedFile.toString());
 				Map map= new Map();
@@ -52,3 +52,5 @@ public class DefaultState implements State{
 	}
 
 }
+
+
