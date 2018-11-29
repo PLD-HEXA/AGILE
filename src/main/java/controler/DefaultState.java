@@ -18,8 +18,8 @@ import entities.Reseau;
 import entities.Segment;
 import view.MainWindow;
 
-public class DefaultState implements State{
-	
+public class DefaultState implements State {
+
 	public void loadPlan(Controler controler, MainWindow mainWindow) {
 		mainWindow.displayMessage("Load plan");
 		JFileChooser chooser = new JFileChooser();
@@ -29,30 +29,22 @@ public class DefaultState implements State{
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
-			//Ici rajouter l'appel � la m�thode qui traite l'xml
-			try {
-				Reseau reseau= controler.getParser().parseCityPlan(selectedFile.toString());
-				Map map= new Map();
-				map.fillMapIdAndCoordinate(reseau);
-				map.fillGraph(reseau);
-				mainWindow.getGraphicalView().setMap(map);
-	            mainWindow.getGraphicalView().repaint();
-				controler.setCurState(controler.planState);
-			} catch (JsonParseException e) {
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}         
+			// Ici rajouter l'appel � la m�thode qui traite l'xml
+			Reseau reseau = controler.getParser().parseCityPlan(selectedFile.toString());
+			Map map = new Map();
+			map.fillMapIdAndCoordinate(reseau);
+			map.fillGraph(reseau);
+			mainWindow.getGraphicalView().setMap(map);
+			mainWindow.getGraphicalView().repaint();
+			controler.setCurState(controler.planState);
 		}
 	}
+
 	public void loadDeliveries(Controler controler, MainWindow mainWindow) {
 	}
-	public void compute(Controler controler,MainWindow mainWindow) {
-		
+
+	public void compute(Controler controler, MainWindow mainWindow) {
+
 	}
 
 }
-
-
