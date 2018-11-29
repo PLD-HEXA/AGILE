@@ -37,25 +37,6 @@ public class MapTest {
     }
     
     @Test
-    public void validateCoordinateTestWithCoordOKAndNotOK() {
-        // Given
-        
-        Map map = new Map();
-        Coordinate coordinateValid = new Coordinate(45.75406,4.857418);
-        Coordinate coordinateNotValid = new Coordinate(-845.75406,4.857418);
-        
-        // When
-        
-        boolean valid = map.validCoordinate(coordinateValid);
-        boolean valid2 = map.validCoordinate(coordinateNotValid);
-        
-        // Then
-        
-        assertEquals(true, valid);
-        assertEquals(false, valid2);
-    }
-    
-    @Test
     public void fillMapIdAndCoordinateTestWithResOK() {
         
         //Given
@@ -126,6 +107,65 @@ public class MapTest {
         
         assertEquals(segExpected, listResultFirst.get(0));
         assertEquals(segExpected2, listResultFirst.get(1));
+    }
+    
+    @Test
+    public void fillGraphTestWithNoTroncon() {
+        
+        // Given 
+        
+        Map map = new Map();
+        String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanNoTroncon.xml";
+        Reseau resNoTroncon = parser.parseCityPlan(pathnameCityPlanXml);
+        
+        // When
+        map.fillMapIdAndCoordinate(resNoTroncon);
+        map.fillGraph(resNoTroncon);
+        
+        // Then
+        
+        assertNull(map.getGraph());
+        
+    }
+    
+    @Test
+    public void fillGraphTestWithIdOrigineDoesntExist() {
+        
+        // Given 
+        
+        Map map = new Map();
+        String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanIdOrigineNotExists.xml";
+        Reseau resIdONotExist = parser.parseCityPlan(pathnameCityPlanXml);
+        Troncon tronconExpected = new Troncon("25175791", "69.979805", "Rue Danton", "1");
+        
+        // When
+        map.fillMapIdAndCoordinate(resIdONotExist);
+        map.fillGraph(resIdONotExist);
+        
+        // Then
+        
+        assertNotNull(map.getGraph());
+        assertEquals(-1,map.getGraph().indexOf(0));
+        assertNotEquals(tronconExpected.getDestination(), map.getGraph().get(174).get(0).getDestIndex());
+        assertEquals(67.72544, map.getGraph().get(174).get(0).getLength(), 0.1);
+    }
+    
+    @Test
+    public void fillGraphTestWithZeroTronconValid() {
+        // Given 
+        
+        Map map = new Map();
+        String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanZeroTronconValid.xml";
+        Reseau resNoTronconValid = parser.parseCityPlan(pathnameCityPlanXml);
+        
+        // When
+        map.fillMapIdAndCoordinate(resNoTronconValid);
+        map.fillGraph(resNoTronconValid);
+        
+        // Then
+        
+        assertNull(map.getGraph());
+        
     }
     
     @Test
@@ -275,11 +315,35 @@ public class MapTest {
         assertEquals(4.8, longitude, 0.1);
     }
     
+    @Test
+    public void fillMapIdAndCoordinateTestCoordMax() {
+        // Given
+        
+        String pathnameXml = "./ressources/fichiersTestXml/fillMapIdCoordMax.xml";
+        Reseau resTest = parser.parseCityPlan(pathnameXml);
+        assertNotNull(resTest);
+        
+        Map map = new Map();
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(resTest);
+        
+        // Then
+        
+        Long lastId = Long.valueOf("479185303");
+        int index = map.getMapId().get(lastId);
+        
+        double latitudeCalculated = map.getCoordinate(index).getLatitude();
+        assertEquals(89, latitudeCalculated, 0.1);
+    }
+    
     /**
      * When the id of the warehouse is not registered in the mapId, the graph
      * should be null
      */
-    @Test public void fillTabDeliveryPointsWithIdWarehouseInvalid() {
+    @Test 
+    public void fillTabDeliveryPointsWithIdWarehouseInvalid() {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/dl-entrepotIdInvalid.xml";
@@ -297,7 +361,43 @@ public class MapTest {
         assertNull(map.getTabDeliveryPoints());
     }
             
-    // @Test idEntrepot non valide
-    // @Test entrepot absent
-
+    @Test 
+    public void fillTabDeliveryPointsZeroDeliveryPointsValid() {
+        // Given
+        
+        String pathnameXml = "./ressources/fichiersTestXml/dl-zeroDLValid.xml";
+        DemandeDeLivraisons ddlZeroDL = parser.parseDelivery(pathnameXml);
+        assertNotNull(ddlZeroDL);
+        
+        Map map = new Map();
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(res);
+        map.fillTabDeliveryPoint(ddlZeroDL);
+        
+        // Then
+        
+        assertNull(map.getTabDeliveryPoints());
+    }
+    
+    @Test 
+    public void fillTabDeliveryPointsWareHouse() {
+        // Given
+        
+        String pathnameXml = "./ressources/fichiersTestXml/dl-missingBalise.xml";
+        DemandeDeLivraisons ddlNoWH = parser.parseDelivery(pathnameXml);
+        assertNotNull(ddlNoWH);
+        
+        Map map = new Map();
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(res);
+        map.fillTabDeliveryPoint(ddlNoWH);
+        
+        // Then
+        
+        assertNull(map.getTabDeliveryPoints());
+    }
 }
