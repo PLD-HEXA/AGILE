@@ -192,4 +192,6 @@ public class Map {
             coordinateMin.setLongitude(coord.getLongitude());
         }
     }
+    
+   
 }

@@ -44,7 +44,7 @@ public class InputView extends JPanel {
 		for (String buttonName : buttonNames){
 			JButton bouton = new JButton(buttonName);
 			buttons.add(bouton);
-			bouton.setSize(80,80);
+			bouton.setSize(120,80);
 			bouton.setLocation(0,(buttons.size()-1)*80);
 			bouton.setFocusable(false);
 			bouton.setFocusPainted(false);
