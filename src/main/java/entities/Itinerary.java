@@ -18,4 +18,29 @@ public class Itinerary {
     public Itinerary(){
         
     }
+
+    public Itinerary(List<DeliveryPoint> generalPath, List<Coordinate> deltailedPath) {
+        this.generalPath = generalPath;
+        this.deltailedPath = deltailedPath;
+    }
+
+    public List<DeliveryPoint> getGeneralPath() {
+        return generalPath;
+    }
+
+    public List<Coordinate> getDeltailedPath() {
+        return deltailedPath;
+    }
+
+    public void setGeneralPath(List<DeliveryPoint> generalPath) {
+        this.generalPath = generalPath;
+    }
+
+    public void setDeltailedPath(List<Coordinate> deltailedPath) {
+        this.deltailedPath = deltailedPath;
+    }
+    
+    
+    
+    
 }
