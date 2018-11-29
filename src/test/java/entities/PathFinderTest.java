@@ -104,13 +104,9 @@ public class PathFinderTest {
         String pathnameXml = "./ressources/fichiersXML2018/petitPlan.xml";
         String pathnameXml2 = "./ressources/fichiersXML2018/dl-petit-3.xml";
         Reseau res = null;
-        try {
+       
             res = parser.parseCityPlan(pathnameXml);
-        } catch (JsonMappingException ex) {
-            Logger.getLogger(PathFinderTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(PathFinderTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         
         Map map = new Map();
         map.fillMapIdAndCoordinate(res);
@@ -130,13 +126,9 @@ public class PathFinderTest {
         }*/
         
         DemandeDeLivraisons ddl = null;
-        try {
+        
             ddl = parser.parseDelivery(pathnameXml2);
-        } catch (JsonMappingException ex) {
-            Logger.getLogger(PathFinderTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(PathFinderTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
         
         map.fillTabDeliveryPoint(ddl);
         

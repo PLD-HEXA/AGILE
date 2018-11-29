@@ -1,13 +1,19 @@
 package controler;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
+import entities.DemandeDeLivraisons;
+import entities.Reseau;
 import view.MainWindow;
 
 public class PlanState extends DefaultState {
-	
+
 	@Override
 	public void loadDeliveries(Controler controler, MainWindow mainWindow) {
 		mainWindow.displayMessage("Load deliveries");
@@ -16,18 +22,19 @@ public class PlanState extends DefaultState {
 		chooser.setCurrentDirectory(new File("/"));
 		chooser.changeToParentDirectory();
 		mainWindow.add(chooser);
+
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
 			controler.setCurState(controler.planState);
-			System.out.println(selectedFile.getAbsolutePath());
-			int[] tab={0,1,2,3};
-			//mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(tab);
-			//mainWindow.getGraphicalView().getMap().setWareHouse(4);
-            mainWindow.getGraphicalView().repaint();
-		}
-		controler.setCurState(controler.deliveriesState);
-	}
+			DemandeDeLivraisons ddl;
 
+			ddl = controler.getParser().parseDelivery(selectedFile.toString());
+			mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
+			mainWindow.getGraphicalView().repaint();
+			controler.setCurState(controler.deliveriesState);
+
+		}
+	}
 
 }

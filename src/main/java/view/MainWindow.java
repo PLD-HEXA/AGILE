@@ -36,7 +36,7 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setWindowSize();
 		this.setLayout(new BorderLayout());
-	    this.getContentPane().add(inputView, BorderLayout.NORTH);
+	    this.getContentPane().add(inputView, BorderLayout.WEST);
 	    this.getContentPane().add(textualView, BorderLayout.EAST);
 	    this.getContentPane().add(graphicalView, BorderLayout.CENTER);
 //		this.add(inputView);
@@ -63,6 +63,10 @@ public class MainWindow extends JFrame {
 
 	public GraphicalView getGraphicalView() {
 		return graphicalView;
+	}
+	
+	public TextualView getTextualView() {
+		return textualView;
 	}
 
 	

@@ -3,8 +3,10 @@ package entities;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import java.util.Objects;
 
+@JacksonXmlRootElement(localName = "demandeDeLivraisons")
 public class DemandeDeLivraisons {
 	
     @JacksonXmlElementWrapper(localName = "entrepot", useWrapping = false)

@@ -1,9 +1,13 @@
 package controler;
 
+import entities.Parser;
+import entities.algorithms.PathFinder;
 import view.MainWindow;
 
 public class Controler {
 	
+	PathFinder pathFinder;
+	private Parser parser;
 	private CmdList cmdList;
 	private State curState;
 	private MainWindow mainWindow;
@@ -12,6 +16,8 @@ public class Controler {
 	protected final DeliveriesState deliveriesState = new DeliveriesState();
 	
 	public Controler() {
+		pathFinder= new PathFinder();
+		parser = new Parser();
 		cmdList = new CmdList();
 		curState = initState;
 		mainWindow = new MainWindow( this);
@@ -30,7 +36,18 @@ public class Controler {
 	public void loadDeliveries() {
 		curState.loadDeliveries(this, mainWindow);
 	}
-
+	
+	public void compute() {
+		curState.compute(this,mainWindow);
+	}
+	
+	public Parser getParser() {
+		return parser;
+	}
+	
+	public PathFinder getPathFinder() {
+		return pathFinder;
+	}
 	
 
 }
