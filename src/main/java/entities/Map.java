@@ -102,21 +102,31 @@ public class Map {
     }
     
     public void fillMapIdAndCoordinate(Reseau res) {
-        int coordinatesLength = res.getNoeud().length;
-        coordinates = new Coordinate[coordinatesLength];
-        for(int i = 0; i < coordinatesLength; i++) {
-            // Ici, qu'est-ce qu'on en fait de la coordinate
-                Coordinate coord = res.getNoeud()[i].getCoordinate();
-                if(validCoordinate(coord)) {
-                        checkMinMaxCoord(coord);
-                        Long id = Long.valueOf(res.getNoeud()[i].getId());
-                        mapId.put(id, i);
-                        coordinates[i] = res.getNoeud()[i].getCoordinate();
-                        
-                        // initialisation des list dans graph
-                        List<Segment> listSegment = new ArrayList<>();
-                        graph.add(i,listSegment);
-                }
+        // Cas ou les balises noeuds ou troncons etaient manquantes
+        if (res.getNoeud() != null && res.getNoeud().length != 0 &&
+            res.getTroncon() != null && res.getTroncon().length != 0) {
+            
+            int coordinatesLength = res.getNoeud().length;
+            coordinates = new Coordinate[coordinatesLength];
+            int j = 0;
+            for(int i = 0; i < coordinatesLength; i++) {
+                // Ici, qu'est-ce qu'on en fait de la coordinate
+                    Coordinate coord = res.getNoeud()[i].getCoordinate();
+                    Long id = Long.valueOf(res.getNoeud()[i].getId());
+                    if(validCoordinate(coord) && id>0) {
+                            checkMinMaxCoord(coord);
+                            mapId.put(id, j);
+                            coordinates[j] = res.getNoeud()[i].getCoordinate();
+
+                            // initialisation des list dans graph
+                            List<Segment> listSegment = new ArrayList<>();
+                            graph.add(j,listSegment);
+                            j++;
+                    }
+            }
+        } else {
+            mapId = null;
+            coordinates = null;
         }
     }
 
@@ -135,25 +145,38 @@ public class Map {
     
     public void fillTabDeliveryPoint(DemandeDeLivraisons ddl) {
         // On remplit d'abord l'objet wareHouse
-        Long idEntrepot = Long.valueOf(ddl.getEntrepot().getAdresse());
-        int indexEntrepot = mapId.get(idEntrepot);
-        // V�rifier que l'heure de d�part est valide
-        verifyHour(ddl.getEntrepot().getHeureDepart());
-        
-        wareHouse = new Pair<>(indexEntrepot,ddl.getEntrepot().getHeureDepart());
-        
-        // On remplit maintenant les deliveryPoint
-        Livraison[] livraison = ddl.getLivraison();
-        for (int i = 0; i < livraison.length; i++) {
-            // On r�cup�re l'index de la livraison
-            Long idLivraison = Long.valueOf(livraison[i].getId());
-            int indexLivraison = mapId.get(idLivraison);
-            
-            //Verifier que la duree est bien superieure � 0 si non fait dans le parser
-            int dureeLivraison = livraison[i].getDuree();
-            if (dureeLivraison > 0) {
-                tabDeliveryPoints.add(new Pair<>(indexLivraison, dureeLivraison));
+        if (ddl.getEntrepot() != null && ddl.getLivraison() != null &&
+                ddl.getLivraison().length != 0 && ddl.getEntrepot().getAdresse() != null) {
+            Long idEntrepot = Long.valueOf(ddl.getEntrepot().getAdresse());
+            if (idEntrepot > 0) {
+                int indexEntrepot = mapId.get(idEntrepot);
+                // Verifier que l'heure de depart est valide
+                verifyHour(ddl.getEntrepot().getHeureDepart());
+
+                wareHouse = new Pair<>(indexEntrepot,ddl.getEntrepot().getHeureDepart());
+
+                // On remplit maintenant les deliveryPoint
+                Livraison[] livraison = ddl.getLivraison();
+                for (int i = 0; i < livraison.length; i++) {
+                    // On r�cup�re l'index de la livraison
+                    Long idLivraison = Long.valueOf(livraison[i].getId());
+                    if (idLivraison > 0 && mapId.get(idLivraison) != null) {
+                        int indexLivraison = mapId.get(idLivraison);
+
+                        //Verifier que la duree est bien superieure � 0 si non fait dans le parser
+                        int dureeLivraison = livraison[i].getDuree();
+                        if (dureeLivraison > 0) {
+                            tabDeliveryPoints.add(new Pair<>(indexLivraison, dureeLivraison));
+                        }
+                    }
+                }
             }
+            else {
+                tabDeliveryPoints = null;
+            }
+        }
+        else {
+            tabDeliveryPoints = null;
         }
     }
     
@@ -172,11 +195,16 @@ public class Map {
     }
     
     public boolean validCoordinate(Coordinate coord) {
+        if (coord.getLatitude() == null || coord.getLongitude() == null) {
+            return false;
+        }
+        
         // Faire les verifs liées à une latitude et une longitude
         if (coord.getLatitude() > 90.0 || coord.getLatitude() < -90.0 || coord.getLongitude() > 180.0
                 || coord.getLongitude() < -180.0) {
             return false;
         }
+        
         return true;
     }
 
