@@ -38,7 +38,7 @@ public class GraphicalView extends JPanel {
         if (map != null) {
             drawPlan(g);
             if(map.getTabDeliveryPoints() != null) {
-            	drawDeliveries(g);
+            //	drawDeliveries(g);
             }
         }
         this.g = g;
@@ -61,7 +61,7 @@ public class GraphicalView extends JPanel {
         }
     }
     
-    public void drawDeliveries(Graphics g) {
+   /* public void drawDeliveries(Graphics g) {
     	double latitude;
 		double longitude;
     	int numberOfDeliveryPoints=map.getTabDeliveryPoints().length;
@@ -77,7 +77,7 @@ public class GraphicalView extends JPanel {
     	g.setColor(Color.blue);
 		g.drawOval((int)latitude,(int)longitude,5,5);
 		g.fillOval((int)latitude,(int)longitude,5,5);
-    }
+    }*/
     
     public void setMap(Map map) {
         this.map = map;

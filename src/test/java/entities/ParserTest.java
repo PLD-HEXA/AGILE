@@ -5,10 +5,6 @@
  */
 package entities;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -96,7 +92,8 @@ public class ParserTest {
     }
     
     /**
-     * When a balise is missing, nothing change for the parser
+     * When a balise is missing, nothing change for the parser, the 
+     * value for the object that represents the balise is null
      */
     @Test
     public void testParseCityPlanWithBaliseMissing() {
@@ -110,6 +107,7 @@ public class ParserTest {
         
         // Then
         assertNotNull(res);
+        assertNull(res.getNoeud());
     }
     
     /**

@@ -5,15 +5,12 @@
  */
 package entities;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.util.Pair;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,25 +29,9 @@ public class MapTest {
     @Before 
     public void initialize() {
         parser = new Parser();
-        try {
-            res = parser.parseCityPlan(pathnameCityPlanXml);
-        } catch (JsonMappingException ex) {
-            System.out.println("Erreur lors du mappaing du fichier : " + pathnameCityPlanXml);
-            Logger.getLogger(MapTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            System.out.println("Erreur lors de l'ouverture du fichier : " + pathnameCityPlanXml);
-            Logger.getLogger(MapTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        res = parser.parseCityPlan(pathnameCityPlanXml);
         
-        try {
-            ddl = parser.parseDelivery(pathnameDeliveryXml);
-        } catch (JsonMappingException ex) {
-            System.out.println("Erreur lors du mapping du fichier : " + pathnameDeliveryXml);
-            Logger.getLogger(MapTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            System.out.println("Erreur lors de l'ouverture du fichier : " + pathnameDeliveryXml);
-            Logger.getLogger(MapTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ddl = parser.parseDelivery(pathnameDeliveryXml);
         assertNotNull(res);
         assertNotNull(ddl);
     }
@@ -185,4 +166,138 @@ public class MapTest {
         assertEquals(delPointExpected2, tabDeliveryPoints.get(1));
         assertEquals(delPointExpected3, tabDeliveryPoints.get(2));
     }
+    
+    /**
+     * Should not take into account the node, therefore
+     * when we search the index in the mapId, it should return null
+     */
+    @Test
+    public void fillMapIdAndCoordinateWithAttributeNull() {
+        //Given
+        
+        Map map = new Map();
+        Coordinate coordExpected = new Coordinate(4.857418,45.75406);
+        Noeud noeudExpected = new Noeud("25175791", coordExpected);
+        // On change à null la valeur de la latitude
+        res.getNoeud()[0].getCoordinate().setLatitude(null);
+        assertEquals("25175791", res.getNoeud()[0].getId());
+        assertNull(res.getNoeud()[0].getCoordinate().getLatitude());
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(res);
+        
+        // Then
+        
+        assertNotNull(map);
+        assertNotNull(map.getCoordinateMax());
+        assertNotNull(map.getCoordinateMin());
+        assertNotNull(map.getMapId());
+        
+        Long idNodeExpected = Long.valueOf(noeudExpected.getId());
+        
+        assertNull(map.getMapId().get(idNodeExpected));
+        assertNotEquals(noeudExpected, map.getCoordinate(0));
+    }
+    
+    /**
+     * The objects mapId and Coordinates should not be fill, their
+     * value will be null
+     */
+    @Test
+    public void fillMapIdAndCoordinateWithBaliseMissing() {
+        //Given
+        String pathnameXml = "./ressources/fichiersTestXml/petitPlanMissingBalise.xml";
+        Reseau resAttributeNull = parser.parseCityPlan(pathnameXml);
+        assertNotNull(resAttributeNull);
+        assertNull(resAttributeNull.getNoeud());
+        Map map = new Map();
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(resAttributeNull);
+        
+        // Then
+        
+        assertNotNull(map);
+        assertNull(map.getMapId());
+        assertNull(map.getCoordinates());
+    }
+    
+    @Test public void fillMapIdAndCoordinateWithIdIncorrect() {
+        // Given
+        
+        String pathnameXml = "./ressources/fichiersTestXml/petitPlanValueIncorrect.xml";
+        Reseau resIdIncorrect = parser.parseCityPlan(pathnameXml);
+        assertNotNull(resIdIncorrect);
+        assertEquals("-25175791", resIdIncorrect.getNoeud()[0].getId());
+        
+        Map map = new Map();
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(resIdIncorrect);
+        
+        // Then
+        
+        Long idIncorrect = Long.valueOf("-25175791");
+        assertNull(map.getMapId().get(idIncorrect));
+    }
+           
+    /**
+     * When two nodes have the same id, it is the last one which is registered
+     * for the same key in the mapId and therefore in coordinates, it is also 
+     * the last one
+     */
+    @Test public void fillMapIdAndCoordinateWithSameId() {
+        // Given
+        
+        String pathnameXml = "./ressources/fichiersTestXml/fillMapIdSameId.xml";
+        Reseau resIdIncorrect = parser.parseCityPlan(pathnameXml);
+        assertNotNull(resIdIncorrect);
+        assertEquals("2129259178", resIdIncorrect.getNoeud()[0].getId());
+        assertEquals("2129259178", resIdIncorrect.getNoeud()[1].getId());
+        
+        Map map = new Map();
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(resIdIncorrect);
+        
+        // Then
+        
+        Long lastId = Long.valueOf("2129259178");
+        int lastIndex = map.getMapId().get(lastId);
+        // We compare the longitude to be sure
+        // that it is the last node which is 
+        // registered in the mapId for the same key
+        double longitude = map.getCoordinate(lastIndex).getLongitude();
+        assertEquals(4.8, longitude, 0.1);
+    }
+    
+    /**
+     * When the id of the warehouse is not registered in the mapId, the graph
+     * should be null
+     */
+    @Test public void fillTabDeliveryPointsWithIdWarehouseInvalid() {
+        // Given
+        
+        String pathnameXml = "./ressources/fichiersTestXml/dl-entrepotIdInvalid.xml";
+        DemandeDeLivraisons ddlIdWareHouseInvalid = parser.parseDelivery(pathnameXml);
+        assertNotNull(ddlIdWareHouseInvalid);
+        
+        Map map = new Map();
+        
+        // When
+        map.fillMapIdAndCoordinate(res);
+        map.fillTabDeliveryPoint(ddlIdWareHouseInvalid);
+        
+        // Then
+        
+        assertNull(map.getTabDeliveryPoints());
+    }
+            
+    // @Test idEntrepot non valide
+    // @Test entrepot absent
+
 }
