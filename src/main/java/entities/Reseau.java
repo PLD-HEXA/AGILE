@@ -11,38 +11,38 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 public class Reseau {
     
     @JacksonXmlElementWrapper(localName = "noeud", useWrapping = false)
-	private Noeud[] noeud;
+    private Noeud[] noeud;
     
     @JacksonXmlElementWrapper(localName = "troncon", useWrapping = false)
-	private Troncon[] troncon;
+    private Troncon[] troncon;
 
-	public Reseau() {
-	}
+    public Reseau() {
+    }
 
-	public Reseau(Noeud[] noeud, Troncon[] troncon) {
-		this.noeud = noeud;
-		this.troncon = troncon;
-	}
+    public Reseau(Noeud[] noeud, Troncon[] troncon) {
+            this.noeud = noeud;
+            this.troncon = troncon;
+    }
 
-	public Noeud[] getNoeud() {
-		return noeud;
-	}
+    public Noeud[] getNoeud() {
+            return noeud;
+    }
 
-	public void setNoeud(Noeud[] noeud) {
-		this.noeud = noeud;
-	}
+    public void setNoeud(Noeud[] noeud) {
+            this.noeud = noeud;
+    }
 
-	public Troncon[] getTroncon() {
-		return troncon;
-	}
+    public Troncon[] getTroncon() {
+            return troncon;
+    }
 
-	public void setTroncon(Troncon[] troncon) {
-		this.troncon = troncon;
-	}
+    public void setTroncon(Troncon[] troncon) {
+            this.troncon = troncon;
+    }
 
-	@Override
-	public String toString() {
-		return "Reseau [noeud=" + Arrays.toString(noeud) + ", troncon=" + Arrays.toString(troncon) + "]";
-	}
+    @Override
+    public String toString() {
+            return "Reseau [noeud=" + Arrays.toString(noeud) + ", troncon=" + Arrays.toString(troncon) + "]";
+    }
 
 }

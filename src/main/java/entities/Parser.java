@@ -12,28 +12,65 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Parser {
 
     public Parser( ) {
     }
 
-    public Reseau parseCityPlan(String xmlFileName) throws JsonParseException, JsonMappingException, IOException {
+    public Reseau parseCityPlan(String xmlFileName){
+        if (xmlFileName.endsWith(".xml")){
             ObjectMapper objectMapper = new XmlMapper();
             // To modify if necessary for checking
-            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            objectMapper.enable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
             // Reads from XML and converts to POJO
-            Reseau res = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8),Reseau.class);
-            return res;       
+            Reseau res = null;
+            try {
+                res = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8),Reseau.class);
+            } catch (JsonParseException ex) {
+                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            } catch (JsonMappingException ex) {
+                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            } catch (IOException ex) {
+                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+            return res;      
+        }
+        else {
+            return null;
+        }
     }
     
-    public DemandeDeLivraisons parseDelivery(String xmlFileName) throws JsonParseException, JsonMappingException, IOException {
+    public DemandeDeLivraisons parseDelivery(String xmlFileName){
+        if (xmlFileName.endsWith(".xml")){  
             ObjectMapper objectMapper = new XmlMapper();
-            // To modify if necessary for checking
-            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            objectMapper.enable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
             // Reads from XML and converts to POJO
-            DemandeDeLivraisons ddl = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8),DemandeDeLivraisons.class);
-            return ddl;       
+            DemandeDeLivraisons ddl = null;
+            try {
+                ddl = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8),DemandeDeLivraisons.class);
+            }catch (JsonParseException ex) {
+                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            } catch (JsonMappingException ex) {
+                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            } catch (IOException ex) {
+                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+            return ddl;
+        }
+        else {
+            return null;
+        }
     }
      
 }
