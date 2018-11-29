@@ -8,6 +8,8 @@ import java.awt.Toolkit;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import controler.Controler;
 
@@ -32,11 +34,12 @@ public class MainWindow extends JFrame {
 		//Buttons
 		createButtons(controler);
 		//Display characteristics
-		setLayout(null);
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setWindowSize();
 		this.setLayout(new BorderLayout());
 	    this.getContentPane().add(inputView, BorderLayout.WEST);
+	    
 	    this.getContentPane().add(textualView, BorderLayout.EAST);
 	    this.getContentPane().add(graphicalView, BorderLayout.CENTER);
 //		this.add(inputView);
@@ -67,6 +70,10 @@ public class MainWindow extends JFrame {
 	
 	public TextualView getTextualView() {
 		return textualView;
+	}
+	
+	public InputView getInputView() {
+		return inputView;
 	}
 
 	

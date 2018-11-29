@@ -68,6 +68,8 @@ public class GraphicalView extends JPanel {
 		if (itineraries != null) {
 			drawRounds(g);
 		}
+		
+		
 		this.g = g;
 	}
 
@@ -94,8 +96,8 @@ public class GraphicalView extends JPanel {
 		int numberOfDeliveryPoints = map.getTabDeliveryPoints().size();
 		for (int i = 0; i < numberOfDeliveryPoints; i++) {
 			System.out.print(map.getCoordinates()[i]);
-			latitude = (latMax - map.getCoordinates()[i].getLatitude()) * widthScale;
-			longitude = (longMax - map.getCoordinates()[i].getLongitude()) * heightScale;
+			latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
+			longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
 			g.setColor(Color.pink);
 			g.drawOval((int) (this.getWidth() - longitude), (int) latitude, pointRadius, pointRadius);
 			g.fillOval((int) (this.getWidth() - longitude), (int) latitude, pointRadius, pointRadius);
@@ -104,6 +106,7 @@ public class GraphicalView extends JPanel {
 		latitude = (latMax - map.getCoordinates()[map.getWareHouse().getKey()].getLatitude()) * widthScale;
 		longitude = (longMax - map.getCoordinates()[map.getWareHouse().getKey()].getLongitude()) * heightScale;
 		g.setColor(Color.blue);
+		
 		g.drawOval((int) (this.getWidth() - longitude), (int) latitude, pointRadius, pointRadius);
 		g.fillOval((int) (this.getWidth() - longitude), (int) latitude, pointRadius, pointRadius);
 	}

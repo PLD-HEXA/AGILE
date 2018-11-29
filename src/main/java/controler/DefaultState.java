@@ -34,6 +34,9 @@ public class DefaultState implements State {
 			Map map = new Map();
 			map.fillMapIdAndCoordinate(reseau);
 			map.fillGraph(reseau);
+			mainWindow.getTextualView().setItineraries(null);
+			mainWindow.getTextualView().repaint();
+			mainWindow.getGraphicalView().setItineraries(null);
 			mainWindow.getGraphicalView().setMap(map);
 			mainWindow.getGraphicalView().repaint();
 			controler.setCurState(controler.planState);
