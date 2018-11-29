@@ -61,24 +61,6 @@ public class GraphicalView extends JPanel {
         }
     }
     
-   /* public void drawDeliveries(Graphics g) {
-    	double latitude;
-		double longitude;
-    	int numberOfDeliveryPoints=map.getTabDeliveryPoints().length;
-    	for(int i=0;i<numberOfDeliveryPoints;i++) {
-    		latitude= (map.getCoordinateMax().getLatitude()-map.getCoordinates()[i].getLatitude())*widthScale;
-    		longitude= (map.getCoordinateMax().getLongitude()-map.getCoordinates()[i].getLongitude())*heightScale;
-    		g.setColor(Color.pink);
-    		g.drawOval((int)latitude,(int)longitude,5,5);
-    		g.fillOval((int)latitude,(int)longitude,5,5);
-    	}
-    	latitude= (map.getCoordinateMax().getLatitude()-map.getCoordinates()[map.getWareHouse()].getLatitude())*widthScale;
-		longitude= (map.getCoordinateMax().getLongitude()-map.getCoordinates()[map.getWareHouse()].getLongitude())*heightScale;
-    	g.setColor(Color.blue);
-		g.drawOval((int)latitude,(int)longitude,5,5);
-		g.fillOval((int)latitude,(int)longitude,5,5);
-    }*/
-    
     public void setMap(Map map) {
         this.map = map;
     }
