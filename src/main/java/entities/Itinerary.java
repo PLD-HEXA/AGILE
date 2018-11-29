@@ -13,34 +13,43 @@ import java.util.List;
  */
 public class Itinerary {
     List<DeliveryPoint> generalPath;
-    List<Coordinate> deltailedPath;
+    List<Coordinate> detailedPath;
     
-    public Itinerary(){
+    
+    
+    public Itinerary(List<DeliveryPoint> generalPath, List<Coordinate> detailedPath) {
+		super();
+		this.generalPath = generalPath;
+		this.detailedPath = detailedPath;
+	}
+
+	public Itinerary(){
         
     }
 
-    public Itinerary(List<DeliveryPoint> generalPath, List<Coordinate> deltailedPath) {
-        this.generalPath = generalPath;
-        this.deltailedPath = deltailedPath;
-    }
+	public List<DeliveryPoint> getGeneralPath() {
+		return generalPath;
+	}
 
-    public List<DeliveryPoint> getGeneralPath() {
-        return generalPath;
-    }
+	public List<Coordinate> getDetailedPath() {
+		return detailedPath;
+	}
 
-    public List<Coordinate> getDeltailedPath() {
-        return deltailedPath;
-    }
+	public void setGeneralPath(List<DeliveryPoint> generalPath) {
+		this.generalPath = generalPath;
+	}
 
-    public void setGeneralPath(List<DeliveryPoint> generalPath) {
-        this.generalPath = generalPath;
-    }
+	public void setDetailedPath(List<Coordinate> detailedPath) {
+		this.detailedPath = detailedPath;
+	}
 
-    public void setDeltailedPath(List<Coordinate> deltailedPath) {
-        this.deltailedPath = deltailedPath;
-    }
-    
-    
+	@Override
+	public String toString() {
+		return "Itinerary [generalPath=" + generalPath + ", detailedPath=" + detailedPath + "]";
+	}
+	
+	
+	
     
     
 }

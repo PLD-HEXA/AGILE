@@ -17,6 +17,7 @@ public class ButtonListener implements ActionListener {
 		switch (e.getActionCommand()){
 		case InputView.LOAD_PLAN: controler.loadPlan(); break;
 		case InputView.LOAD_DELIVERIES: controler.loadDeliveries(); break;
+		case InputView.COMPUTE: controler.compute(); break;
 		}
 	}
 	

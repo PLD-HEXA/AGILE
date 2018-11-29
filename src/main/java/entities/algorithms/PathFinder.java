@@ -67,7 +67,7 @@ public class PathFinder {
 
     
     
-    //Liste d'itinéraires !!!
+    //Liste d'itinï¿½raires !!!
     public List<Itinerary> findPath (Map map, int nbDeliveryMen){
         
         //Check that all the parameters are well set to find the itineraries
@@ -182,9 +182,9 @@ public class PathFinder {
         }
         
         
-        for(int i = 0; i< order.length; i++){
-            System.out.println(order[i]);
-        }
+//        for(int i = 0; i< order.length; i++){
+//            System.out.println(order[i]);
+//        }
         
         return itineraries;
     }
