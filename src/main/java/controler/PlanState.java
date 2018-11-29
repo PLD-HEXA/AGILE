@@ -22,6 +22,7 @@ public class PlanState extends DefaultState {
 		chooser.setCurrentDirectory(new File("/"));
 		chooser.changeToParentDirectory();
 		mainWindow.add(chooser);
+		
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
