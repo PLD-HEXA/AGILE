@@ -13,7 +13,9 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
@@ -27,6 +29,7 @@ public class TextualView extends JPanel {
 	private JTree listOfRounds;
 	private DefaultTreeCellRenderer renderer;
 	private MainWindow mainWindow;
+	Graphics g;
 	
 	
 	public TextualView(MainWindow mainWindow) {
@@ -51,12 +54,12 @@ public class TextualView extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (itineraries != null) {
-			displayListOfRounds(itineraries);
+			displayListOfRounds();
 		}
+		
+		this.g = g;
 	}
-	
-	public void displayListOfRounds(List<Itinerary> itineraries) {
-		this.itineraries=itineraries;
+	public void displayListOfRounds() {
 		int numberOfRounds=itineraries.size();
 		DefaultMutableTreeNode rounds = new DefaultMutableTreeNode("Rounds");
 		DefaultMutableTreeNode curRound;
@@ -70,10 +73,11 @@ public class TextualView extends JPanel {
 		for(int i=0;i<numberOfRounds;i++) {
 			int numberOfStops=itineraries.get(i).getGeneralPath().size();
 			curRound=new DefaultMutableTreeNode("Round n°"+ Integer.toString(i+1)); 
-			for(int j=0;j<numberOfStops;j++) {
+			for(int j=1;j<(numberOfStops-1);j++) {
+				
 				departureDate = itineraries.get(i).getGeneralPath().get(j).getDepartureTime();
 				arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();
-				curStop=new DefaultMutableTreeNode("Delivery n°"+ Integer.toString(j+1));
+				curStop=new DefaultMutableTreeNode("Delivery n°"+ Integer.toString(j));
 				arrival=new DefaultMutableTreeNode("Departure  "+departureDate.toString().substring(11, 19));
 				departure=new DefaultMutableTreeNode("Arrival        "+arrivalDate.toString().substring(11, 19));
 				diff=new Date(departureDate.getTime() - arrivalDate.getTime());
@@ -91,8 +95,13 @@ public class TextualView extends JPanel {
 		final Font bigFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 10);
 		listOfRounds.setFont(bigFont);
 		listOfRounds.setCellRenderer(renderer);
-		this.add(listOfRounds, BorderLayout.CENTER);
-		System.out.println(itineraries);
+	    JScrollPane conteneur=new JScrollPane(listOfRounds,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	    this.add(conteneur, BorderLayout.CENTER);
+		
+	}
+	
+	public  void setItineraries(List<Itinerary> itineraries){
+		this.itineraries = itineraries; 
 	}
 
 }

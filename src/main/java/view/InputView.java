@@ -52,6 +52,12 @@ public class InputView extends JPanel {
 			add(bouton);	
 		}
 	}
+
+	public JSpinner getNumOfRounds() {
+		return numOfRounds;
+	}
+	
+	
 	
 	
 
