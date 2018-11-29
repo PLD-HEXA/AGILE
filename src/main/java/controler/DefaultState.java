@@ -36,7 +36,6 @@ public class DefaultState implements State{
 				map.fillMapIdAndCoordinate(reseau);
 				map.fillGraph(reseau);
 				mainWindow.getGraphicalView().setMap(map);
-				System.out.println(map);
 	            mainWindow.getGraphicalView().repaint();
 				controler.setCurState(controler.planState);
 			} catch (JsonParseException e) {
@@ -49,6 +48,9 @@ public class DefaultState implements State{
 		}
 	}
 	public void loadDeliveries(Controler controler, MainWindow mainWindow) {
+	}
+	public void compute(Controler controler,MainWindow mainWindow) {
+		
 	}
 
 }

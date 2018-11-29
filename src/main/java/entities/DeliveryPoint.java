@@ -38,6 +38,14 @@ public class DeliveryPoint {
 	public void setDepartureTime(Date departureTime) {
 		this.departureTime = departureTime;
 	}
+
+	@Override
+	public String toString() {
+		return "DeliveryPoint [coordinate=" + coordinate + ", arrivalTime=" + arrivalTime + ", departureTime="
+				+ departureTime + "]";
+	}
+	
+	
     
     
 }

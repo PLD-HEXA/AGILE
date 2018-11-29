@@ -15,7 +15,15 @@ public class Itinerary {
     List<DeliveryPoint> generalPath;
     List<Coordinate> detailedPath;
     
-    public Itinerary(){
+    
+    
+    public Itinerary(List<DeliveryPoint> generalPath, List<Coordinate> detailedPath) {
+		super();
+		this.generalPath = generalPath;
+		this.detailedPath = detailedPath;
+	}
+
+	public Itinerary(){
         
     }
 
@@ -34,6 +42,12 @@ public class Itinerary {
 	public void setDetailedPath(List<Coordinate> detailedPath) {
 		this.detailedPath = detailedPath;
 	}
+
+	@Override
+	public String toString() {
+		return "Itinerary [generalPath=" + generalPath + ", detailedPath=" + detailedPath + "]";
+	}
+	
 	
 	
     

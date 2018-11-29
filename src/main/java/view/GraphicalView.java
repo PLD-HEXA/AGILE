@@ -44,14 +44,14 @@ public class GraphicalView extends JPanel {
 
 		setBackground(Color.gray);
 //        mainWindow.getContentPane().add(this);
-		itineraries = new ArrayList<Itinerary>();
-		Itinerary itinerary = new Itinerary();
-		List<Coordinate> detailedPath = new ArrayList<Coordinate>();
-		detailedPath.add(new Coordinate(4.8744674,45.750404));
-		detailedPath.add(new Coordinate(4.8718166,45.75171));
-		detailedPath.add(new Coordinate(4.886816,45.754265));
-		itinerary.setDetailedPath(detailedPath);
-		itineraries.add(itinerary);
+//		itineraries = new ArrayList<Itinerary>();
+//		Itinerary itinerary = new Itinerary();
+//		List<Coordinate> detailedPath = new ArrayList<Coordinate>();
+//		detailedPath.add(new Coordinate(4.8744674,45.750404));
+//		detailedPath.add(new Coordinate(4.8718166,45.75171));
+//		detailedPath.add(new Coordinate(4.886816,45.754265));
+//		itinerary.setDetailedPath(detailedPath);
+//		itineraries.add(itinerary);
 	
 	}
 
@@ -93,13 +93,14 @@ public class GraphicalView extends JPanel {
 		double longitude;
 		int numberOfDeliveryPoints = map.getTabDeliveryPoints().size();
 		for (int i = 0; i < numberOfDeliveryPoints; i++) {
+			System.out.print(map.getCoordinates()[i]);
 			latitude = (latMax - map.getCoordinates()[i].getLatitude()) * widthScale;
 			longitude = (longMax - map.getCoordinates()[i].getLongitude()) * heightScale;
 			g.setColor(Color.pink);
 			g.drawOval((int) (this.getWidth() - longitude), (int) latitude, pointRadius, pointRadius);
 			g.fillOval((int) (this.getWidth() - longitude), (int) latitude, pointRadius, pointRadius);
 		}
-		System.out.println(map.getWareHouse());
+//		System.out.println(map.getWareHouse());
 		latitude = (latMax - map.getCoordinates()[map.getWareHouse().getKey()].getLatitude()) * widthScale;
 		longitude = (longMax - map.getCoordinates()[map.getWareHouse().getKey()].getLongitude()) * heightScale;
 		g.setColor(Color.blue);
@@ -122,19 +123,21 @@ public class GraphicalView extends JPanel {
 		double longitude2;
 		int numberOfRounds = itineraries.size();
 		for (int i = 0; i < numberOfRounds; i++) {
+			double red = Math.random()*255+1;
+			double green = Math.random()*255+1;
+			double blue = Math.random()*255+1;
+			Color color = new Color((int)red,(int)green,(int)blue);
+			g.setColor(color);
 			int numberOfStops = itineraries.get(i).getDetailedPath().size();
 			for (int j = 0; j < numberOfStops - 1; j++) {
 				latitude1 = (latMax - itineraries.get(i).getDetailedPath().get(j).getLatitude()) * widthScale;
 				longitude1 = (longMax - itineraries.get(i).getDetailedPath().get(j).getLongitude()) * heightScale;
 				latitude2 = (latMax - itineraries.get(i).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
 				longitude2 = (longMax - itineraries.get(i).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
-				double red = Math.random()*255+1;
-				double green = Math.random()*255+1;
-				double blue = Math.random()*255+1;
-				Color color = new Color((int)red,(int)green,(int)blue);
-				g.setColor(color);
+				
+				
 				Graphics2D g2 = (Graphics2D) g;
-                g2.setStroke(new BasicStroke(10));
+                g2.setStroke(new BasicStroke(2));
 //                g2.draw(new Line2D.Float(30, 20, 80, 90));
 				g2.draw(new Line2D.Float((int) (this.getWidth() - longitude1), (int) (latitude1),
 						(int) (this.getWidth() - longitude2), (int) (latitude2)));
@@ -142,5 +145,11 @@ public class GraphicalView extends JPanel {
 		}
 
 	}
+
+	public void setItineraries(List<Itinerary> itineraries) {
+		this.itineraries = itineraries;
+	}
+	
+	
 
 }
