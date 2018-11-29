@@ -46,10 +46,11 @@ public class GeneralTSPTest {
     /**
      * Test the get order method of the class TSP. 
      */
+    
     @Test
     public void testPerformance() {      
         GeneralTSP tsp = new GeneralTSP();
-        double[][] adjMatrix = new double[30][30];
+        double[][] adjMatrix = new double[40][40];
         
         for(int i = 0; i< adjMatrix.length; i++){
             for(int j = 0; j< adjMatrix.length; j++){
@@ -64,12 +65,12 @@ public class GeneralTSPTest {
                 }
             }
         }
-        adjMatrix[0][29] = 1;
+        adjMatrix[0][39] = 1;
         
         
         
 
-        int[] optimalOrder = tsp.getOrder(adjMatrix, 3);
+        int[] optimalOrder = tsp.getOrder(adjMatrix, 1);
         
         //int[] resExpOptimalOrder = {0, 2, 4, 3, 1, 0};
         
@@ -83,5 +84,38 @@ public class GeneralTSPTest {
         }
         
     }
+    
+    
+    /**
+     * Test the get order method of the class TSP. 
+     */
+    /*
+    @Test
+    public void testPerformance2() {      
+        GeneralTSP tsp = new GeneralTSP();
+        double[][] adjMatrix = new double[20][20];
+        
+        for(int i = 0; i< adjMatrix.length; i++){
+            for(int j = 0; j< adjMatrix.length; j++){
+                
+                    adjMatrix[i][j] = Math.random()*20 +20;
+                
+            }
+        }
+        
+        
+        
+
+        int[] optimalOrder = tsp.getOrder(adjMatrix, 3);
+        
+        //int[] resExpOptimalOrder = {0, 2, 4, 3, 1, 0};
+        
+        
+        
+        for(int i = 0; i< optimalOrder.length; i++){
+            System.out.println(optimalOrder[i] + "    ");
+        }
+        
+    }*/
 }
 

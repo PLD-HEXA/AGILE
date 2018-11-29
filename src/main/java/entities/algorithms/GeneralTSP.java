@@ -304,17 +304,19 @@ public class GeneralTSP {
         double lengthSelectedEdge = 0;
         for(Pair<Pair<Integer,Integer>, Double> edge :edges){
             x = find(subsets, edge.getKey().getKey()); 
-            y = find(subsets, edge.getKey().getValue()); 
+            y = find(subsets, edge.getKey().getValue());
+            
+            if(!selectedEdge && (edge.getKey().getKey() == 0 || edge.getKey().getValue() == 0) ){
+                    lengthSelectedEdge = edge.getValue();
+                    selectedEdge = true;
+                }
   
             // If including this edge doesn't cause cycle, 
             // include it in result and increment the index  
             // of result for next edge 
             if (x != y) 
             { 
-                if(!selectedEdge && (edge.getKey().getKey() == 0 || edge.getKey().getValue() == 0) ){
-                    lengthSelectedEdge = edge.getValue();
-                    selectedEdge = true;
-                }
+                
                 res += edge.getValue();
                 addedEdges++;
                 Union(subsets, x, y); 

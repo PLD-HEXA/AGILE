@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
@@ -94,5 +95,54 @@ public class PathFinderTest {
         PathFinder pf = new PathFinder();
         List<Itinerary> itineraries = pf.findPath(map, 2);
      
+    }
+    
+    
+    @Test
+    public void testItin(){
+        Parser parser = new Parser();
+        String pathnameXml = "./ressources/fichiersXML2018/petitPlan.xml";
+        String pathnameXml2 = "./ressources/fichiersXML2018/dl-petit-3.xml";
+        Reseau res = null;
+        try {
+            res = parser.parseCityPlan(pathnameXml);
+        } catch (JsonMappingException ex) {
+            Logger.getLogger(PathFinderTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PathFinderTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Map map = new Map();
+        map.fillMapIdAndCoordinate(res);
+        Assert.assertNotNull(res);
+        Assert.assertNotNull(map.getMapId());
+        Assert.assertNotNull(map.getCoordinates());
+        Assert.assertNotEquals(0, map.getCoordinates().length);
+        
+        map.fillGraph(res);
+        Assert.assertNotNull(map.getGraph());
+        Assert.assertNotEquals(0, map.getGraph().size());
+        
+        Coordinate [] coordinates = map.getCoordinates();
+        /*for(int i = 0; i< coordinates.length; i++){
+            System.out.println(coordinates[i]);
+            
+        }*/
+        
+        DemandeDeLivraisons ddl = null;
+        try {
+            ddl = parser.parseDelivery(pathnameXml2);
+        } catch (JsonMappingException ex) {
+            Logger.getLogger(PathFinderTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PathFinderTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        map.fillTabDeliveryPoint(ddl);
+        
+        for(Pair<Integer,Integer> p : map.getTabDeliveryPoints()){
+            System.out.println(coordinates[p.getKey()]);
+        }
+        
     }
 }

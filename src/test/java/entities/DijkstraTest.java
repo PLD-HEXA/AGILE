@@ -71,16 +71,18 @@ public class DijkstraTest {
         double[] distance = dijkstra.getDistance();
         Integer[] predecessor = dijkstra.getPredecessor();
         
-        /*
+        
         for(int i = 0; i< distance.length; i++){
             System.out.print(distance[i] + "   ");
-            System.out.println();
+            
         }
+        System.out.println();
         
         for(int i = 0; i< distance.length; i++){
             System.out.print(predecessor[i] + "   ");
-            System.out.println();
-        }*/
+            
+        }
+        System.out.println();
         
         double[] expResDistance = {0.0, 3.0, 4.0, 7.0, 9.0};
         Integer [] expResPredecessor = {null, 0, 1, 2, 3};
