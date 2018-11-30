@@ -439,24 +439,14 @@ public class MapTest {
         
         assertNull(map.getTabDeliveryPoints());
     }
-    
+
+
     @Test 
     public void fillTabDeliveryPointsWareHouse() {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/dl-missingBalise.xml";
         DemandeDeLivraisons ddlNoWH = parser.parseDelivery(pathnameXml);
-        assertNotNull(ddlNoWH);
-        
-        Map map = new Map();
-        
-        // When
-        
-        map.fillMapIdAndCoordinate(res);
-        map.fillTabDeliveryPoint(ddlNoWH);
-        
-        // Then
-        
-        assertNull(map.getTabDeliveryPoints());
+        assertNull(ddlNoWH);
     }
 }
