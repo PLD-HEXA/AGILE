@@ -143,15 +143,19 @@ public class Map {
                 if (idOrigine > 0 && mapId.get(idOrigine) != null) {
                     int indexOrigine = mapId.get(idOrigine);
                     Long idDestination = Long.valueOf(troncon[i].getDestination());
-                    int indexDestination = mapId.get(idDestination);
-                    if (troncon[i].getLongueur() != null) {
-                        double length = Double.valueOf(troncon[i].getLongueur()); 
-                        if (length >= 0) {
-                            // On ajoute que si la longueur est supérieure à 0
-                            // et que l'id est un id connu
-                            Segment segment = new Segment (indexDestination, troncon[i].getNomRue(), length);
-                            graph.get(indexOrigine).add(segment);
-                            compteurObjet++;
+                    // We verify that the id of the destination exists in the mapId, 
+                    // otherwise, we do not take into account the segment
+                    if (idDestination > 0 && mapId.get(idDestination) != null) {
+                        int indexDestination = mapId.get(idDestination);
+                        if (troncon[i].getLongueur() != null) {
+                            double length = Double.valueOf(troncon[i].getLongueur()); 
+                            if (length >= 0) {
+                                // On ajoute que si la longueur est supérieure à 0
+                                // et que l'id est un id connu
+                                Segment segment = new Segment (indexDestination, troncon[i].getNomRue(), length);
+                                graph.get(indexOrigine).add(segment);
+                                compteurObjet++;
+                            }
                         }
                     }
                 } 

@@ -136,7 +136,7 @@ public class MapTest {
         Map map = new Map();
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanIdOrigineNotExists.xml";
         Reseau resIdONotExist = parser.parseCityPlan(pathnameCityPlanXml);
-        Troncon tronconExpected = new Troncon("25175791", "69.979805", "Rue Danton", "1");
+        Troncon tronconExpected = new Troncon("25175778", "69.979805", "Rue Danton", "1");
         
         // When
         map.fillMapIdAndCoordinate(resIdONotExist);
@@ -151,7 +151,66 @@ public class MapTest {
     }
     
     @Test
+    public void fillGraphTestWithIdDestinationDoesntExist() {
+        // Given 
+        
+        Map map = new Map();
+        String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanIdDestNotExist.xml";
+        Reseau resIdDestNotExist = parser.parseCityPlan(pathnameCityPlanXml);
+        Troncon tronconExpected = new Troncon("25175778", "69.979805", "Rue Danton", "25175791");
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(resIdDestNotExist);
+        map.fillGraph(resIdDestNotExist);
+        
+        // Then
+        
+        assertNotNull(map.getGraph());
+        Long idOrigExpected = Long.valueOf(tronconExpected.getOrigine());
+        Long idDestExpected = Long.valueOf(tronconExpected.getDestination());
+        
+        assertNull(map.getMapId().get(idDestExpected));
+        assertNotNull(map.getMapId().get(idOrigExpected));
+        int indexOrigAssociated = map.getMapId().get(idOrigExpected);
+        
+        double lengthExpected = Double.valueOf(tronconExpected.getLongueur());
+        double lengthReal = Double.valueOf("136.00636");
+        // The section have not been taken into consideration so the first
+        // index of the list<Segment> is the second one in the document xml
+        assertNotEquals(lengthExpected, map.getGraph().get(indexOrigAssociated).get(0).getLength(), 0.1);
+        assertEquals(lengthReal, map.getGraph().get(indexOrigAssociated).get(0).getLength(), 0.1);
+        
+    }
+    
+    @Test
+    public void fillGraphTestWithLengthInvalid() {
+        // Given 
+        
+        Map map = new Map();
+        String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanLengthNotValid.xml";
+        Reseau resLengthNotValid = parser.parseCityPlan(pathnameCityPlanXml);
+        Troncon tronconExpected = new Troncon("25175778", "-69.979805", "Rue Danton", "25175791");
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(resLengthNotValid);
+        map.fillGraph(resLengthNotValid);
+        
+        // Then
+        
+        assertNotNull(map.getGraph());
+        Long idExpected = Long.valueOf(tronconExpected.getOrigine());
+        int indexAssociated = map.getMapId().get(idExpected);
+        double lengthExpected = Double.valueOf(tronconExpected.getLongueur());
+        // The section have not been taken into consideration
+        assertNotEquals(lengthExpected, map.getGraph().get(indexAssociated).get(0).getLength(), 0.1);
+        
+    }
+    
+    @Test
     public void fillGraphTestWithZeroTronconValid() {
+        
         // Given 
         
         Map map = new Map();
