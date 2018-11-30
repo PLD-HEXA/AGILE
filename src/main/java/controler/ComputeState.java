@@ -1,6 +1,7 @@
 package controler;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -40,6 +41,7 @@ public class ComputeState extends DefaultState {
 			controler.setCurState(controler.planState);
 			DemandeDeLivraisons ddl;
 			ddl = controler.getParser().parseDelivery(selectedFile.toString());
+			mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
 			mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
 			mainWindow.getGraphicalView().setItineraries(null);
 			mainWindow.getGraphicalView().repaint();
