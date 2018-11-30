@@ -1,12 +1,12 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import javafx.util.Pair;
 
 public class Map {
+    
     private Coordinate coordinateMin;
 
     private Coordinate coordinateMax;
@@ -40,7 +40,7 @@ public class Map {
                 + ", tabDeliveryPoints=" + tabDeliveryPoints + '}';
     }
 
-	  public Coordinate getCoordinateMin() {
+    public Coordinate getCoordinateMin() {
         return coordinateMin;
     }
 
@@ -124,6 +124,10 @@ public class Map {
                             j++;
                     }
             }
+            if (coordinates.length == 0) {
+                mapId = null;
+                coordinates = null;
+            }
         } else {
             mapId = null;
             coordinates = null;
@@ -131,15 +135,37 @@ public class Map {
     }
 
     public void fillGraph(Reseau res) {
-        Troncon[] troncon = res.getTroncon();
-        for (int i=0; i<troncon.length; i++) {
-            int indexOrigine = mapId.get(Long.valueOf(troncon[i].getOrigine()));
-            // faille : est-ce que l'Id de la destination est forcément une origine de base? --> Vérification
-            int indexDestination = mapId.get(Long.valueOf(troncon[i].getDestination()));
-            double length = Double.valueOf(troncon[i].getLongueur());
-            Segment segment = new Segment (indexDestination, troncon[i].getNomRue(), length);
-            
-            graph.get(indexOrigine).add(segment);
+        if (res.getTroncon() != null && res.getTroncon().length != 0) {
+            Troncon[] troncon = res.getTroncon();
+            int compteurObjet = 0;
+            for (int i=0; i<troncon.length; i++) {
+                Long idOrigine = Long.valueOf(troncon[i].getOrigine());
+                if (idOrigine > 0 && mapId.get(idOrigine) != null) {
+                    int indexOrigine = mapId.get(idOrigine);
+                    Long idDestination = Long.valueOf(troncon[i].getDestination());
+                    // We verify that the id of the destination exists in the mapId, 
+                    // otherwise, we do not take into account the segment
+                    if (idDestination > 0 && mapId.get(idDestination) != null) {
+                        int indexDestination = mapId.get(idDestination);
+                        if (troncon[i].getLongueur() != null) {
+                            double length = Double.valueOf(troncon[i].getLongueur()); 
+                            if (length >= 0) {
+                                // On ajoute que si la longueur est supérieure à 0
+                                // et que l'id est un id connu
+                                Segment segment = new Segment (indexDestination, troncon[i].getNomRue(), length);
+                                graph.get(indexOrigine).add(segment);
+                                compteurObjet++;
+                            }
+                        }
+                    }
+                } 
+            }
+            if (compteurObjet == 0) {
+                graph = null;
+            }
+        }
+        else {
+            graph = null;
         }
     }
     
@@ -147,6 +173,7 @@ public class Map {
         // On remplit d'abord l'objet wareHouse
         if (ddl.getEntrepot() != null && ddl.getLivraison() != null &&
                 ddl.getLivraison().length != 0 && ddl.getEntrepot().getAdresse() != null) {
+            
             Long idEntrepot = Long.valueOf(ddl.getEntrepot().getAdresse());
             if (idEntrepot > 0) {
                 int indexEntrepot = mapId.get(idEntrepot);
@@ -170,6 +197,9 @@ public class Map {
                         }
                     }
                 }
+                if (tabDeliveryPoints.isEmpty()) {
+                    tabDeliveryPoints = null;
+                }
             }
             else {
                 tabDeliveryPoints = null;
@@ -180,7 +210,7 @@ public class Map {
         }
     }
     
-    // V�rifier que l'heure de d�part est correcte
+    // Verifier que l'heure de depart est correcte
     private boolean verifyHour(String hourToVerify) {
         String[] hourDecomposed = hourToVerify.split(":");
         int heure = Integer.valueOf(hourDecomposed[0]);
@@ -194,7 +224,7 @@ public class Map {
         return true;
     }
     
-    public boolean validCoordinate(Coordinate coord) {
+    private boolean validCoordinate(Coordinate coord) {
         if (coord.getLatitude() == null || coord.getLongitude() == null) {
             return false;
         }
