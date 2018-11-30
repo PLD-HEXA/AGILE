@@ -8,12 +8,18 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -101,13 +107,27 @@ public class GraphicalView extends JPanel {
 			g.setColor(Color.pink);
 			g.drawOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
 			g.fillOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
+		    try {
+				BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
+				g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-13, null);
+		    } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		latitude = (latMax - map.getCoordinates()[map.getWareHouse().getKey()].getLatitude()) * widthScale;
 		longitude = (longMax - map.getCoordinates()[map.getWareHouse().getKey()].getLongitude()) * heightScale;
 		g.setColor(Color.blue);
-		
 		g.drawOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
 		g.fillOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
+		try {
+			BufferedImage image = ImageIO.read(new File("images/warehouse.png"));
+			g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-20, null);
+	    } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setMap(Map map) {
