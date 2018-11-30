@@ -30,6 +30,7 @@ public class TextualView extends JPanel {
 	private DefaultTreeCellRenderer renderer;
 	private MainWindow mainWindow;
 	Graphics g;
+	JPanel panel;
 	
 	
 	public TextualView(MainWindow mainWindow) {
@@ -47,7 +48,10 @@ public class TextualView extends JPanel {
 		renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(timer);
 		renderer.setClosedIcon(blackBicycle);
-		renderer.setOpenIcon(redBicycle);		
+		renderer.setOpenIcon(redBicycle);	
+		panel = new JPanel();
+		this.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout());
 	}
 	
 	@Override
@@ -95,9 +99,14 @@ public class TextualView extends JPanel {
 		final Font bigFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 10);
 		listOfRounds.setFont(bigFont);
 		listOfRounds.setCellRenderer(renderer);
-	    JScrollPane conteneur=new JScrollPane(listOfRounds,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    this.add(conteneur, BorderLayout.CENTER);
-		
+	    JScrollPane conteneur=new JScrollPane(listOfRounds,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+	    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	    panel.removeAll();
+	    panel.add(conteneur, BorderLayout.CENTER);
+	    panel.revalidate();
+	    panel.repaint();
+	    
+	    
 	}
 	
 	public  void setItineraries(List<Itinerary> itineraries){

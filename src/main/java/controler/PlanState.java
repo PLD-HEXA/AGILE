@@ -22,18 +22,18 @@ public class PlanState extends DefaultState {
 		chooser.setCurrentDirectory(new File("/"));
 		chooser.changeToParentDirectory();
 		mainWindow.add(chooser);
-
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
 			controler.setCurState(controler.planState);
 			DemandeDeLivraisons ddl;
-
 			ddl = controler.getParser().parseDelivery(selectedFile.toString());
 			mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
+			mainWindow.getGraphicalView().setItineraries(null);
 			mainWindow.getGraphicalView().repaint();
+			mainWindow.getTextualView().setItineraries(null);
+			mainWindow.getTextualView().repaint();
 			controler.setCurState(controler.deliveriesState);
-
 		}
 	}
 

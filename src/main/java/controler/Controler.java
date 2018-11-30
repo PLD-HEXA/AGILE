@@ -14,6 +14,7 @@ public class Controler {
 	protected final InitState initState = new InitState();
 	protected final PlanState planState = new PlanState();
 	protected final DeliveriesState deliveriesState = new DeliveriesState();
+	protected final ComputeState computeState = new ComputeState();
 	
 	public Controler() {
 		pathFinder= new PathFinder();

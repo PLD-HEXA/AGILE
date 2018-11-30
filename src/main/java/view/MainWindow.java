@@ -39,7 +39,6 @@ public class MainWindow extends JFrame {
 		setWindowSize();
 		this.setLayout(new BorderLayout());
 	    this.getContentPane().add(inputView, BorderLayout.WEST);
-	    
 	    this.getContentPane().add(textualView, BorderLayout.EAST);
 	    this.getContentPane().add(graphicalView, BorderLayout.CENTER);
 //		this.add(inputView);
