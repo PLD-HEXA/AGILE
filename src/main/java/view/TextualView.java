@@ -42,9 +42,11 @@ public class TextualView extends JPanel {
         Font f = new Font("TimesRoman",Font.BOLD,25);
         label.setFont(f);
         this.add(label, BorderLayout.NORTH);
-        ImageIcon timer = new ImageIcon("C:/Users/asus/Downloads/timer.png");
-        ImageIcon blackBicycle = new ImageIcon("C:/Users/asus/Downloads/bicycle.jpg");
-        ImageIcon redBicycle = new ImageIcon("C:/Users/asus/Downloads/redbicycle.png");
+        ImageIcon timer = new ImageIcon("images/timer.png");
+        ImageIcon blackBicycle = new ImageIcon("images/bicycle.jpg");
+        System.out.println("Working Directory = " +
+              System.getProperty("user.dir"));
+        ImageIcon redBicycle = new ImageIcon("images/redbicycle.png");
 		renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(timer);
 		renderer.setClosedIcon(blackBicycle);
