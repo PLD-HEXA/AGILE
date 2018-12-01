@@ -14,22 +14,36 @@ import javax.swing.ScrollPaneConstants;
 import controler.Controler;
 
 /**
- * 
+ * This class represents our window
+ * It contains the graphical,textual and input view
  * @author User
  */
 public class MainWindow extends JFrame {
 
     //Components
+    /**
+         * The graphical view
+    */
     private GraphicalView graphicalView;
+    /**
+         * The textual view
+    */
     private TextualView textualView;
+    /**
+         * The input view
+    */
     private InputView inputView;
+    /**
+         * The button listener
+    */
     //Listeners
     private ButtonListener buttonListener;
 
     //Display charasteristics
 
     /**
-     *
+     * The constructor
+     * It creates the window with all components ( graphical , textual and input)
      * @param controler
      */
     public MainWindow(Controler controler) {
@@ -55,13 +69,18 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     *
+     * It allows to display a message
      * @param s
+     *          The string to show
      */
     public void displayMessage(String s) {
         System.out.println(s);
     }
-
+     /**
+     * It allows to create all the buttons
+     * @param s
+     *          The string to show
+     */
     private void createButtons(Controler controler) {
         buttonListener = new ButtonListener(controler);
         inputView.createButtons(controler, buttonListener);
@@ -69,7 +88,7 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     *
+     * It allows to set the size of the window
      */
     public void setWindowSize() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -77,24 +96,27 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     *
-     * @return
+     * It allows to get the graphical view
+     * @return 
+     *         The graphical view
      */
     public GraphicalView getGraphicalView() {
         return graphicalView;
     }
 
     /**
-     *
+     * it allows to get the textual view
      * @return
+     *          the textual view
      */
     public TextualView getTextualView() {
         return textualView;
     }
 
     /**
-     *
+     * it allows to get the input view
      * @return
+     *          the input view
      */
     public InputView getInputView() {
         return inputView;
