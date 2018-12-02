@@ -105,18 +105,18 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     * it allows to get the textual view
+     * It allows to get the textual view
      * @return
-     *          the textual view
+     *          The textual view
      */
     public TextualView getTextualView() {
         return textualView;
     }
 
     /**
-     * it allows to get the input view
+     * It allows to get the input view
      * @return
-     *          the input view
+     *          The input view
      */
     public InputView getInputView() {
         return inputView;

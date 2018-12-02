@@ -1,37 +1,25 @@
 package view;
 
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import entities.Coordinate;
-import entities.DeliveryPoint;
 import entities.Itinerary;
 import entities.Map;
-import entities.Segment;
 
 /**
- * this class represents the graphic view of our project
- * it allows to draw the map , the deliveries points and also the rounds
+ * This class represents the graphic view of our project
+ * It allows to draw the map , the deliveries points and also the rounds
  * @author User
  */
 public class GraphicalView extends JPanel {
@@ -52,7 +40,7 @@ public class GraphicalView extends JPanel {
          * The pointRadius
     */
     private static final int pointRadius = 5;
-     /**
+    /**
          * It allows to draw graphics  
     */
     private Graphics g;
@@ -76,21 +64,8 @@ public class GraphicalView extends JPanel {
      */
     public GraphicalView(MainWindow mainWindow) {
         super();
-        // plan.addObserver(this);
-//        height = 800;
-//        width = 800;
         setLayout(null);
-
         setBackground(Color.gray);
-//        mainWindow.getContentPane().add(this);
-//		itineraries = new ArrayList<Itinerary>();
-//		Itinerary itinerary = new Itinerary();
-//		List<Coordinate> detailedPath = new ArrayList<Coordinate>();
-//		detailedPath.add(new Coordinate(4.8744674,45.750404));
-//		detailedPath.add(new Coordinate(4.8718166,45.75171));
-//		detailedPath.add(new Coordinate(4.886816,45.754265));
-//		itinerary.setDetailedPath(detailedPath);
-//		itineraries.add(itinerary);
 
     }
 
@@ -153,7 +128,6 @@ public class GraphicalView extends JPanel {
                 BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
                 g.drawImage(image, (int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -167,7 +141,6 @@ public class GraphicalView extends JPanel {
             BufferedImage image = ImageIO.read(new File("images/warehouse.png"));
             g.drawImage(image, (int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius - 20, null);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -212,10 +185,8 @@ public class GraphicalView extends JPanel {
                 longitude1 = (longMax - itineraries.get(i).getDetailedPath().get(j).getLongitude()) * heightScale;
                 latitude2 = (latMax - itineraries.get(i).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
                 longitude2 = (longMax - itineraries.get(i).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
-
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke(new BasicStroke(2));
-//                g2.draw(new Line2D.Float(30, 20, 80, 90));
                 g2.draw(new Line2D.Float((int) (this.getWidth() - longitude1), (int) (latitude1),
                         (int) (this.getWidth() - longitude2), (int) (latitude2)));
             }

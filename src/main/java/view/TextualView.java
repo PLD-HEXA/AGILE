@@ -4,12 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,9 +14,6 @@ import javax.swing.JTree;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-
-import entities.Coordinate;
-import entities.DeliveryPoint;
 import entities.Itinerary;
 
 /**
@@ -136,7 +129,6 @@ public class TextualView extends JPanel {
         panel.add(conteneur, BorderLayout.CENTER);
         panel.revalidate();
         panel.repaint();
-
     }
 
     /**

@@ -1,17 +1,12 @@
 package view;
 
-import java.io.File;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-
 import controler.Controler;
 import entities.Map;
 
@@ -21,12 +16,11 @@ import entities.Map;
  * @author User
  */
 public class InputView extends JPanel {
-     /**
+    /**
          * The map
     */
     Map map;
 
-    // States
 
     /**
      * It represents the name of the button that allows to load a plan
@@ -81,7 +75,6 @@ public class InputView extends JPanel {
                 numOfRounds = new JSpinner(spinner);
                 add(numOfRounds);
             }
-
             JButton bouton = new JButton(buttonName);
             buttons.add(bouton);
             bouton.setSize(120, 80);
