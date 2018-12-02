@@ -11,16 +11,17 @@ import controler.Controler;
 import entities.Map;
 
 /**
- * this class represents the input view of our project
- * it allows to create all the buttons
- * @author User
+ * this class represents the input view of our project it allows to create all
+ * the buttons
+ *
+ * @author PLD-HEXA-301
  */
 public class InputView extends JPanel {
-    /**
-         * The map
-    */
-    Map map;
 
+    /**
+     * The map
+     */
+    Map map;
 
     /**
      * It represents the name of the button that allows to load a plan
@@ -51,8 +52,8 @@ public class InputView extends JPanel {
 
     /**
      * The constructor
-     * @param mainWindow
-     *                  It represents our window
+     *
+     * @param mainWindow It represents our window
      */
     public InputView(MainWindow mainWindow) {
         super();
@@ -61,10 +62,9 @@ public class InputView extends JPanel {
 
     /**
      * This method allows to create the buttons
-     * @param controler
-     *              The controller
-     * @param buttonListener
-     *              The buttonListener
+     *
+     * @param controler The controller
+     * @param buttonListener The buttonListener
      */
     public void createButtons(Controler controler, ButtonListener buttonListener) {
         for (String buttonName : buttonNames) {
@@ -88,8 +88,8 @@ public class InputView extends JPanel {
 
     /**
      * This method allows to get the number of rounds
-     * @return
-     *         the number of rounds
+     *
+     * @return the number of rounds
      */
     public JSpinner getNumOfRounds() {
         return numOfRounds;

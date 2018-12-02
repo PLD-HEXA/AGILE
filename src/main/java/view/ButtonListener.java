@@ -7,19 +7,20 @@ import controler.Controler;
 
 /**
  * This class allows to call the controller whenever the user presses a button
- * @author User
+ *
+ * @author PLD-HEXA-301
  */
 public class ButtonListener implements ActionListener {
 
     /**
-         * The controller
-    */
+     * The controller
+     */
     private Controler controler;
 
     /**
      * The constructor
-     * @param controler
-     *          the controller
+     *
+     * @param controler the controller
      */
     public ButtonListener(Controler controler) {
         this.controler = controler;

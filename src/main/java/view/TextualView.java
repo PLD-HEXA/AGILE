@@ -17,40 +17,42 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import entities.Itinerary;
 
 /**
- * This class represents the textual view of our project
- * It allows to display the rounds
- * @author User
+ * This class represents the textual view of our project It allows to display
+ * the rounds
+ *
+ * @author PLD-HEXA-301
  */
 public class TextualView extends JPanel {
-     /**
-         * The itineraries
-    */
+
+    /**
+     * The itineraries
+     */
     private List<Itinerary> itineraries;
-     /**
-         * The list of rounds
-    */
+    /**
+     * The list of rounds
+     */
     private JTree listOfRounds;
-     /**
-         * The renderer
-    */
+    /**
+     * The renderer
+     */
     private DefaultTreeCellRenderer renderer;
-     /**
-         * The main Window
-    */
+    /**
+     * The main Window
+     */
     private MainWindow mainWindow;
-     /**
-         * It allows to draw graphics  
-    */
+    /**
+     * It allows to draw graphics
+     */
     Graphics g;
-     /**
-         * It will contains the list of rounds 
-    */
+    /**
+     * It will contains the list of rounds
+     */
     JPanel panel;
 
     /**
      * The constructor
-     * @param mainWindow
-     *                  It represents our window
+     *
+     * @param mainWindow It represents our window
      */
     public TextualView(MainWindow mainWindow) {
         super();
@@ -86,7 +88,8 @@ public class TextualView extends JPanel {
     }
 
     /**
-     * This method allows to show the list of rounds     */
+     * This method allows to show the list of rounds
+     */
     public void displayListOfRounds() {
         int numberOfRounds = itineraries.size();
         DefaultMutableTreeNode rounds = new DefaultMutableTreeNode("Rounds");
@@ -133,8 +136,8 @@ public class TextualView extends JPanel {
 
     /**
      * This method allows to edit the itineraries
-     * @param itineraries   
-     *                   The new itineraries
+     *
+     * @param itineraries The new itineraries
      */
     public void setItineraries(List<Itinerary> itineraries) {
         this.itineraries = itineraries;

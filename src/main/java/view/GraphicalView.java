@@ -18,49 +18,50 @@ import entities.Itinerary;
 import entities.Map;
 
 /**
- * This class represents the graphic view of our project
- * It allows to draw the map , the deliveries points and also the rounds
- * @author User
+ * This class represents the graphic view of our project It allows to draw the
+ * map , the deliveries points and also the rounds
+ *
+ * @author PLD-HEXA-301
  */
 public class GraphicalView extends JPanel {
 
     /**
-         * The map
-    */
+     * The map
+     */
     private Map map;
     /**
-         * The heightScale
-    */
+     * The heightScale
+     */
     private double heightScale;
-     /**
-         * The widthScale
-    */
+    /**
+     * The widthScale
+     */
     private double widthScale;
-     /**
-         * The pointRadius
-    */
+    /**
+     * The pointRadius
+     */
     private static final int pointRadius = 5;
     /**
-         * It allows to draw graphics  
-    */
+     * It allows to draw graphics
+     */
     private Graphics g;
-     /**
-         * The longitude max
-    */
+    /**
+     * The longitude max
+     */
     double longMax;
-     /**
-         * The latitude max
-    */
+    /**
+     * The latitude max
+     */
     double latMax;
-     /**
-         * The itineraries
-    */
+    /**
+     * The itineraries
+     */
     List<Itinerary> itineraries;
 
     /**
      * The constructor
-     * @param mainWindow
-     *                  It represents our window
+     *
+     * @param mainWindow It represents our window
      */
     public GraphicalView(MainWindow mainWindow) {
         super();
@@ -88,8 +89,9 @@ public class GraphicalView extends JPanel {
 
     /**
      * This method allows to draw a plan
-     * @param g
-     *          It is an instance of the class Graphics that allows to draw graphics
+     *
+     * @param g It is an instance of the class Graphics that allows to draw
+     * graphics
      */
     public void drawPlan(Graphics g) {
         longMax = map.getCoordinateMax().getLongitude();
@@ -110,8 +112,9 @@ public class GraphicalView extends JPanel {
 
     /**
      * This method allows to draw all deliveries points and also the warehouse
-     * @param g
-     *          It is an instance of the class Graphics that allows to draw graphics
+     *
+     * @param g It is an instance of the class Graphics that allows to draw
+     * graphics
      */
     public void drawDeliveries(Graphics g) {
         double latitude;
@@ -147,8 +150,8 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to edit the map
-     * @param map
-     *           The new map
+     *
+     * @param map The new map
      */
     public void setMap(Map map) {
         this.map = map;
@@ -156,16 +159,18 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the map
-     * @return
-     *        The map
+     *
+     * @return The map
      */
     public Map getMap() {
         return map;
     }
+
     /**
      * This method allows to draw all rounds
-     * @param g
-     *          It is an instance of the class Graphics that allows to draw graphics
+     *
+     * @param g It is an instance of the class Graphics that allows to draw
+     * graphics
      */
     private void drawRounds(Graphics g) {
         double latitude1;
@@ -196,8 +201,8 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to edit the itineraries
-     * @param itineraries
-     * *           The new itineraries
+     *
+     * @param itineraries * The new itineraries
      */
     public void setItineraries(List<Itinerary> itineraries) {
         this.itineraries = itineraries;
