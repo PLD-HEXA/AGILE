@@ -52,7 +52,10 @@ public class ComputeState extends DefaultState {
                             mainWindow.getTextualView().setItineraries(null);
                             mainWindow.getTextualView().repaint();
                             controler.setCurState(controler.deliveriesState);
-                        }
+                        } else {
+                            // TODO : Prendre en compte que le parsing du fichier xml ddl
+                            // n'est pas bien formé
+                        } 
 		}
 	}
 

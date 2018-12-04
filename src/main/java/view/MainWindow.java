@@ -3,11 +3,12 @@ package view;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import controler.Controler;
+import javax.swing.JOptionPane;
 
 /**
  * This class represents our window It contains the graphical,textual and input
  * view
- *
+ *e
  * @author PLD-HEXA-301
  */
 public class MainWindow extends JFrame {
@@ -75,7 +76,14 @@ public class MainWindow extends JFrame {
      */
     public void setWindowSize() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+    }
+    
+    /**
+     * Shows a dialog to indicate the user that the input xml file is invalid
+     * @param text 
+     */
+    public void showErrorXmlCityPlan(String text) {
+        JOptionPane.showConfirmDialog(null, text,"Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
     }
 
     /**

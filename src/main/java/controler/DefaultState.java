@@ -4,6 +4,9 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import entities.Map;
 import entities.Reseau;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import view.MainWindow;
 
 
@@ -31,7 +34,7 @@ public class DefaultState implements State {
                             map.fillMapIdAndCoordinate(reseau);
                             if (map.getMapId() != null && map.getCoordinates() != null) {
                                 map.fillGraph(reseau);
-                                if (map.getGraph() == null) {
+                                if (map.getGraph() != null) {
                                     mainWindow.getTextualView().setItineraries(null);
                                     mainWindow.getTextualView().repaint();
                                     mainWindow.getGraphicalView().setItineraries(null);
@@ -40,18 +43,23 @@ public class DefaultState implements State {
                                     controler.setCurState(controler.planState);
                                 }
                                 else {
-                                    // TODO : Prendre en compte le contenu du xml est incorrect
+                                    mainWindow.showErrorXmlCityPlan("The content"
+                                            + " of the input xml file is invalid.");
+                                    // Le contenu du xml est incorrect
                                     // Ici, due à un tronçon dont l'un des attributs à une valeur incorrecte
                                 }
                             }
                             else {
-                                // TODO : Prendre en compte le cas ou le plan
-                                // n'est pas valide (Ici, car un attribut est incorrect ou
-                                // bien aucune infos n'est valable)
+                                mainWindow.showErrorXmlCityPlan("The content of"
+                                        + " the input xml file is invalid.");
+                                // Le plan n'est pas valide (Ici, 
+                                // car un attribut est incorrect ou bien aucune infos n'est valable)
                             }
                         } 
                         else {
-                            // TODO : Prendre en compte le cas ou le plan n'est pas valide (Ici, cas
+                            mainWindow.showErrorXmlCityPlan("The input xml file"
+                                    + " is invalid");
+                            // Le plan n'est pas valide (Ici, cas
                             // ou l'extension est incorrecte, une balise non connue est ajoutée,
                             // un attribut est rajoutée)
                         }
@@ -66,5 +74,4 @@ public class DefaultState implements State {
 	public void compute(Controler controler, MainWindow mainWindow) {
 
 	}
-
 }

@@ -27,7 +27,6 @@ public class DeliveriesState extends DefaultState{
 		mainWindow.getTextualView().revalidate();
 		mainWindow.getTextualView().repaint();
 		controler.setCurState(controler.computeState);
-		
 	}
 	
 	@Override
@@ -41,7 +40,6 @@ public class DeliveriesState extends DefaultState{
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
-			controler.setCurState(controler.planState);
 			DemandeDeLivraisons ddl;
 			ddl = controler.getParser().parseDelivery(selectedFile.toString());
 			mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
@@ -50,10 +48,8 @@ public class DeliveriesState extends DefaultState{
 			mainWindow.getGraphicalView().repaint();
 			mainWindow.getTextualView().setItineraries(null);
 			mainWindow.getTextualView().repaint();
-			controler.setCurState(controler.deliveriesState);
+			// On reste dans le même état
+                        // controler.setCurState(controler.deliveriesState);
 		}
 	}
-	
-	
-
 }
