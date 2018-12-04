@@ -101,7 +101,6 @@ public class GraphicalView extends JPanel {
 		double longitude;
 		int numberOfDeliveryPoints = map.getTabDeliveryPoints().size();
 		for (int i = 0; i < numberOfDeliveryPoints; i++) {
-			System.out.print(map.getCoordinates()[i]);
 			latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
 			longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
 			g.setColor(Color.pink);
@@ -124,7 +123,9 @@ public class GraphicalView extends JPanel {
 		try {
 			BufferedImage image = ImageIO.read(new File("images/warehouse.png"));
 			g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-20, null);
-	    } catch (IOException e) {
+			System.out.println("Coordinate x de l'entrepot : "+(int) (this.getWidth() - longitude-pointRadius) );
+			System.out.println("Coordinate y de l'entrepot : "+(int) (latitude-pointRadius));
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -52,6 +52,8 @@ public class ComputeState extends DefaultState {
 			mainWindow.getGraphicalView().setItineraries(null);
 			mainWindow.getGraphicalView().repaint();
 			mainWindow.getTextualView().setItineraries(null);
+			mainWindow.getTextualView().displayListOfRounds();
+			mainWindow.getTextualView().revalidate();
 			mainWindow.getTextualView().repaint();
 			controler.setCurState(controler.deliveriesState);
 		}

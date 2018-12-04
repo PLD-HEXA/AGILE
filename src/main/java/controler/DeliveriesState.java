@@ -17,16 +17,31 @@ public class DeliveriesState extends DefaultState{
 	
 	@Override
 	public void compute(Controler controler, MainWindow mainWindow) {
-		List<Itinerary> itineraries = controler.getPathFinder().findPath (mainWindow.getGraphicalView().getMap(),
-				(int)mainWindow.getInputView().getNumOfRounds().getValue());
-		System.out.println((int)mainWindow.getInputView().getNumOfRounds().getValue());
-		mainWindow.getGraphicalView().setItineraries(itineraries);
-		mainWindow.getGraphicalView().repaint();
-		mainWindow.getTextualView().setItineraries(itineraries);
-		mainWindow.getTextualView().displayListOfRounds();
-		mainWindow.getTextualView().revalidate();
-		mainWindow.getTextualView().repaint();
-		controler.setCurState(controler.computeState);
+		int numberOfDeliveryMen =(int)mainWindow.getInputView().getNumOfRounds().getValue();
+		int numberOfDeliveries = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
+		if(numberOfDeliveryMen<=numberOfDeliveries) {
+			List<Itinerary> itineraries = controler.getPathFinder().findPath (mainWindow.getGraphicalView().getMap(),
+					numberOfDeliveryMen);
+			if(itineraries != null) {
+				mainWindow.getGraphicalView().setItineraries(itineraries);
+				mainWindow.getGraphicalView().repaint();
+				mainWindow.getTextualView().setItineraries(itineraries);
+				mainWindow.getTextualView().displayListOfRounds();
+				mainWindow.getTextualView().revalidate();
+				mainWindow.getTextualView().repaint();
+				controler.setCurState(controler.computeState);
+			}
+			else {
+				//TODO : pop up erreur de calcul
+			}
+		}
+		else {
+			//TODO : pop up où on dit
+			//On peut te le calculer mais il y aura (numberOfDeliveryMen-numberOfDeliveries) livreurs qui n'auront rien à faire
+			// si l'utilisateur valide on lui fait le calcul comme ci-dessus, sinon on ne fait rien
+		}
+		
+		
 		
 	}
 	

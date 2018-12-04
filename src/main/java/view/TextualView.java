@@ -66,47 +66,63 @@ public class TextualView extends JPanel {
 		this.g = g;
 	}
 	public void displayListOfRounds() {
-		int numberOfRounds=itineraries.size();
 		DefaultMutableTreeNode rounds = new DefaultMutableTreeNode("Rounds");
-		DefaultMutableTreeNode curRound;
-		DefaultMutableTreeNode curStop;
-		DefaultMutableTreeNode arrival;
-		DefaultMutableTreeNode departure;
-		DefaultMutableTreeNode duration;
-		Date departureDate;
-		Date arrivalDate;
-		Date diff;
-		for(int i=0;i<numberOfRounds;i++) {
-			int numberOfStops=itineraries.get(i).getGeneralPath().size();
-			curRound=new DefaultMutableTreeNode("Round n°"+ Integer.toString(i+1)); 
-			for(int j=0;j<numberOfStops;j++) {
-				
-				departureDate = itineraries.get(i).getGeneralPath().get(j).getDepartureTime();
-				arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();
-				curStop=new DefaultMutableTreeNode("Delivery n°"+ Integer.toString(j));
-				arrival=new DefaultMutableTreeNode("Departure  "+departureDate.toString().substring(11, 19));
-				departure=new DefaultMutableTreeNode("Arrival        "+arrivalDate.toString().substring(11, 19));
-				diff=new Date(departureDate.getTime() - arrivalDate.getTime());
-				duration=new DefaultMutableTreeNode("Duration     "+diff.toString().substring(14, 19).replace(':','m')+"s");
-				curStop.add(departure);
-				curStop.add(arrival);
-				curStop.add(duration);
-				curRound.add(curStop);
-				rounds.add(curRound);
-				
+		if(itineraries != null) {
+			int numberOfRounds=itineraries.size();
+			DefaultMutableTreeNode curRound;
+			DefaultMutableTreeNode curStop;
+			DefaultMutableTreeNode arrival;
+			DefaultMutableTreeNode departure;
+			DefaultMutableTreeNode duration;
+			Date departureDate;
+			Date arrivalDate;
+			Date diff;
+			for(int i=0;i<numberOfRounds;i++) {
+				int numberOfStops=itineraries.get(i).getGeneralPath().size();
+				curRound=new DefaultMutableTreeNode("Round n°"+ Integer.toString(i+1)); 
+				for(int j=0;j<numberOfStops;j++) {
+					
+					departureDate = itineraries.get(i).getGeneralPath().get(j).getDepartureTime();
+					arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();
+					curStop=new DefaultMutableTreeNode("Delivery n°"+ Integer.toString(j));
+					arrival=new DefaultMutableTreeNode("Departure  "+departureDate.toString().substring(11, 19));
+					departure=new DefaultMutableTreeNode("Arrival        "+arrivalDate.toString().substring(11, 19));
+					diff=new Date(departureDate.getTime() - arrivalDate.getTime());
+					duration=new DefaultMutableTreeNode("Duration     "+diff.toString().substring(14, 19).replace(':','m')+"s");
+					curStop.add(departure);
+					curStop.add(arrival);
+					curStop.add(duration);
+					curRound.add(curStop);
+					rounds.add(curRound);
+					
+				}
 			}
+			listOfRounds=new JTree(rounds);
+			final Font currentFont = listOfRounds.getFont();
+			final Font bigFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 10);
+			listOfRounds.setFont(bigFont);
+			listOfRounds.setCellRenderer(renderer);
+		    JScrollPane conteneur=new JScrollPane(listOfRounds,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+		    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		    panel.removeAll();
+		    panel.add(conteneur, BorderLayout.CENTER);
+		    panel.revalidate();
+		    panel.repaint();
 		}
-		listOfRounds=new JTree(rounds);
-		final Font currentFont = listOfRounds.getFont();
-		final Font bigFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 10);
-		listOfRounds.setFont(bigFont);
-		listOfRounds.setCellRenderer(renderer);
-	    JScrollPane conteneur=new JScrollPane(listOfRounds,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-	    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    panel.removeAll();
-	    panel.add(conteneur, BorderLayout.CENTER);
-	    panel.revalidate();
-	    panel.repaint();
+		else {
+			listOfRounds=new JTree(rounds);
+			final Font currentFont = listOfRounds.getFont();
+			final Font bigFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 10);
+			listOfRounds.setFont(bigFont);
+			listOfRounds.setCellRenderer(renderer);
+		    JScrollPane conteneur=new JScrollPane(listOfRounds,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+		    		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		    panel.removeAll();
+		    panel.add(conteneur, BorderLayout.CENTER);
+		    panel.revalidate();
+		    panel.repaint();
+		}
+		
 	    
 	    
 	}

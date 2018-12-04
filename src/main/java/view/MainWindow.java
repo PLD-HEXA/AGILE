@@ -22,7 +22,7 @@ public class MainWindow extends JFrame {
 	private InputView inputView;
 	//Listeners
 	private ButtonListener buttonListener;
-	
+	private MouseMovementListener mouseMouvementListener;
 	
 	//Display charasteristics
 
@@ -33,6 +33,9 @@ public class MainWindow extends JFrame {
 		inputView = new InputView(this);
 		//Buttons
 		createButtons(controler);
+		//Listeners
+		mouseMouvementListener = new MouseMovementListener(controler,graphicalView,this);
+		this.getGraphicalView().addMouseListener(mouseMouvementListener);
 		//Display characteristics
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,9 +44,6 @@ public class MainWindow extends JFrame {
 	    this.getContentPane().add(inputView, BorderLayout.WEST);
 	    this.getContentPane().add(textualView, BorderLayout.EAST);
 	    this.getContentPane().add(graphicalView, BorderLayout.CENTER);
-//		this.add(inputView);
-//		this.add(textualView);
-//		this.add(graphicalView);
 		setTitle("Best Delivery Rounds");
 		setVisible(true);
 	}
