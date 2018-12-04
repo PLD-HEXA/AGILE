@@ -5,6 +5,8 @@
  */
 package entities.algorithms;
 
+import entities.Edge;
+import entities.Subset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,7 +26,7 @@ public class GeneralTSP {
     double[][] adjMatrix;
     int nbNodes;
     Comparator<Integer> comparator;
-    Comparator<Pair<Pair<Integer,Integer>,Double>> comparator2;
+    Comparator<Edge> comparator2;
     double[][] cost;
     //int indexWarehouse;
     
@@ -73,7 +75,6 @@ public class GeneralTSP {
                 cmpt += nbDeliveriesByDeliveryMan+1;
             }
         }
-        optimalOrder[nbNodes + nbDeliveryMen -1] = 0;
         
         
         //On remplit le tableau de not seen
@@ -94,16 +95,20 @@ public class GeneralTSP {
                 }
             };
         
-        comparator2 = new Comparator<Pair<Pair<Integer,Integer>,Double>>() {
+        comparator2 = new Comparator<Edge>() {
                 @Override
-                public int compare(Pair<Pair<Integer,Integer>,Double> v1, Pair<Pair<Integer,Integer>,Double> v2) {
-                    if(v1.getValue() - v2.getValue() > 0)
+                public int compare(Edge v1, Edge v2) {
+                    if(v1.getCost() - v2.getCost() > 0)
                         return 1;
-                    return -1;
+                    else if(v1.getCost() - v2.getCost() < 0)
+                        return -1;
+                    return 0;
                 }
             };
            
-        sp = permut(seen, 1, notSeen, nbNodes-1, 0, sp, nbDeliveriesByDeliveryMan);
+        //sp = permut(seen, 1, notSeen, nbNodes-1, 0, sp, nbDeliveriesByDeliveryMan);
+        sp = permut(seen, 1, notSeen, nbNodes-1, 0, sp, nbDeliveryMen);
+        
         System.out.println("length of the shortest path :" + sp);
         
         //Coordinate[] res = new Coordinate[nbNodes+1];
@@ -158,29 +163,6 @@ public class GeneralTSP {
             }
             Arrays.sort(order, comparator);
             
-            /*
-            double dmin = 0;
-            double tempL = Double.MAX_VALUE;
-            for(int i=0;i<nbNotSeen;i++){
-    		double temp = Double.MAX_VALUE;
-    		for(int j=0;j<nbNotSeen;j++){
-                    if(cost[notSeen[i]][notSeen[j]]<temp){
-                        temp = cost[notSeen[i]][notSeen[j]];
-                    }
-    		}
-    		if(cost[notSeen[i]][0]<temp){
-                    temp = cost[notSeen[i]][0];
-                }
-					
-                if(tempL>cost[seen[nbSeen-1]][notSeen[i]]){
-                    tempL = cost[seen[nbSeen-1]][notSeen[i]];
-                }
-				
-    		dmin+=temp;
-            }
-    	
-            dmin+=tempL;
-            */
             double dmin = kruscal(notSeen, nbZerosLeft);
         
         
@@ -200,38 +182,38 @@ public class GeneralTSP {
     
     // A utility function to find set of an element i 
     // (uses path compression technique) 
-    public int find(HashMap<Integer, Pair<Integer, Integer>> subsets, int i) 
+    public int find(HashMap<Integer, Subset> subsets, int i) 
     { 
         // find root and make root as parent of i (path compression)    
-        if (subsets.get(i).getKey() != i){
-            subsets.put(i, new Pair<>(find(subsets, subsets.get(i).getKey()) , subsets.get(i).getValue()));
+        if (subsets.get(i).getParent() != i){
+            subsets.get(i).setParent(find(subsets, subsets.get(i).getParent()));
         }
         
-        return subsets.get(i).getKey();
+        return subsets.get(i).getParent();
     } 
     
     // A function that does union of two sets of x and y 
     // (uses union by rank) 
-    void Union(HashMap<Integer, Pair<Integer, Integer>> subsets, int x, int y) 
+    void Union(HashMap<Integer, Subset> subsets, int x, int y) 
     { 
         int xroot = find(subsets, x); 
         int yroot = find(subsets, y); 
   
         // Attach smaller rank tree under root of high rank tree 
         // (Union by Rank) 
-        if (subsets.get(xroot).getValue() < subsets.get(yroot).getValue()){
-            subsets.put(xroot, new Pair<>(yroot, subsets.get(xroot).getValue()));
+        if (subsets.get(xroot).getRank() < subsets.get(yroot).getRank()){
+            subsets.get(xroot).setParent(yroot);
         }
-        else if (subsets.get(xroot).getValue() < subsets.get(yroot).getValue()){
-            subsets.put(yroot, new Pair<>(xroot, subsets.get(yroot).getValue()));
+        else if (subsets.get(xroot).getRank()< subsets.get(yroot).getRank()){
+            subsets.get(yroot).setParent(xroot);
         }
   
         // If ranks are same, then make one as root and increment 
         // its rank by one 
         else
         { 
-            subsets.put(yroot, new Pair<>(xroot, subsets.get(yroot).getValue()));
-            subsets.put(xroot, new Pair<>(xroot, subsets.get(xroot).getValue()+1));
+            subsets.get(yroot).setParent(xroot);
+            subsets.get(xroot).incrementRank();
             
         } 
     } 
@@ -241,59 +223,43 @@ public class GeneralTSP {
         double res = 0;
         
         
-        //Create the vertices of the sub graph
-        /*if(lastSeen != 0){
-            Integer [] vertices = new Integer[notSeen.length + 2];
-            vertices [0] = lastSeen;
-            for(int i = 1; i< vertices.length -1; i++){
-                vertices[i] = notSeen[i-1];
-            }
-            vertices[vertices.length-1] = 0;
-        }*/
-        
-        //Create the vertices of the sub graph
-        /*else{
-            Integer [] vertices = new Integer[notSeen.length + 1];
-            vertices [0] = lastSeen;
-            for(int i = 1; i< vertices.length; i++){
-                vertices[i] = notSeen[i-1];
-            }
-        }*/
-        
         //Create the edges
-        List<Pair<Pair<Integer,Integer>, Double>> edges = new ArrayList<>();
-        for(int i = 0; i< notSeen.length; i++){
-            for(int j = 0; j<i; j++){
-                edges.add(new Pair<>(new Pair<>( notSeen[i],notSeen[j] ) , Math.min(cost[notSeen[i]][notSeen[j]], cost[notSeen[j]][notSeen[i]]) ));
+        int i;
+        int j;
+        List<Edge> edges = new ArrayList<>();
+        //List<Edge> edgesWithWarehouse = new ArrayList<>();
+        for(i = 0; i< notSeen.length; i++){
+            for(j = 0; j<i; j++){
+                edges.add(new Edge(notSeen[i],notSeen[j] , Math.min(cost[notSeen[i]][notSeen[j]], cost[notSeen[j]][notSeen[i]]) ));
             }
         }
         
         
         if(lastSeen != 0){
-            for(int i = 0; i< notSeen.length; i++){
-                edges.add(new Pair<>(new Pair<>( notSeen[i],lastSeen ) , Math.min(cost[notSeen[i]][lastSeen], cost[lastSeen][notSeen[i]]) ));
+            for(i = 0; i< notSeen.length; i++){
+                edges.add(new Edge(notSeen[i],lastSeen , Math.min(cost[notSeen[i]][lastSeen], cost[lastSeen][notSeen[i]]) ));
+                edges.add(new Edge(notSeen[i],0 , Math.min(cost[notSeen[i]][0], cost[0][notSeen[i]]) )); 
             }
-            for(int i = 0; i< notSeen.length; i++){
-                edges.add(new Pair<>(new Pair<>( notSeen[i],0 ) , Math.min(cost[notSeen[i]][0], cost[0][notSeen[i]]) ));
-            }
+            edges.add(new Edge(lastSeen,0 , Math.min(cost[lastSeen][0], cost[0][lastSeen]) ));
+            
         }
         
         else{
-            for(int i = 0; i< notSeen.length; i++){
-                edges.add(new Pair<>(new Pair<>( notSeen[i],0 ) , Math.min(cost[notSeen[i]][0], cost[0][notSeen[i]]) ));
+            for(i = 0; i< notSeen.length; i++){
+                edges.add(new Edge(notSeen[i],0 , Math.min(cost[notSeen[i]][0], cost[0][notSeen[i]]) ));
             }
         }
+        
         
         //Sort the edges by increasing weight
         Collections.sort(edges, comparator2);
         
-        
-        HashMap<Integer, Pair<Integer, Integer>> subsets = new HashMap<>();
-        subsets.put(lastSeen, new Pair<>(lastSeen, 0));
-        for(int i = 0; i< notSeen.length; i++){
-            subsets.put(notSeen[i], new Pair<>(notSeen[i], 0));
+        HashMap<Integer, Subset> subsets = new HashMap<>();
+        subsets.put(lastSeen, new Subset(lastSeen, 0));
+        for(i = 0; i< notSeen.length; i++){
+            subsets.put(notSeen[i], new Subset(notSeen[i], 0));
         }
-        subsets.put(0, new Pair<>(0, 0));
+        subsets.put(0, new Subset(0, 0));
         
         
         //Pour chaque vertice taken by increasing weight
@@ -302,21 +268,23 @@ public class GeneralTSP {
         int x;
         int y;
         boolean selectedEdge = false;
-        double lengthSelectedEdge = 0;
-        for(Pair<Pair<Integer,Integer>, Double> edge :edges){
-            x = find(subsets, edge.getKey().getKey()); 
-            y = find(subsets, edge.getKey().getValue()); 
+        double lengthEdge = 0;
+        //int idSelectedEdge = 0;
+        for(Edge edge :edges){
+            x = find(subsets, edge.getVertice1()); 
+            y = find(subsets, edge.getVertice2());
+            
+            if(!selectedEdge && (edge.getVertice1() == 0 || edge.getVertice2() == 0) ){
+                lengthEdge = edge.getCost();;
+                selectedEdge = true;
+            }
   
             // If including this edge doesn't cause cycle, 
             // include it in result and increment the index  
             // of result for next edge 
             if (x != y) 
             { 
-                if(!selectedEdge && (edge.getKey().getKey() == 0 || edge.getKey().getValue() == 0) ){
-                    lengthSelectedEdge = edge.getValue();
-                    selectedEdge = true;
-                }
-                res += edge.getValue();
+                res += edge.getCost();
                 addedEdges++;
                 Union(subsets, x, y); 
             } 
@@ -324,16 +292,15 @@ public class GeneralTSP {
             
             if(addedEdges == nbMaxAddedEdges){
                 break;
-            }
-            
+            }   
         }
         
         if(lastSeen != 0){
-            res+= 2*(nbZerosLeft-1)* lengthSelectedEdge;
+            res+= 2*(nbZerosLeft-1)*lengthEdge;
         }
         
         else{
-            res+= 2*(nbZerosLeft-1)* lengthSelectedEdge + lengthSelectedEdge;
+            res+= 2*(nbZerosLeft-1)*lengthEdge + lengthEdge;
         }
         return res;
         

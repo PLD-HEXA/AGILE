@@ -17,7 +17,7 @@ public class DeliveriesState extends DefaultState{
 	
 	@Override
 	public void compute(Controler controler, MainWindow mainWindow) {
-		List<Itinerary> itineraries = controler.getPathFinder().findPath (mainWindow.getGraphicalView().getMap(),
+		List<Itinerary> itineraries = controler.getPathFinder().findPathClustering (mainWindow.getGraphicalView().getMap(),
 				(int)mainWindow.getInputView().getNumOfRounds().getValue());
 		System.out.println((int)mainWindow.getInputView().getNumOfRounds().getValue());
 		mainWindow.getGraphicalView().setItineraries(itineraries);
