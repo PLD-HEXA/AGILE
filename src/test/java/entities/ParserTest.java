@@ -112,7 +112,7 @@ public class ParserTest {
     
     /**
      * No change when parsing the document, the error will be
-     * detect when we fill the map
+     * detected when we fill the map
      */
     @Test
     public void testParseCityPlanWithValueIncorrect() {

@@ -5,20 +5,40 @@ import java.awt.event.ActionListener;
 
 import controler.Controler;
 
+/**
+ * This class allows to call the controller whenever the user presses a button
+ *
+ * @author PLD-HEXA-301
+ */
 public class ButtonListener implements ActionListener {
 
-	private Controler controler;
+    /**
+     * The controller
+     */
+    private Controler controler;
 
-	public ButtonListener(Controler controler){
-		this.controler = controler;
-	}
+    /**
+     * The constructor
+     *
+     * @param controler the controller
+     */
+    public ButtonListener(Controler controler) {
+        this.controler = controler;
+    }
 
-	public void actionPerformed(ActionEvent e) { 
-		switch (e.getActionCommand()){
-		case InputView.LOAD_PLAN: controler.loadPlan(); break;
-		case InputView.LOAD_DELIVERIES: controler.loadDeliveries(); break;
-		case InputView.COMPUTE: controler.compute(); break;
-		}
-	}
-	
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()) {
+            case InputView.LOAD_PLAN:
+                controler.loadPlan();
+                break;
+            case InputView.LOAD_DELIVERIES:
+                controler.loadDeliveries();
+                break;
+            case InputView.COMPUTE:
+                controler.compute();
+                break;
+        }
+    }
+
 }
