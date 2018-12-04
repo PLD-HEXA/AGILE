@@ -79,7 +79,7 @@ public class TextualView extends JPanel {
 		for(int i=0;i<numberOfRounds;i++) {
 			int numberOfStops=itineraries.get(i).getGeneralPath().size();
 			curRound=new DefaultMutableTreeNode("Round n°"+ Integer.toString(i+1)); 
-			for(int j=1;j<(numberOfStops-1);j++) {
+			for(int j=0;j<numberOfStops;j++) {
 				
 				departureDate = itineraries.get(i).getGeneralPath().get(j).getDepartureTime();
 				arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();

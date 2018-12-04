@@ -20,7 +20,7 @@ public class InputView extends JPanel {
     Map map;
 
     // States
-    protected final static String LOAD_PLAN = "Load a plan";
+    protected final static String LOAD_PLAN = "Load an xml plan";
     protected final static String LOAD_DELIVERIES = "Load deliveries";
     protected final static String COMPUTE = "Compute";
     private JSpinner numOfRounds;
