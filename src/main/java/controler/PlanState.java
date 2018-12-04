@@ -23,21 +23,17 @@ public class PlanState extends DefaultState {
 		mainWindow.add(chooser);
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = chooser.getSelectedFile();
-                    DemandeDeLivraisons ddl = controler.getParser().parseDelivery(selectedFile.toString());
-                    if (ddl != null) {
-                        mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-                        mainWindow.getGraphicalView().setItineraries(null);
-                        mainWindow.getGraphicalView().repaint();
-                        mainWindow.getTextualView().setItineraries(null);
-                        mainWindow.getTextualView().repaint();
-                        controler.setCurState(controler.deliveriesState);
-                    }
-                    else {
-                        mainWindow.showErrorXmlCityPlan("The input xml file is invalid.");
-                        // TODO : Afficher mesg d'erreur à l'écran (cas ou le fichier
-                        // est invalide : extension, balise et/ou attribut en trop ...)
-                    }
+			File selectedFile = chooser.getSelectedFile();
+			controler.setCurState(controler.planState);
+			DemandeDeLivraisons ddl;
+			ddl = controler.getParser().parseDelivery(selectedFile.toString());
+			mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
+			mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
+			mainWindow.getGraphicalView().setItineraries(null);
+			mainWindow.getGraphicalView().repaint();
+			mainWindow.getTextualView().setItineraries(null);
+			mainWindow.getTextualView().repaint();
+			controler.setCurState(controler.deliveriesState);
 		}
 	}
 

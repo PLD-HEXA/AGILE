@@ -15,28 +15,11 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Parser for the document xml which contains the city plan or the document
- * xml which contains the delivery points
- * 
- * @author Chris
- */
 public class Parser {
 
-    /**
-     * Default constructor of the class Parser
-     */
     public Parser( ) {
     }
 
-    /**
-     * Parses the xml document located in the path given in parameter. Parses
-     * the xml document which represents a city plan only.
-     * 
-     * @param xmlFileName the path of the xml file to parse
-     * @return the object Reseau which is the name of the root element of the
-     * document xml. The object contains all the data of the xml document.
-     */
     public Reseau parseCityPlan(String xmlFileName){
         if (xmlFileName.endsWith(".xml")){
             ObjectMapper objectMapper = new XmlMapper();
@@ -64,15 +47,6 @@ public class Parser {
         }
     }
     
-    /**
-     * Parses the xml document located in the path given in parameter. Parses
-     * the xml document which represents a delivery request only
-     * 
-     * @param xmlFileName the path of the xml file to parse
-     * @return the object DemandeDeLivraisons which is the name of the root
-     * element of the document xml. The object contains all the data 
-     * of the xml document.
-     */
     public DemandeDeLivraisons parseDelivery(String xmlFileName){
         if (xmlFileName.endsWith(".xml")){  
             ObjectMapper objectMapper = new XmlMapper();

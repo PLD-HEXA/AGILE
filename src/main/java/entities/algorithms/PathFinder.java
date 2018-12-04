@@ -160,14 +160,9 @@ public class PathFinder {
             
             dTemp = new Date(departureTime.getTime());
             //construct the general path
-            int cmpt =1;
             for(Integer indexTarget: li){
                 DeliveryPoint dp = new DeliveryPoint(coordinates[targets.get(indexTarget)], dTemp, new Date(dTemp.getTime() + times.get(indexTarget)*1000));
-                if(cmpt < li.size()){
-                    dTemp = new Date(dTemp.getTime() + times.get(indexTarget)*1000 + Math.round(adjMatrix[indexTarget][li.get(cmpt)])*1000 - times.get(cmpt));
-                }
-                
-                cmpt++;
+                dTemp = new Date(dTemp.getTime() + times.get(indexTarget)*1000);
                 generalPath.add(dp);
             }
             //construct the detailed path
@@ -185,6 +180,11 @@ public class PathFinder {
             }
             itineraries.add(new Itinerary(generalPath, detailedPath));
         }
+        
+        
+//        for(int i = 0; i< order.length; i++){
+//            System.out.println(order[i]);
+//        }
         
         return itineraries;
     }
