@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <reseau>
-<noeud id="-25175791" latitude="45.750404" longitude="4.857418"/>
+<noeud id="25175791" latitude="45.750404" longitude="4.857418"/>
 <noeud id="2129259178" latitude="45.750404" longitude="4.8744674"/>
 <noeud id="26086130" latitude="45.75871" longitude="4.8704023"/>
 <noeud id="2129259176" latitude="45.75171" longitude="4.8718166"/>
@@ -302,13 +302,7 @@
 <noeud id="208822503" latitude="45.76229" longitude="4.869225"/>
 <noeud id="479185290" latitude="45.75072" longitude="4.858164"/>
 <noeud id="54803905" latitude="45.76194" longitude="4.8739953"/>
-<noeud id="21992964" latitude="45.74778" longitude="4.8682485"/>
-<noeud id="208769133" latitude="45.759453" longitude="4.8698664"/>
-<noeud id="342873658" latitude="45.76038" longitude="4.8775625"/>
-<noeud id="342873532" latitude="45.76051" longitude="4.8783274"/>
-<noeud id="208769499" latitude="45.760597" longitude="4.87622"/>
-<noeud id="975886496" latitude="45.756874" longitude="4.8574047"/>
-<troncon destination="25175778" longueur="69.979805" nomRue="Rue Danton" origine="25175791"/>
+<troncon destination="25175778" longueur="-69.979805" nomRue="Rue Danton" origine="25175791"/>
 <troncon destination="2117622723" longueur="136.00636" nomRue="Rue de l'Abondance" origine="25175791"/>
 <troncon destination="2129259180" longueur="25.26484" nomRue="" origine="2129259178"/>
 <troncon destination="25303831" longueur="118.890465" nomRue="Avenue Lacassagne" origine="2129259178"/>
