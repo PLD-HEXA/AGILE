@@ -43,7 +43,7 @@ public class Dijkstra {
         return Double.MAX_VALUE;
     }
     
-    public void release (Integer s1, Integer s2){
+    private void release (Integer s1, Integer s2){
         if(distance[s2]> distance[s1]+ getDistance(s1,s2) ){
             distance[s2] = distance[s1]+ getDistance(s1,s2);
             predecessor[s2] = s1;

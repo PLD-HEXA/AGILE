@@ -47,6 +47,7 @@ public class TextualView extends JPanel {
         System.out.println("Working Directory = " +
               System.getProperty("user.dir"));
         ImageIcon redBicycle = new ImageIcon("images/redbicycle.png");
+
 		renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(timer);
 		renderer.setClosedIcon(blackBicycle);
@@ -114,5 +115,6 @@ public class TextualView extends JPanel {
 	public  void setItineraries(List<Itinerary> itineraries){
 		this.itineraries = itineraries; 
 	}
+
 
 }

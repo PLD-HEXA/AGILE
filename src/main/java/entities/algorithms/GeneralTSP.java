@@ -73,6 +73,7 @@ public class GeneralTSP {
                 cmpt += nbDeliveriesByDeliveryMan+1;
             }
         }
+        optimalOrder[nbNodes + nbDeliveryMen -1] = 0;
         
         
         //On remplit le tableau de not seen
