@@ -7,7 +7,7 @@ package entities;
 
 /**
  *
- * @author youss
+ * @author PLD-HEXA-301
  */
 public class Subset {
     int parent;

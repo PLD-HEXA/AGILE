@@ -10,12 +10,6 @@ import entities.DemandeDeLivraisons;
 import entities.Itinerary;
 import view.MainWindow;
 
-
-/**
- * The state after the rounds have been computed and displayed.
- * @author PLD-HEXA-301
- *
- */
 public class ComputeState extends DefaultState {
 	
 	@Override
@@ -30,7 +24,6 @@ public class ComputeState extends DefaultState {
 		mainWindow.getTextualView().revalidate();
 		mainWindow.getTextualView().repaint();
 		controler.setCurState(controler.computeState);
-		
 	}
 	
 	@Override
@@ -45,15 +38,15 @@ public class ComputeState extends DefaultState {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
 			controler.setCurState(controler.planState);
-			DemandeDeLivraisons ddl;
-			ddl = controler.getParser().parseDelivery(selectedFile.toString());
-			mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
-			mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-			mainWindow.getGraphicalView().setItineraries(null);
-			mainWindow.getGraphicalView().repaint();
-			mainWindow.getTextualView().setItineraries(null);
-			mainWindow.getTextualView().repaint();
-			controler.setCurState(controler.deliveriesState);
+			DemandeDeLivraisons ddl = controler.getParser().parseDelivery(selectedFile.toString());
+                        if (ddl != null) {
+                            mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
+                            mainWindow.getGraphicalView().setItineraries(null);
+                            mainWindow.getGraphicalView().repaint();
+                            mainWindow.getTextualView().setItineraries(null);
+                            mainWindow.getTextualView().repaint();
+                            controler.setCurState(controler.deliveriesState);
+                        }
 		}
 	}
 

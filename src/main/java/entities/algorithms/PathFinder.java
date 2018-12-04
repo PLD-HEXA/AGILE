@@ -286,9 +286,7 @@ public class PathFinder {
                 }
             }
             itineraries.add(new Itinerary(generalPath, detailedPath));
-        }
-
-        
+        }        
         return itineraries;
     }
     

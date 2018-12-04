@@ -1,16 +1,18 @@
 package controler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.JFileChooser;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import entities.DemandeDeLivraisons;
+import entities.Reseau;
 import view.MainWindow;
 
-/**
- * The state after a plan has been loaded.
- * @author PLD-HEXA-301
- *
- */
 public class PlanState extends DefaultState {
 
 	@Override
@@ -25,15 +27,19 @@ public class PlanState extends DefaultState {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
 			controler.setCurState(controler.planState);
-			DemandeDeLivraisons ddl;
-			ddl = controler.getParser().parseDelivery(selectedFile.toString());
-			mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
-			mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-			mainWindow.getGraphicalView().setItineraries(null);
-			mainWindow.getGraphicalView().repaint();
-			mainWindow.getTextualView().setItineraries(null);
-			mainWindow.getTextualView().repaint();
-			controler.setCurState(controler.deliveriesState);
+			DemandeDeLivraisons ddl = controler.getParser().parseDelivery(selectedFile.toString());
+      if (ddl != null) {
+          mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
+          mainWindow.getGraphicalView().setItineraries(null);
+          mainWindow.getGraphicalView().repaint();
+          mainWindow.getTextualView().setItineraries(null);
+          mainWindow.getTextualView().repaint();
+          controler.setCurState(controler.deliveriesState);
+      }
+      else {
+          // TODO : Afficher mesg d'erreur à l'écran (cas ou le fichier
+          // est invalide : extension, balise et/ou attribut en trop ...)
+      }
 		}
 	}
 
