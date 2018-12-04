@@ -2,6 +2,7 @@ package controler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 
@@ -27,19 +28,18 @@ public class PlanState extends DefaultState {
 			File selectedFile = chooser.getSelectedFile();
 			controler.setCurState(controler.planState);
 			DemandeDeLivraisons ddl = controler.getParser().parseDelivery(selectedFile.toString());
-                        if (ddl != null) {
-                            mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-                            mainWindow.getGraphicalView().setItineraries(null);
-                            mainWindow.getGraphicalView().repaint();
-                            mainWindow.getTextualView().setItineraries(null);
-                            mainWindow.getTextualView().repaint();
-                            controler.setCurState(controler.deliveriesState);
-                        }
-                        else {
-                            // TODO : Afficher mesg d'erreur à l'écran (cas ou le fichier
-                            // est invalide : extension, balise et/ou attribut en trop ...)
-                        }
-			
+      if (ddl != null) {
+          mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
+          mainWindow.getGraphicalView().setItineraries(null);
+          mainWindow.getGraphicalView().repaint();
+          mainWindow.getTextualView().setItineraries(null);
+          mainWindow.getTextualView().repaint();
+          controler.setCurState(controler.deliveriesState);
+      }
+      else {
+          // TODO : Afficher mesg d'erreur à l'écran (cas ou le fichier
+          // est invalide : extension, balise et/ou attribut en trop ...)
+      }
 		}
 	}
 
