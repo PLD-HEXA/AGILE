@@ -1,11 +1,11 @@
 package controler;
 
+import java.io.File;
 
-/**
- * The initial state of the program at the opening of the window.
- * @author PLD-HEXA-301
- *
- */
+import javax.swing.JFileChooser;
+
+import view.MainWindow;
+
 public class InitState extends DefaultState {
 	
 
