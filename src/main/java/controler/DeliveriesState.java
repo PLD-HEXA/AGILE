@@ -3,14 +3,16 @@ package controler;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JFileChooser;
-
 import entities.DemandeDeLivraisons;
 import entities.Itinerary;
-import entities.Map;
 import view.MainWindow;
 
+/**
+ * The state after the deliveries have been loaded.
+ * @author PLD-HEXA-301
+ *
+ */
 public class DeliveriesState extends DefaultState{
 	
 	@Override
