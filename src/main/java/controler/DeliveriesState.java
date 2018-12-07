@@ -20,7 +20,7 @@ public class DeliveriesState extends DefaultState{
 		int numberOfDeliveryMen =(int)mainWindow.getInputView().getNumOfRounds().getValue();
 		int numberOfDeliveries = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
 		if(numberOfDeliveryMen<=numberOfDeliveries) {
-			List<Itinerary> itineraries = controler.getPathFinder().findPath (mainWindow.getGraphicalView().getMap(),
+			List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
 					numberOfDeliveryMen);
 			if(itineraries != null) {
 				mainWindow.getGraphicalView().setItineraries(itineraries);
