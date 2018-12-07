@@ -17,30 +17,37 @@ public class DeliveriesState extends DefaultState{
 	
 	@Override
 	public void compute(Controler controler, MainWindow mainWindow) {
-		int numberOfDeliveryMen =(int)mainWindow.getInputView().getNumOfRounds().getValue();
-		int numberOfDeliveries = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
-		if(numberOfDeliveryMen<=numberOfDeliveries) {
-			List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
-					numberOfDeliveryMen);
-			if(itineraries != null) {
-				mainWindow.getGraphicalView().setItineraries(itineraries);
-				mainWindow.getGraphicalView().repaint();
-				mainWindow.getTextualView().setItineraries(itineraries);
-				mainWindow.getTextualView().displayListOfRounds();
-				mainWindow.getTextualView().revalidate();
-				mainWindow.getTextualView().repaint();
-				controler.setCurState(controler.computeState);
-			}
-			else {
-				//TODO : pop up erreur de calcul
-			}
-		}
-		else {
-			//TODO : pop up où on dit
-			//On peut te le calculer mais il y aura (numberOfDeliveryMen-numberOfDeliveries) livreurs qui n'auront rien à faire
-			// si l'utilisateur valide on lui fait le calcul comme ci-dessus, sinon on ne fait rien
-		}
-	}
+            int numberOfDeliveryMen =(int)mainWindow.getInputView().getNumOfRounds().getValue();
+            int numberOfDeliveries = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
+            boolean compute = true;
+            if(numberOfDeliveryMen>numberOfDeliveries) {
+                int userAgree = mainWindow.showInformationDelivery(
+                        numberOfDeliveryMen-numberOfDeliveries +
+                        " delivery men will have nothing to do, "
+                                + "do you want to continue ?");
+                if (userAgree!=0) {
+                    compute = false;
+                }
+            }
+            if (compute) {
+                List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
+                                numberOfDeliveries);
+                if(itineraries != null) {
+                        mainWindow.getGraphicalView().setItineraries(itineraries);
+                        mainWindow.getGraphicalView().repaint();
+                        mainWindow.getTextualView().setItineraries(itineraries);
+                        mainWindow.getTextualView().displayListOfRounds();
+                        mainWindow.getTextualView().revalidate();
+                        mainWindow.getTextualView().repaint();
+                        controler.setCurState(controler.computeState);
+                }
+                else {
+                        //TODO : pop up erreur de calcul
+                        mainWindow.showError("Error when calculating"
+                                + " routes");
+                }
+            }
+        }
 	
 	@Override
 	public void loadDeliveries(Controler controler, MainWindow mainWindow) {
@@ -55,14 +62,20 @@ public class DeliveriesState extends DefaultState{
 			File selectedFile = chooser.getSelectedFile();
 			DemandeDeLivraisons ddl;
 			ddl = controler.getParser().parseDelivery(selectedFile.toString());
-			mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
-			mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-			mainWindow.getGraphicalView().setItineraries(null);
-			mainWindow.getGraphicalView().repaint();
-			mainWindow.getTextualView().setItineraries(null);
-			mainWindow.getTextualView().repaint();
-			// On reste dans le même état
-                        // controler.setCurState(controler.deliveriesState);
+                        if (ddl != null) {
+                            mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
+                            mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
+                            mainWindow.getGraphicalView().setItineraries(null);
+                            mainWindow.getGraphicalView().repaint();
+                            mainWindow.getTextualView().setItineraries(null);
+                            mainWindow.getTextualView().repaint();
+                            // On reste dans le même état
+                            // controler.setCurState(controler.deliveriesState);
+                        }
+                        else {
+                            mainWindow.showError("The input xml file"
+                                    + " is invalid");
+                        }
 		}
 	}
 }
