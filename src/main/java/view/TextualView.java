@@ -32,21 +32,20 @@ public class TextualView extends JPanel {
 	Graphics g;
 	JPanel panel;
 	
-	
 	public TextualView(MainWindow mainWindow) {
 		super();
 		this.mainWindow=mainWindow;
-        setLayout(new BorderLayout());
-        setBackground(Color.pink);
-        JLabel label=new JLabel("         Delivery rounds :       ");
-        Font f = new Font("TimesRoman",Font.BOLD,25);
-        label.setFont(f);
-        this.add(label, BorderLayout.NORTH);
-        ImageIcon timer = new ImageIcon("images/timer.png");
-        ImageIcon blackBicycle = new ImageIcon("images/bicycle.jpg");
-        System.out.println("Working Directory = " +
-              System.getProperty("user.dir"));
-        ImageIcon redBicycle = new ImageIcon("images/redbicycle.png");
+    setLayout(new BorderLayout());
+    setBackground(Color.pink);
+    JLabel label=new JLabel("         Delivery rounds :       ");
+    Font f = new Font("TimesRoman",Font.BOLD,25);
+    label.setFont(f);
+    this.add(label, BorderLayout.NORTH);
+    ImageIcon timer = new ImageIcon("images/timer.png");
+    ImageIcon blackBicycle = new ImageIcon("images/bicycle.jpg");
+    System.out.println("Working Directory = " +
+          System.getProperty("user.dir"));
+    ImageIcon redBicycle = new ImageIcon("images/redbicycle.png");
 		renderer = new DefaultTreeCellRenderer();
 		renderer.setLeafIcon(timer);
 		renderer.setClosedIcon(blackBicycle);
@@ -94,9 +93,9 @@ public class TextualView extends JPanel {
 					curStop.add(duration);
 					curRound.add(curStop);
 					rounds.add(curRound);
-					
 				}
 			}
+      
 			listOfRounds=new JTree(rounds);
 			final Font currentFont = listOfRounds.getFont();
 			final Font bigFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 10);
@@ -121,14 +120,11 @@ public class TextualView extends JPanel {
 		    panel.add(conteneur, BorderLayout.CENTER);
 		    panel.revalidate();
 		    panel.repaint();
-		}
-		
-	    
-	    
+		} 
 	}
 	
 	public  void setItineraries(List<Itinerary> itineraries){
 		this.itineraries = itineraries; 
 	}
-
 }
+

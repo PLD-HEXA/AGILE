@@ -1,21 +1,17 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Toolkit;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-
 import controler.Controler;
+import javax.swing.JOptionPane;
 
-public class MainWindow extends JFrame {
-	
-	
+/**
+ * This class represents our window It contains the graphical,textual and input
+ * view
+ *e
+ * @author PLD-HEXA-301
+ */
+public class MainWindow extends JFrame {	
 	//Components
 	private GraphicalView graphicalView;
 	private TextualView textualView;
@@ -60,26 +56,40 @@ public class MainWindow extends JFrame {
 	
 	public void setWindowSize() {
 		setExtendedState(JFrame.MAXIMIZED_BOTH );
+  }
+  
+  /**
+   * Shows a dialog to indicate the user that the input xml file is invalid
+   * @param text 
+   */
+  public void showErrorXmlCityPlan(String text) {
+      JOptionPane.showConfirmDialog(null, text,"Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+  }
 
-	}
+  /**
+   * It allows to get the graphical view
+   *
+   * @return The graphical view
+   */
+  public GraphicalView getGraphicalView() {
+      return graphicalView;
+  }
 
-	public GraphicalView getGraphicalView() {
-		return graphicalView;
-	}
-	
-	public TextualView getTextualView() {
-		return textualView;
-	}
-	
-	public InputView getInputView() {
-		return inputView;
-	}
+  /**
+   * It allows to get the textual view
+   *
+   * @return The textual view
+   */
+  public TextualView getTextualView() {
+      return textualView;
+  }
 
-	
-	
-	
-	
-	
-
-	
+  /**
+   * It allows to get the input view
+   *
+   * @return The input view
+   */
+  public InputView getInputView() {
+      return inputView;
+  }
 }

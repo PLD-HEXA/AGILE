@@ -1,37 +1,29 @@
-
 package view;
 
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import entities.Coordinate;
-import entities.DeliveryPoint;
 import entities.Itinerary;
 import entities.Map;
-import entities.Segment;
 
+/**
+ * This class represents the graphic view of our project It allows to draw the
+ * map , the deliveries points and also the rounds
+ *
+ * @author PLD-HEXA-301
+ */
 public class GraphicalView extends JPanel {
-
 	private Map map;
 	private double heightScale;
 	private double widthScale;
@@ -212,17 +204,4 @@ public class GraphicalView extends JPanel {
 	public void setNearestDeliveryPoint(Integer nearestDeliveryPoint) {
 		this.nearestDeliveryPoint = nearestDeliveryPoint;
 	}
-	
-	
-
-	
-	
-	
-	
-
-	
-	
-	
-	
-
 }
