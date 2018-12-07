@@ -31,9 +31,10 @@ public class DeliveriesState extends DefaultState{
             }
             if (compute) {
                 List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
-                                numberOfDeliveries);
+                		Integer.min(numberOfDeliveries, numberOfDeliveryMen));
                 if(itineraries != null) {
                         mainWindow.getGraphicalView().setItineraries(itineraries);
+                        mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
                         mainWindow.getGraphicalView().repaint();
                         mainWindow.getTextualView().setItineraries(itineraries);
                         mainWindow.getTextualView().displayListOfRounds();

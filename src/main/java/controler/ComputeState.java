@@ -11,6 +11,7 @@ import entities.Itinerary;
 import view.MainWindow;
 
 
+
 /**
  * The state after the rounds have been computed and displayed.
  * @author PLD-HEXA-301
@@ -34,9 +35,10 @@ public class ComputeState extends DefaultState {
             }
             if (compute) {
                 List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
-                                numberOfDeliveries);
+                                Integer.min(numberOfDeliveries, numberOfDeliveryMen));
                 if(itineraries != null) {
                         mainWindow.getGraphicalView().setItineraries(itineraries);
+                        mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
                         mainWindow.getGraphicalView().repaint();
                         mainWindow.getTextualView().setItineraries(itineraries);
                         mainWindow.getTextualView().displayListOfRounds();
