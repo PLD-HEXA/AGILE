@@ -26,7 +26,7 @@ public class InputView extends JPanel {
     /**
      * It represents the name of the button that allows to load a plan
      */
-    protected final static String LOAD_PLAN = "Load a plan";
+    protected final static String LOAD_PLAN = "Load an xml plan";
 
     /**
      * It represents the name of the button that allows to load deliveries
