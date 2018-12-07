@@ -29,40 +29,41 @@ public class DefaultState implements State {
 			File selectedFile = chooser.getSelectedFile();
 			// Ici rajouter l'appel a la methode qui traite l'xml
 			Reseau reseau = controler.getParser().parseCityPlan(selectedFile.toString());
-                        if (reseau != null) {
-                            Map map = new Map();
-                            map.fillMapIdAndCoordinate(reseau);
-                            if (map.getMapId() != null && map.getCoordinates() != null) {
-                                map.fillGraph(reseau);
-                                if (map.getGraph() != null) {
-                                    mainWindow.getTextualView().setItineraries(null);
-                                    mainWindow.getTextualView().repaint();
-                                    mainWindow.getGraphicalView().setItineraries(null);
-                                    mainWindow.getGraphicalView().setMap(map);
-                                    mainWindow.getGraphicalView().repaint();
-                                    controler.setCurState(controler.planState);
-                                }
-                                else {
-                                    mainWindow.showErrorXmlCityPlan("The content"
-                                            + " of the input xml file is invalid.");
-                                    // Le contenu du xml est incorrect
-                                    // Ici, due à un tronçon dont l'un des attributs à une valeur incorrecte
-                                }
-                            }
-                            else {
-                                mainWindow.showErrorXmlCityPlan("The content of"
-                                        + " the input xml file is invalid.");
-                                // Le plan n'est pas valide (Ici, 
-                                // car un attribut est incorrect ou bien aucune infos n'est valable)
-                            }
-                        } 
-                        else {
-                            mainWindow.showErrorXmlCityPlan("The input xml file"
-                                    + " is invalid");
-                            // Le plan n'est pas valide (Ici, cas
-                            // ou l'extension est incorrecte, une balise non connue est ajoutée,
-                            // un attribut est rajoutée)
-                        }
+      if (reseau != null) {
+          Map map = new Map();
+          map.fillMapIdAndCoordinate(reseau);
+          if (map.getMapId() != null && map.getCoordinates() != null) {
+              map.fillGraph(reseau);
+              if (map.getGraph() != null) {
+                  mainWindow.getTextualView().setItineraries(null);
+                  mainWindow.getTextualView().repaint();
+                  mainWindow.getGraphicalView().setItineraries(null);
+                  mainWindow.getGraphicalView().setMap(map);
+                  mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
+                  mainWindow.getGraphicalView().repaint();
+                  controler.setCurState(controler.planState);
+              }
+              else {
+                  mainWindow.showErrorXmlCityPlan("The content"
+                          + " of the input xml file is invalid.");
+                  // Le contenu du xml est incorrect
+                  // Ici, due à un tronçon dont l'un des attributs à une valeur incorrecte
+              }
+          }
+          else {
+              mainWindow.showErrorXmlCityPlan("The content of"
+                      + " the input xml file is invalid.");
+              // Le plan n'est pas valide (Ici, 
+              // car un attribut est incorrect ou bien aucune infos n'est valable)
+          }
+      } 
+      else {
+          mainWindow.showErrorXmlCityPlan("The input xml file"
+                  + " is invalid");
+          // Le plan n'est pas valide (Ici, cas
+          // ou l'extension est incorrecte, une balise non connue est ajoutée,
+          // un attribut est rajoutée)
+      }
 		}
 	}
 
@@ -73,5 +74,9 @@ public class DefaultState implements State {
 	@Override
 	public void compute(Controler controler, MainWindow mainWindow) {
 
+	}
+
+	@Override
+	public void mouseClick(Controler controler, MainWindow mainWindow, int x , int y) {		
 	}
 }

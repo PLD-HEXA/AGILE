@@ -92,7 +92,7 @@ public class PathFinderTest {
         map.setWareHouse(warehouse);
         
         PathFinder pf = new PathFinder();
-        List<Itinerary> itineraries = pf.findPath(map, 2);
+        List<Itinerary> itineraries = pf.findPathClustering(map, 2);
      
     }
 }
