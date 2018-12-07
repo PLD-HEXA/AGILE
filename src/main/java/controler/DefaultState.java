@@ -4,9 +4,6 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import entities.Map;
 import entities.Reseau;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import view.MainWindow;
 
 
@@ -44,21 +41,21 @@ public class DefaultState implements State {
                   controler.setCurState(controler.planState);
               }
               else {
-                  mainWindow.showErrorXmlCityPlan("The content"
+                  mainWindow.showError("The content"
                           + " of the input xml file is invalid.");
                   // Le contenu du xml est incorrect
                   // Ici, due à un tronçon dont l'un des attributs à une valeur incorrecte
               }
           }
           else {
-              mainWindow.showErrorXmlCityPlan("The content of"
+              mainWindow.showError("The content of"
                       + " the input xml file is invalid.");
               // Le plan n'est pas valide (Ici, 
               // car un attribut est incorrect ou bien aucune infos n'est valable)
           }
       } 
       else {
-          mainWindow.showErrorXmlCityPlan("The input xml file"
+          mainWindow.showError("The input xml file"
                   + " is invalid");
           // Le plan n'est pas valide (Ici, cas
           // ou l'extension est incorrecte, une balise non connue est ajoutée,

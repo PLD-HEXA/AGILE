@@ -20,18 +20,38 @@ public class ComputeState extends DefaultState {
 	
 	@Override
 	public void compute(Controler controler, MainWindow mainWindow) {
-		List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
-				(int)mainWindow.getInputView().getNumOfRounds().getValue());
-		System.out.println((int)mainWindow.getInputView().getNumOfRounds().getValue());
-		mainWindow.getGraphicalView().setItineraries(itineraries);
-		mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
-		mainWindow.getGraphicalView().repaint();
-		mainWindow.getTextualView().setItineraries(itineraries);
-		mainWindow.getTextualView().displayListOfRounds();
-		mainWindow.getTextualView().revalidate();
-		mainWindow.getTextualView().repaint();
-		controler.setCurState(controler.computeState);
-	}
+            int numberOfDeliveryMen =(int)mainWindow.getInputView().getNumOfRounds().getValue();
+            int numberOfDeliveries = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
+            boolean compute = true;
+            if(numberOfDeliveryMen>numberOfDeliveries) {
+                int userAgree = mainWindow.showInformationDelivery(
+                        numberOfDeliveryMen-numberOfDeliveries +
+                        " delivery men will have nothing to do, "
+                                + "do you want to continue ?");
+                if (userAgree!=0) {
+                    compute = false;
+                }
+            }
+            if (compute) {
+                List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
+                                numberOfDeliveries);
+                if(itineraries != null) {
+                        mainWindow.getGraphicalView().setItineraries(itineraries);
+                        mainWindow.getGraphicalView().repaint();
+                        mainWindow.getTextualView().setItineraries(itineraries);
+                        mainWindow.getTextualView().displayListOfRounds();
+                        mainWindow.getTextualView().revalidate();
+                        mainWindow.getTextualView().repaint();
+                        // On est deja dans ce etat
+                        // controler.setCurState(controler.computeState);
+                }
+                else {
+                        //TODO : pop up erreur de calcul
+                        mainWindow.showError("Error when calculating"
+                                + " routes");
+                }
+            }
+        }
 	
 	@Override
 	public void loadDeliveries(Controler controler, MainWindow mainWindow) {
@@ -46,21 +66,23 @@ public class ComputeState extends DefaultState {
 			File selectedFile = chooser.getSelectedFile();
 			controler.setCurState(controler.planState);
 			DemandeDeLivraisons ddl = controler.getParser().parseDelivery(selectedFile.toString());
-      if (ddl != null) {
-          mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
-          mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-          mainWindow.getGraphicalView().setItineraries(null);
-          mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
-          mainWindow.getGraphicalView().repaint();
-          mainWindow.getTextualView().setItineraries(null);
-          mainWindow.getTextualView().displayListOfRounds();
-          mainWindow.getTextualView().revalidate();
-          mainWindow.getTextualView().repaint();
-          controler.setCurState(controler.deliveriesState);
-      } else {
-          // TODO : Prendre en compte que le parsing du fichier xml ddl
-          // n'est pas bien formé
-      } 
+                        if (ddl != null) {
+                            mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
+                            mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
+                            mainWindow.getGraphicalView().setItineraries(null);
+                            mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
+                            mainWindow.getGraphicalView().repaint();
+                            mainWindow.getTextualView().setItineraries(null);
+                            mainWindow.getTextualView().displayListOfRounds();
+                            mainWindow.getTextualView().revalidate();
+                            mainWindow.getTextualView().repaint();
+                            controler.setCurState(controler.deliveriesState);
+                        } else {
+                            mainWindow.showError("The input xml file"
+                                    + " is invalid");
+                            // TODO : Prendre en compte que le parsing du fichier xml ddl
+                            // n'est pas bien formé
+                        } 
 		}
 	}
 	
