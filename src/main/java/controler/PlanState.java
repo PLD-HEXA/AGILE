@@ -34,7 +34,7 @@ public class PlanState extends DefaultState {
                         controler.setCurState(controler.deliveriesState);
                     }
                     else {
-                        mainWindow.showErrorXmlCityPlan("The input xml file is invalid.");
+                        mainWindow.showError("The input xml file is invalid.");
                         // TODO : Afficher mesg d'erreur à l'écran (cas ou le fichier
                         // est invalide : extension, balise et/ou attribut en trop ...)
                     }

@@ -342,7 +342,7 @@ public class Map {
 
                         //Verifier que la duree est bien superieure � 0 si non fait dans le parser
                         int dureeLivraison = livraison[i].getDuree();
-                        if (dureeLivraison > 0) {
+                        if (dureeLivraison >= 0) {
                             tabDeliveryPoints.add(new Pair<>(indexLivraison, dureeLivraison));
                         }
                     }

@@ -59,13 +59,28 @@ public class MainWindow extends JFrame {
   }
   
   /**
-   * Shows a dialog to indicate the user that the input xml file is invalid
-   * @param text 
+   * Shows a dialog to indicate the user that there is an error during a proces.
+   * It can be the input xml file which is invalid, its content or an error
+   * when calculating routes.
+   * is invalid.
+   * 
+   * @param text The text to show in the pop up
    */
-  public void showErrorXmlCityPlan(String text) {
+  public void showError(String text) {
       JOptionPane.showConfirmDialog(null, text,"Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
   }
 
+  /**
+   * Shows a dialog to inform the user that there are delivery men who will have
+   * nothing to do. He is asked to answer if he wants to pursue.
+   * @param text 
+   * 
+   * @return an int : 0 if Yes, 1 if No
+   */
+  public int showInformationDelivery(String text) {
+       return JOptionPane.showConfirmDialog(null, text, "Warning",JOptionPane.YES_NO_OPTION);
+  }
+  
   /**
    * It allows to get the graphical view
    *
