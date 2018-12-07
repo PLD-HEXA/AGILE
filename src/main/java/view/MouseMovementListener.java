@@ -19,7 +19,7 @@ public class MouseMovementListener implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e);
+		controler.mouseClick(e.getX(),e.getY());
 		
 	}
 

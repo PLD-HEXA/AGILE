@@ -35,11 +35,12 @@ public class GraphicalView extends JPanel {
 	private Map map;
 	private double heightScale;
 	private double widthScale;
-	private static final int pointRadius = 5;
+	private static  int pointRadius = 5;
 	private Graphics g;
 	double longMax;
 	double latMax;
 	List<Itinerary> itineraries;
+	Integer nearestDeliveryPoint;
 
 	public GraphicalView(MainWindow mainWindow) {
 		super();
@@ -49,6 +50,7 @@ public class GraphicalView extends JPanel {
 		setLayout(null);
 
 		setBackground(Color.gray);
+		nearestDeliveryPoint = null;
 //        mainWindow.getContentPane().add(this);
 //		itineraries = new ArrayList<Itinerary>();
 //		Itinerary itinerary = new Itinerary();
@@ -73,6 +75,10 @@ public class GraphicalView extends JPanel {
 		}
 		if (itineraries != null) {
 			drawRounds(g);
+		}
+		if(nearestDeliveryPoint != null) {
+			displaySpecificRound(g);
+
 		}
 		
 		
@@ -123,8 +129,6 @@ public class GraphicalView extends JPanel {
 		try {
 			BufferedImage image = ImageIO.read(new File("images/warehouse.png"));
 			g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-20, null);
-			System.out.println("Coordinate x de l'entrepot : "+(int) (this.getWidth() - longitude-pointRadius) );
-			System.out.println("Coordinate y de l'entrepot : "+(int) (latitude-pointRadius));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -157,21 +161,67 @@ public class GraphicalView extends JPanel {
 				longitude1 = (longMax - itineraries.get(i).getDetailedPath().get(j).getLongitude()) * heightScale;
 				latitude2 = (latMax - itineraries.get(i).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
 				longitude2 = (longMax - itineraries.get(i).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
-				
-				
 				Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke(new BasicStroke(2));
-//                g2.draw(new Line2D.Float(30, 20, 80, 90));
 				g2.draw(new Line2D.Float((int) (this.getWidth() - longitude1), (int) (latitude1),
 						(int) (this.getWidth() - longitude2), (int) (latitude2)));
 			}
 		}
 
 	}
+	
+	public void displaySpecificRound(Graphics g){
+		System.out.println("Drawing the point");
+		g.setColor(Color.green);
+		double latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLatitude()) * widthScale;
+		double longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLongitude()) * heightScale;
+		g.drawOval((int) (this.getWidth() - longitude)-30, (int) latitude-30, 30*2, 30*2);
+		g.fillOval((int) (this.getWidth() - longitude)-30, (int) latitude-30, 30*2, 30*2);
+	   
+		
+	}
 
 	public void setItineraries(List<Itinerary> itineraries) {
 		this.itineraries = itineraries;
 	}
+
+	public double getLongMax() {
+		return longMax;
+	}
+
+	public double getLatMax() {
+		return latMax;
+	}
+
+	public double getHeightScale() {
+		return heightScale;
+	}
+
+	public double getWidthScale() {
+		return widthScale;
+	}
+
+	public static int getPointradius() {
+		return pointRadius;
+	}
+
+	public Integer getNearestDeliveryPoint() {
+		return nearestDeliveryPoint;
+	}
+
+	public void setNearestDeliveryPoint(Integer nearestDeliveryPoint) {
+		this.nearestDeliveryPoint = nearestDeliveryPoint;
+	}
+	
+	
+
+	
+	
+	
+	
+
+	
+	
 	
 	
 

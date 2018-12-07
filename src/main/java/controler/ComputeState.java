@@ -24,6 +24,7 @@ public class ComputeState extends DefaultState {
 				(int)mainWindow.getInputView().getNumOfRounds().getValue());
 		System.out.println((int)mainWindow.getInputView().getNumOfRounds().getValue());
 		mainWindow.getGraphicalView().setItineraries(itineraries);
+		mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
 		mainWindow.getGraphicalView().repaint();
 		mainWindow.getTextualView().setItineraries(itineraries);
 		mainWindow.getTextualView().displayListOfRounds();
@@ -50,6 +51,7 @@ public class ComputeState extends DefaultState {
 			mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
 			mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
 			mainWindow.getGraphicalView().setItineraries(null);
+			mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
 			mainWindow.getGraphicalView().repaint();
 			mainWindow.getTextualView().setItineraries(null);
 			mainWindow.getTextualView().displayListOfRounds();
@@ -58,5 +60,40 @@ public class ComputeState extends DefaultState {
 			controler.setCurState(controler.deliveriesState);
 		}
 	}
+	
+	@Override
+	public void mouseClick(Controler controler, MainWindow mainWindow,int x,int y) {
+		System.out.println("X : "+x);
+		System.out.println("Y : "+y);
+		double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
+		double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getWidth()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
+		double minDistance=0.0062; // distance minimale 
+		double distance;
+		Integer nearestDeliveryPoint = null;
+		int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
+		for(int i=0;i<numberOfDeliveryPoints;i++) {
+			double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey()].getLatitude();
+			double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey()].getLongitude();
+			distance=Math.sqrt(Math.pow(latitude-curLatitude, 2)+Math.pow(longitude-curLongitude, 2));
+			System.out.println(distance);
+			if(distance <minDistance) {
+				minDistance=distance;
+				nearestDeliveryPoint=i;
+			}
+		}
+		System.out.println(minDistance);
+		if(nearestDeliveryPoint != null) {
+			double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLatitude();
+			double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLongitude();
+			System.out.println("click lat:" +latitude);
+			System.out.println("click long:" +longitude);
+			System.out.println("nearest neighbor lat:" +curLatitude);
+			System.out.println("nearest neighbor long:" +curLongitude);
+			mainWindow.getGraphicalView().setNearestDeliveryPoint(nearestDeliveryPoint);
+			mainWindow.getGraphicalView().repaint();
+		}
+		
+	}
+	
 
 }

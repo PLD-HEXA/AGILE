@@ -33,6 +33,7 @@ public class DefaultState implements State {
 			mainWindow.getTextualView().repaint();
 			mainWindow.getGraphicalView().setItineraries(null);
 			mainWindow.getGraphicalView().setMap(map);
+			mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
 			mainWindow.getGraphicalView().repaint();
 			controler.setCurState(controler.planState);
 		}
@@ -45,6 +46,10 @@ public class DefaultState implements State {
 	@Override
 	public void compute(Controler controler, MainWindow mainWindow) {
 
+	}
+
+	@Override
+	public void mouseClick(Controler controler, MainWindow mainWindow, int x , int y) {		
 	}
 
 }

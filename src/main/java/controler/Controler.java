@@ -31,6 +31,8 @@ public class Controler {
 		mainWindow = new MainWindow( this);
 	}
 
+	
+	
 	/**
 	 * Sets the current state to the given state.
 	 * @param state
@@ -61,6 +63,12 @@ public class Controler {
 	}
 	
 	/**
+	 * Highlights one specific round according to the delivery point chosen by the user.
+	 */
+	public void mouseClick(int x,int y) {
+		curState.mouseClick(this,mainWindow,x,y);
+	}
+	/**
 	 * Returns the xml file parser.
 	 */
 	public Parser getParser() {
@@ -73,6 +81,7 @@ public class Controler {
 	public PathFinder getPathFinder() {
 		return pathFinder;
 	}
+	
 	
 
 }
