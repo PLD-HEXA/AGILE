@@ -67,7 +67,7 @@ public class DetailState extends DefaultState{
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
-			controler.setCurState(controler.planState);
+			//controler.setCurState(controler.planState);
 			DemandeDeLivraisons ddl = controler.getParser().parseDelivery(selectedFile.toString());
                         if (ddl != null) {
                             mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
@@ -218,6 +218,16 @@ public class DetailState extends DefaultState{
 	
 	}
 	
+        
+        @Override
+        public void clickDeleteButton(Controler controler) {
+            controler.setCurState(controler.deleteState);
+        }
+        
+        @Override
+        public void clickAddButton(Controler controler) {
+            controler.setCurState(controler.addState);
+        }
 	
 
 }

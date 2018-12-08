@@ -69,7 +69,7 @@ public class Controler {
 	 * Highlights one specific round according to the delivery point chosen by the user.
 	 */
 	public void mouseClick(int x,int y) {
-            if (curState.equals(computeState)) {
+            if (curState.equals(computeState) || curState.equals(detailState)) {
 		curState.mouseClick(this,mainWindow,x,y);
             }
             else {

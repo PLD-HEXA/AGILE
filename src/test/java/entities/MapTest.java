@@ -447,6 +447,6 @@ public class MapTest {
         
         String pathnameXml = "./ressources/fichiersTestXml/dl-missingBalise.xml";
         DemandeDeLivraisons ddlNoWH = parser.parseDelivery(pathnameXml);
-        assertNull(ddlNoWH);
+        assertNotNull(ddlNoWH);
     }
 }
