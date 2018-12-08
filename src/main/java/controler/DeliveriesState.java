@@ -30,13 +30,16 @@ public class DeliveriesState extends DefaultState{
                 }
             }
             if (compute) {
-                List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
+                List<Itinerary> itineraries = controler.getPathFinder().findPathTSP(mainWindow.getGraphicalView().getMap(),
                 		Integer.min(numberOfDeliveries, numberOfDeliveryMen));
                 if(itineraries != null) {
                         mainWindow.getGraphicalView().setItineraries(itineraries);
-                        mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
+                        mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                        mainWindow.getGraphicalView().setItineraryIndex(null);
                         mainWindow.getGraphicalView().repaint();
                         mainWindow.getTextualView().setItineraries(itineraries);
+                        mainWindow.getTextualView().setDeliveryPointIndex(null);
+                        mainWindow.getTextualView().setItineraryIndex(null);
                         mainWindow.getTextualView().displayListOfRounds();
                         mainWindow.getTextualView().revalidate();
                         mainWindow.getTextualView().repaint();
@@ -69,6 +72,8 @@ public class DeliveriesState extends DefaultState{
                             mainWindow.getGraphicalView().setItineraries(null);
                             mainWindow.getGraphicalView().repaint();
                             mainWindow.getTextualView().setItineraries(null);
+                            mainWindow.getTextualView().setDeliveryPointIndex(null);
+                            mainWindow.getTextualView().setItineraryIndex(null);
                             mainWindow.getTextualView().repaint();
                             // On reste dans le même état
                             // controler.setCurState(controler.deliveriesState);
