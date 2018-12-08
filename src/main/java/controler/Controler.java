@@ -19,8 +19,9 @@ public class Controler {
 	protected final PlanState planState = new PlanState();
 	protected final DeliveriesState deliveriesState = new DeliveriesState();
 	protected final ComputeState computeState = new ComputeState();
-        protected final DeleteState deleteState = new DeleteState();
-        protected final AddState addState = new AddState();
+  protected final DeleteState deleteState = new DeleteState();
+  protected final AddState addState = new AddState();
+	protected final DetailState detailState = new DetailState();
 	
 	/**
 	 * Constructor
@@ -92,6 +93,12 @@ public class Controler {
                     + " in order to delete it.");
             curState.clickDeleteButton(this);
         }
+	/**
+	 * Allows the user to move dynamically through a specific round.
+	 */
+	public void keyPressed(int keyCode) {
+		curState.keyPressed(this,mainWindow,keyCode);
+	}
 	/**
 	 * Returns the xml file parser.
 	 */

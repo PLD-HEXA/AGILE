@@ -109,7 +109,7 @@ public class GeneralTSP {
         //sp = permut(seen, 1, notSeen, nbNodes-1, 0, sp, nbDeliveriesByDeliveryMan);
         sp = permut(seen, 1, notSeen, nbNodes-1, 0, sp, nbDeliveryMen);
         
-        System.out.println("length of the shortest path :" + sp);
+//        System.out.println("length of the shortest path :" + sp);
         
         //Coordinate[] res = new Coordinate[nbNodes+1];
         

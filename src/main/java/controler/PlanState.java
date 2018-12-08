@@ -28,8 +28,12 @@ public class PlanState extends DefaultState {
                     if (ddl != null) {
                         mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
                         mainWindow.getGraphicalView().setItineraries(null);
+                        mainWindow.getTextualView().setDeliveryPointIndex(null);
+                        mainWindow.getTextualView().setItineraryIndex(null);
                         mainWindow.getGraphicalView().repaint();
                         mainWindow.getTextualView().setItineraries(null);
+                        mainWindow.getTextualView().setDeliveryPointIndex(null);
+                        mainWindow.getTextualView().setItineraryIndex(null);
                         mainWindow.getTextualView().repaint();
                         controler.setCurState(controler.deliveriesState);
                     }

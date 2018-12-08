@@ -14,6 +14,7 @@ import view.MainWindow;
  */
 public class DefaultState implements State {
 
+	public static final double minimalDistance = 0.0062;
 	@Override
 	public void loadPlan(Controler controler, MainWindow mainWindow) {
 		mainWindow.displayMessage("Load plan");
@@ -33,10 +34,13 @@ public class DefaultState implements State {
               map.fillGraph(reseau);
               if (map.getGraph() != null) {
                   mainWindow.getTextualView().setItineraries(null);
+                  mainWindow.getTextualView().setDeliveryPointIndex(null);
+                  mainWindow.getTextualView().setItineraryIndex(null);
                   mainWindow.getTextualView().repaint();
                   mainWindow.getGraphicalView().setItineraries(null);
                   mainWindow.getGraphicalView().setMap(map);
-                  mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
+                  mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                  mainWindow.getGraphicalView().setItineraryIndex(null);
                   mainWindow.getGraphicalView().repaint();
                   controler.setCurState(controler.planState);
               }
@@ -86,8 +90,8 @@ public class DefaultState implements State {
 	@Override
 	public void mouseClick(Controler controler, MainWindow mainWindow, int x , int y) {		
 	}
-        
-        @Override
+  
+  @Override
 	public void mouseClick(Controler controler, MainWindow mainWindow, CmdList cmdList, int x , int y) {		
 	}
 
@@ -103,4 +107,8 @@ public class DefaultState implements State {
     public void clickAddButton(Controler controler) {
         
     }
+
+	@Override
+	public void keyPressed(Controler controler, MainWindow mainWindow, int keyCode) {		
+  }
 }
