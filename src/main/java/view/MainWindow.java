@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import controler.Controler;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * This class represents our window It contains the graphical,textual and input
@@ -27,6 +29,7 @@ public class MainWindow extends JFrame {
 	private ButtonListener buttonListener;
 	private MouseMovementListener mouseMouvementListener;
 	private KeyBoardListener keyBoardListener;
+	private JScrollPane jScroolPane;
 	//Display charasteristics
 
 	public MainWindow(Controler controler) {
@@ -35,6 +38,12 @@ public class MainWindow extends JFrame {
 		graphicalView = new GraphicalView(this);
 		textualView = new TextualView(this);
 		inputView = new InputView(this);
+		jScroolPane=new JScrollPane(graphicalView);
+		graphicalView.setScrollPane(jScroolPane);
+		
+		jScroolPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScroolPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		
 		//Buttons
 		createButtons(controler);
 		//Listeners
@@ -58,6 +67,7 @@ public class MainWindow extends JFrame {
 	        size.width -= insets.left + insets.right;
 	    }
 		graphicalView.setPreferredSize(new Dimension(size.height,size.height));
+		graphicalView.setMapSize(size.height-30);
 		graphicalView.setLocation(0,0);
 	    container = new JPanel();
 	    container.setLocation(0,size.height);
@@ -66,7 +76,7 @@ public class MainWindow extends JFrame {
 	    container.add(inputView, BorderLayout.NORTH);
 	    container.add(textualView, BorderLayout.CENTER);
 	    this.getContentPane().add(container,BorderLayout.EAST);
-	    this.getContentPane().add(graphicalView,BorderLayout.CENTER);
+	    this.getContentPane().add(jScroolPane,BorderLayout.CENTER);
 		
 		
 	}
