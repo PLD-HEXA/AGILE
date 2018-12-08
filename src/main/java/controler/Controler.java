@@ -19,6 +19,8 @@ public class Controler {
 	protected final PlanState planState = new PlanState();
 	protected final DeliveriesState deliveriesState = new DeliveriesState();
 	protected final ComputeState computeState = new ComputeState();
+  protected final DeleteState deleteState = new DeleteState();
+  protected final AddState addState = new AddState();
 	protected final DetailState detailState = new DetailState();
 	
 	/**
@@ -67,8 +69,30 @@ public class Controler {
 	 * Highlights one specific round according to the delivery point chosen by the user.
 	 */
 	public void mouseClick(int x,int y) {
+            if (curState.equals(computeState) || curState.equals(detailState)) {
 		curState.mouseClick(this,mainWindow,x,y);
+            }
+            else {
+                curState.mouseClick(this,mainWindow,cmdList,x,y);
+            }
 	}
+        
+        public void buttonAddClick() {
+            int duration = mainWindow.showInformationAddState("You can click on the locate of the delivery point"
+                    + " you want to add");
+            if (duration >= 0) {
+                addState.setDuration(duration);
+                curState.clickAddButton(this);
+            } else {
+                mainWindow.showError("The duration entered is not valid.");
+            }
+        }
+        
+        public void buttonDeleteClick() {
+            mainWindow.showInformationDeleteState("You can click on one delivery point"
+                    + " in order to delete it.");
+            curState.clickDeleteButton(this);
+        }
 	/**
 	 * Allows the user to move dynamically through a specific round.
 	 */
@@ -88,7 +112,20 @@ public class Controler {
 	public PathFinder getPathFinder() {
 		return pathFinder;
 	}
-	
+        
+        /**
+	 * Calls by the main window when the user clicks on button "Undo"
+	 */
+	public void undo(){
+		curState.undo(cmdList);
+	}
+        
+        /**
+	 * Calls by the main window when the user clicks on button "Redo"
+	 */
+	public void redo(){
+		curState.redo(cmdList);
+	}
 	
 
 }

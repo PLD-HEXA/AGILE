@@ -76,12 +76,39 @@ public class DefaultState implements State {
 	public void compute(Controler controler, MainWindow mainWindow) {
 
 	}
+        
+        @Override
+	public void undo(CmdList cmdList) {
+            cmdList.undo();
+	}
+        
+        @Override
+	public void redo(CmdList cmdList) {
+            cmdList.redo();
+	}
 
 	@Override
 	public void mouseClick(Controler controler, MainWindow mainWindow, int x , int y) {		
 	}
+  
+  @Override
+	public void mouseClick(Controler controler, MainWindow mainWindow, CmdList cmdList, int x , int y) {		
+	}
+
+    @Override
+    public void iconeClick(Controler controler, MainWindow mainWindow, int x, int y) {
+    }
+
+    @Override
+    public void clickDeleteButton(Controler controler) {
+    }
+
+    @Override
+    public void clickAddButton(Controler controler) {
+        
+    }
 
 	@Override
 	public void keyPressed(Controler controler, MainWindow mainWindow, int keyCode) {		
-	}
+  }
 }

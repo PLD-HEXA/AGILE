@@ -60,12 +60,12 @@ public class MainWindow extends JFrame {
 		setVisible(true);
 		Dimension size = this.getSize();
 		setTitle("Best Delivery Rounds");
-	    Insets insets = this.getInsets();
-	    System.out.println(insets);
-	    if (insets != null) {
-	        size.height -= insets.top + insets.bottom;
-	        size.width -= insets.left + insets.right;
-	    }
+    Insets insets = this.getInsets();
+    System.out.println(insets);
+    if (insets != null) {
+        size.height -= insets.top + insets.bottom;
+        size.width -= insets.left + insets.right;
+    }
 		graphicalView.setPreferredSize(new Dimension(size.height,size.height));
 		graphicalView.setMapSize(size.height-30);
 		graphicalView.setLocation(0,0);
@@ -126,6 +126,10 @@ public class MainWindow extends JFrame {
        return JOptionPane.showConfirmDialog(null, text, "Warning",JOptionPane.YES_NO_OPTION);
   }
   
+  public void showInformationDeleteState(String text) {
+      JOptionPane.showConfirmDialog(null, text, "Delete delivery point information",JOptionPane.DEFAULT_OPTION);
+  }
+  
   /**
    * It allows to get the graphical view
    *
@@ -152,4 +156,10 @@ public class MainWindow extends JFrame {
   public InputView getInputView() {
       return inputView;
   }
+
+    public int showInformationAddState(String text) {
+        String duration = JOptionPane.showInputDialog(null, text, "Duration",JOptionPane.DEFAULT_OPTION);
+        
+        return Integer.valueOf(duration);
+    }
 }

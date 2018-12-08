@@ -154,4 +154,14 @@ public class ComputeState extends DefaultState {
 		}
 		
 	}
+        
+        @Override
+        public void clickDeleteButton(Controler controler) {
+            controler.setCurState(controler.deleteState);
+        }
+        
+        @Override
+        public void clickAddButton(Controler controler) {
+            controler.setCurState(controler.addState);
+        }
 }
