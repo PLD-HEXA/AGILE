@@ -35,4 +35,12 @@ public interface State {
 	 */
 	public void mouseClick(Controler controler, MainWindow mainWindow,int x,int y);
 	
+	/**
+	 * Allows the user to move dynamically through a specific round.
+	 * @param controler
+	 * @param mainWindow
+	 * @param keyCode
+	 */
+	public void keyPressed(Controler controler, MainWindow mainWindow,int keyCode);
+	
 }

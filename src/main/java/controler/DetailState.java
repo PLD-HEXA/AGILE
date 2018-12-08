@@ -1,5 +1,6 @@
 package controler;
 
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +11,12 @@ import entities.DemandeDeLivraisons;
 import entities.Itinerary;
 import view.MainWindow;
 
-
-
 /**
- * The state after the rounds have been computed and displayed.
+ * The state after a plan has been loaded.
  * @author PLD-HEXA-301
  *
  */
-public class ComputeState extends DefaultState {
+public class DetailState extends DefaultState{
 	
 	@Override
 	public void compute(Controler controler, MainWindow mainWindow) {
@@ -34,7 +33,7 @@ public class ComputeState extends DefaultState {
                 }
             }
             if (compute) {
-                List<Itinerary> itineraries = controler.getPathFinder().findPathTSP(mainWindow.getGraphicalView().getMap(),
+                List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
                                 Integer.min(numberOfDeliveries, numberOfDeliveryMen));
                 if(itineraries != null) {
                         mainWindow.getGraphicalView().setItineraries(itineraries);
@@ -47,11 +46,8 @@ public class ComputeState extends DefaultState {
                         mainWindow.getTextualView().displayListOfRounds();
                         mainWindow.getTextualView().revalidate();
                         mainWindow.getTextualView().repaint();
-                        // On est deja dans ce etat
-                        // controler.setCurState(controler.computeState);
                 }
                 else {
-                        //TODO : pop up erreur de calcul
                         mainWindow.showError("Error when calculating"
                                 + " routes");
                 }
@@ -99,7 +95,7 @@ public class ComputeState extends DefaultState {
 	public void mouseClick(Controler controler, MainWindow mainWindow,int x,int y) {
 		double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
 		double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getWidth()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
-		double minDistance=0.0062; // distance minimale 
+		double minDistance= minimalDistance; 
 		double distance;
 		Integer nearestDeliveryPoint = null;
 		int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
@@ -153,5 +149,74 @@ public class ComputeState extends DefaultState {
 			controler.setCurState(controler.detailState);
 		}
 		
+		
 	}
+	
+	
+	@Override
+	public void keyPressed(Controler controler, MainWindow mainWindow,int keyCode) {
+		int numberOfDeliveryPoints;
+		int numberOfItineraries;
+		int currentDeliveryPoint=mainWindow.getGraphicalView().getDeliveryPointIndex();
+		int currentItinerary=mainWindow.getGraphicalView().getItineraryIndex();
+		if(keyCode == KeyEvent.VK_RIGHT) {
+			numberOfDeliveryPoints=mainWindow.getGraphicalView().getItineraries().get(currentItinerary).getGeneralPath().size();
+			if(currentDeliveryPoint==(numberOfDeliveryPoints-2)) {//If it's the last delivery point
+				mainWindow.getGraphicalView().setDeliveryPointIndex(1);
+				mainWindow.getTextualView().setDeliveryPointIndex(1);
+			}
+			else {
+				mainWindow.getGraphicalView().setDeliveryPointIndex(currentDeliveryPoint+1);
+				mainWindow.getTextualView().setDeliveryPointIndex(currentDeliveryPoint+1);
+			}
+			
+		}
+		else if(keyCode == KeyEvent.VK_LEFT) {
+			numberOfDeliveryPoints=mainWindow.getGraphicalView().getItineraries().get(currentItinerary).getGeneralPath().size();
+			if(currentDeliveryPoint==1) {
+				mainWindow.getGraphicalView().setDeliveryPointIndex(numberOfDeliveryPoints-2);
+				mainWindow.getTextualView().setDeliveryPointIndex(numberOfDeliveryPoints-2);
+			}
+			else {
+				mainWindow.getGraphicalView().setDeliveryPointIndex(currentDeliveryPoint-1);
+				mainWindow.getTextualView().setDeliveryPointIndex(currentDeliveryPoint-1);
+
+			}
+		}
+		else if(keyCode == KeyEvent.VK_UP) {
+			numberOfItineraries=mainWindow.getGraphicalView().getItineraries().size();
+			if(currentItinerary<(numberOfItineraries-1)) {//Next round
+				mainWindow.getGraphicalView().setItineraryIndex(mainWindow.getGraphicalView().getItineraryIndex()+1);	
+				mainWindow.getTextualView().setItineraryIndex(mainWindow.getTextualView().getItineraryIndex()+1);	
+			}
+			else {	//Go back to the first round
+				mainWindow.getGraphicalView().setItineraryIndex(0);	
+				mainWindow.getTextualView().setItineraryIndex(0);	
+			}
+			mainWindow.getGraphicalView().setDeliveryPointIndex(1);//On se positionne au premier point de livraison
+			mainWindow.getTextualView().setDeliveryPointIndex(1);//On se positionne au premier point de livraison
+		}
+		else if(keyCode == KeyEvent.VK_DOWN) {
+			numberOfItineraries=mainWindow.getGraphicalView().getItineraries().size();
+			if(currentItinerary>0) {//Previous round
+				mainWindow.getGraphicalView().setItineraryIndex(mainWindow.getGraphicalView().getItineraryIndex()-1);
+				mainWindow.getTextualView().setItineraryIndex(mainWindow.getTextualView().getItineraryIndex()-1);
+			}
+			else {	//Go back to the last round
+				mainWindow.getGraphicalView().setItineraryIndex(numberOfItineraries-1);	
+				mainWindow.getTextualView().setItineraryIndex(numberOfItineraries-1);	
+			}
+			mainWindow.getGraphicalView().setDeliveryPointIndex(1);//On se positionne au premier point de livraison
+			mainWindow.getTextualView().setDeliveryPointIndex(1);//On se positionne au premier point de livraison
+		}
+		mainWindow.getGraphicalView().repaint();
+		mainWindow.requestFocus();
+		mainWindow.getTextualView().revalidate();
+        mainWindow.getTextualView().repaint();
+		controler.setCurState(controler.detailState);
+	
+	}
+	
+	
+
 }
