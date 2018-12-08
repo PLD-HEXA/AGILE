@@ -321,7 +321,7 @@ public class PathFinder {
         }
 
         long stopTime = System.currentTimeMillis();
-        System.out.println("duration: " + (stopTime - startTime) + "ms");
+//        System.out.println("duration: " + (stopTime - startTime) + "ms");
 
         return itineraries;
     }

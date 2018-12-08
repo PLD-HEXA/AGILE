@@ -19,6 +19,7 @@ public class Controler {
 	protected final PlanState planState = new PlanState();
 	protected final DeliveriesState deliveriesState = new DeliveriesState();
 	protected final ComputeState computeState = new ComputeState();
+	protected final DetailState detailState = new DetailState();
 	
 	/**
 	 * Constructor
@@ -67,6 +68,12 @@ public class Controler {
 	 */
 	public void mouseClick(int x,int y) {
 		curState.mouseClick(this,mainWindow,x,y);
+	}
+	/**
+	 * Allows the user to move dynamically through a specific round.
+	 */
+	public void keyPressed(int keyCode) {
+		curState.keyPressed(this,mainWindow,keyCode);
 	}
 	/**
 	 * Returns the xml file parser.
