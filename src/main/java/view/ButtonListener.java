@@ -38,6 +38,21 @@ public class ButtonListener implements ActionListener {
             case InputView.COMPUTE:
                 controler.compute();
                 break;
+            case InputView.DELETE:
+                controler.buttonDeleteClick();
+                break;
+            case InputView.ADD:
+                controler.buttonAddClick();
+                break;
+            case InputView.UNDO:
+                System.out.println("Clique sur undo");
+                controler.undo();
+                break;
+            case InputView.REDO:
+                System.out.println("Clique sur undo");
+                controler.redo();
+                break;
+            
         }
     }
 

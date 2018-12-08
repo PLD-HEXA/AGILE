@@ -27,6 +27,10 @@ public interface State {
 	 * @param mainWindow
 	 */
 	public void compute(Controler controler, MainWindow mainWindow);
+        
+        public void undo(CmdList cmdList);
+        
+        public void redo(CmdList cmdList);
 	
 	/**
 	 * Highlights one specific round according to the delivery point chosen by the user..
@@ -34,5 +38,35 @@ public interface State {
 	 * @param mainWindow
 	 */
 	public void mouseClick(Controler controler, MainWindow mainWindow,int x,int y);
+        
+        /**
+	 * Deletes one specific round according to the delivery point chosen by the user.
+	 * @param controler
+	 * @param mainWindow
+	 */
+	public void mouseClick(Controler controler, MainWindow mainWindow,CmdList cmdList, int x,int y);
+        
+        /**
+	 * The user has clicked on the button delete delivery point, therefore 
+         * we enter in the state deleteState
+	 * @param controler
+	 * @param mainWindow
+	 */
+	public void clickAddButton(Controler controler);
+        
+        /**
+	 * The user has clicked on the button add delivery point, therefore 
+         * we enter in the state addState
+	 * @param controler
+	 * @param mainWindow
+	 */
+	public void clickDeleteButton(Controler controler);
+        
+        /**
+	 * Deleted one specific delivery point according to the delivery point chosen by the user.
+	 * @param controler
+	 * @param mainWindow
+	 */
+	public void iconeClick(Controler controler, MainWindow mainWindow,int x,int y);
 	
 }

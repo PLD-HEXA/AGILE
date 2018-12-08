@@ -29,6 +29,7 @@ import entities.DeliveryPoint;
 import entities.Itinerary;
 import entities.Map;
 import entities.Segment;
+import java.util.ArrayList;
 
 public class GraphicalView extends JPanel {
 
@@ -37,13 +38,11 @@ public class GraphicalView extends JPanel {
 	private double widthScale;
 	private static final int pointRadius = 5;
 	private Graphics g;
-	private double longMax;
-	private double latMax;
-	private List<Itinerary> itineraries;
-	private Integer nearestDeliveryPoint;
-
-	
-
+	double longMax;
+	double latMax;
+	List<Itinerary> itineraries;
+	Integer nearestDeliveryPoint;
+        private List<Integer> indexToDelete;
 
 	public GraphicalView(MainWindow mainWindow) {
 		super();
@@ -53,6 +52,8 @@ public class GraphicalView extends JPanel {
 		setLayout(null);
 
 		setBackground(Color.gray);
+		nearestDeliveryPoint = null;
+                this.indexToDelete = new ArrayList<>();
 //        mainWindow.getContentPane().add(this);
 //		itineraries = new ArrayList<Itinerary>();
 //		Itinerary itinerary = new Itinerary();
@@ -81,8 +82,6 @@ public class GraphicalView extends JPanel {
 		if(nearestDeliveryPoint!=null) {
 			displaySpecificRound(g);
 		}
-		
-		
 		this.g = g;
 	}
 
@@ -108,34 +107,50 @@ public class GraphicalView extends JPanel {
 		double longitude;
 		int numberOfDeliveryPoints = map.getTabDeliveryPoints().size();
 		for (int i = 0; i < numberOfDeliveryPoints; i++) {
-			System.out.print(map.getCoordinates()[i]);
+                    if (indexToDelete.isEmpty()) {
 			latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
 			longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
-			g.setColor(Color.pink);
-			g.drawOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
-			g.fillOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
-		    try {
-				BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
-				g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-13, null);
-		    } catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-		latitude = (latMax - map.getCoordinates()[map.getWareHouse().getKey()].getLatitude()) * widthScale;
-		longitude = (longMax - map.getCoordinates()[map.getWareHouse().getKey()].getLongitude()) * heightScale;
-		g.setColor(Color.blue);
-		g.drawOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
-		g.fillOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
-		try {
-			BufferedImage image = ImageIO.read(new File("images/warehouse.png"));
-			g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-20, null);
-	    } catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+                        g.setColor(Color.pink);
+                        g.drawOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
+                        g.fillOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
+                        try {
+                            BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
+                            g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-13, null);
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                    else {
+                        System.out.println("delete index : " + indexToDelete.get(0));
+                        for (int deletedIndex : indexToDelete) {
+                            latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
+                            longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
+                            if (deletedIndex != i) {
+                                g.setColor(Color.pink);   
+                                try {
+                                BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
+                                g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-13, null);
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                g.setColor(Color.gray);   
+                                try {
+                                BufferedImage image = ImageIO.read(new File("images/delivPointDeleted.png"));
+                                g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-13, null);
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            }
+                            g.drawOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
+                            g.fillOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
+                        }
+                    }
+                }
+        }
 
 	public void setMap(Map map) {
 		this.map = map;
@@ -166,8 +181,8 @@ public class GraphicalView extends JPanel {
 				
 				
 				Graphics2D g2 = (Graphics2D) g;
-                g2.setStroke(new BasicStroke(2));
-//                g2.draw(new Line2D.Float(30, 20, 80, 90));
+                                g2.setStroke(new BasicStroke(2));
+                //                g2.draw(new Line2D.Float(30, 20, 80, 90));
 				g2.draw(new Line2D.Float((int) (this.getWidth() - longitude1), (int) (latitude1),
 						(int) (this.getWidth() - longitude2), (int) (latitude2)));
 			}
@@ -244,11 +259,11 @@ public class GraphicalView extends JPanel {
 				g.drawOval((int) (this.getWidth() - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
 				g.fillOval((int) (this.getWidth() - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
 				 try {
-						BufferedImage image = ImageIO.read(new File("images/deliveryMan.png"));
-						g.drawImage(image, (int) (this.getWidth() - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius-13, null);
-				    } catch (IOException e) {
-						e.printStackTrace();
-					} 
+                                        BufferedImage image = ImageIO.read(new File("images/deliveryMan.png"));
+                                        g.drawImage(image, (int) (this.getWidth() - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius-13, null);
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                } 
 			}
 			else {
 				g.setColor(Color.green);
@@ -257,11 +272,10 @@ public class GraphicalView extends JPanel {
 				 try {
 						BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
 						g.drawImage(image, (int) (this.getWidth() - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius-13, null);
-				    } catch (IOException e) {
-						e.printStackTrace();
-					} 
+                                } catch (IOException e) {
+                                        e.printStackTrace();
+                                } 
 			}
-			  
 		}	
 	}
 
@@ -294,6 +308,22 @@ public class GraphicalView extends JPanel {
 	}
 	
 	
-	
+	public Integer getNearestDeliveryPoint() {
+		return nearestDeliveryPoint;
+	}
 
+        public List<Integer> getIndexToDelete() {
+            return indexToDelete;
+        }
+
+        public void setIndexToDelete(List<Integer> indexToDelete) {
+            this.indexToDelete = indexToDelete;
+        }
+
+    public List<Itinerary> getItineraries() {
+        return itineraries;
+    }
+        
+        
+        
 }

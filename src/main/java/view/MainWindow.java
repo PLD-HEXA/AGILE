@@ -37,9 +37,9 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setWindowSize();
 		this.setLayout(new BorderLayout());
-	    this.getContentPane().add(inputView, BorderLayout.WEST);
-	    this.getContentPane().add(textualView, BorderLayout.EAST);
-	    this.getContentPane().add(graphicalView, BorderLayout.CENTER);
+                this.getContentPane().add(inputView, BorderLayout.WEST);
+                this.getContentPane().add(textualView, BorderLayout.EAST);
+                this.getContentPane().add(graphicalView, BorderLayout.CENTER);
 		setTitle("Best Delivery Rounds");
 		setVisible(true);
 	}
@@ -81,6 +81,10 @@ public class MainWindow extends JFrame {
        return JOptionPane.showConfirmDialog(null, text, "Warning",JOptionPane.YES_NO_OPTION);
   }
   
+  public void showInformationDeleteState(String text) {
+      JOptionPane.showConfirmDialog(null, text, "Delete delivery point information",JOptionPane.DEFAULT_OPTION);
+  }
+  
   /**
    * It allows to get the graphical view
    *
@@ -107,4 +111,10 @@ public class MainWindow extends JFrame {
   public InputView getInputView() {
       return inputView;
   }
+
+    public int showInformationAddState(String text) {
+        String duration = JOptionPane.showInputDialog(null, text, "Duration",JOptionPane.DEFAULT_OPTION);
+        
+        return Integer.valueOf(duration);
+    }
 }

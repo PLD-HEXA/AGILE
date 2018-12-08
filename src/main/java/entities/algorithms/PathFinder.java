@@ -325,4 +325,8 @@ public class PathFinder {
 
         return itineraries;
     }
+
+    public boolean findAdditionalPath(List<Itinerary> itineraries, Map map, int numberPointAdd) {
+        return false;
+    }
 }
