@@ -46,6 +46,7 @@ public class DetailState extends DefaultState{
                         mainWindow.getTextualView().displayListOfRounds();
                         mainWindow.getTextualView().revalidate();
                         mainWindow.getTextualView().repaint();
+                        controler.setCurState(controler.computeState);
                 }
                 else {
                         mainWindow.showError("Error when calculating"
@@ -145,7 +146,7 @@ public class DetailState extends DefaultState{
 			mainWindow.getTextualView().setItineraryIndex(itineraryNumber);
 			mainWindow.getTextualView().setDeliveryPointIndex(deliveryPointNumber);
 			mainWindow.getTextualView().revalidate();
-            mainWindow.getTextualView().repaint();
+                        mainWindow.getTextualView().repaint();
 			controler.setCurState(controler.detailState);
 		}
 		
@@ -212,7 +213,7 @@ public class DetailState extends DefaultState{
 		mainWindow.getGraphicalView().repaint();
 		mainWindow.requestFocus();
 		mainWindow.getTextualView().revalidate();
-        mainWindow.getTextualView().repaint();
+                mainWindow.getTextualView().repaint();
 		controler.setCurState(controler.detailState);
 	
 	}

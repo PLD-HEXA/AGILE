@@ -42,7 +42,6 @@ public class GraphicalView extends JPanel {
     private double widthScale;
     private static final int pointRadius = 5;
     private Graphics g;
-    Integer nearestDeliveryPoint;
     private List<Integer> indexToDelete;
     private double longMax;
     private double latMax;
@@ -179,11 +178,11 @@ public class GraphicalView extends JPanel {
                 latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
                 longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
                 g.setColor(Color.pink);
-                g.drawOval((int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
-                g.fillOval((int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                g.drawOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                g.fillOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
                 try {
                     BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
-                    g.drawImage(image, (int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
+                    g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -197,7 +196,7 @@ public class GraphicalView extends JPanel {
                         g.setColor(Color.pink);
                         try {
                             BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
-                            g.drawImage(image, (int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
+                            g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -206,14 +205,14 @@ public class GraphicalView extends JPanel {
                         g.setColor(Color.gray);
                         try {
                             BufferedImage image = ImageIO.read(new File("images/delivPointDeleted.png"));
-                            g.drawImage(image, (int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
+                            g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     }
-                    g.drawOval((int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
-                    g.fillOval((int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                    g.drawOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                    g.fillOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
                 }
             }
         }
@@ -288,7 +287,7 @@ public void setMap(Map map) {
 					latitude2 = (latMax - itineraries.get(i).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
 					longitude2 = (longMax - itineraries.get(i).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
 					Graphics2D g2 = (Graphics2D) g;
-	                g2.setStroke(new BasicStroke(3));
+                                        g2.setStroke(new BasicStroke(3));
 					g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1),
 							(int) (mapSize - longitude2), (int) (latitude2)));
 				}
@@ -313,7 +312,7 @@ public void setMap(Map map) {
 			longitude2 = (longMax - itineraries.get(itineraryIndex).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
 			g.setColor(Color.black);
 			Graphics2D g2 = (Graphics2D) g;
-            g2.setStroke(new BasicStroke(6));
+                        g2.setStroke(new BasicStroke(6));
 			g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1),
 					(int) (mapSize - longitude2), (int) (latitude2)));
 		}   
@@ -413,18 +412,6 @@ public void setMap(Map map) {
 	public void setMapSize(int mapSize) {
 		this.mapSize = mapSize;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-      public Integer getNearestDeliveryPoint() {
-        return nearestDeliveryPoint;
-      }
 
         public List<Integer> getIndexToDelete() {
             return indexToDelete;
