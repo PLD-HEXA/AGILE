@@ -49,7 +49,7 @@ public class ButtonListener implements ActionListener {
                 controler.undo();
                 break;
             case InputView.REDO:
-                System.out.println("Clique sur undo");
+                System.out.println("Clique sur redo");
                 controler.redo();
                 break;
             

@@ -1,4 +1,3 @@
-
 package view;
 
 import java.awt.BasicStroke;
@@ -38,22 +37,22 @@ import java.util.ArrayList;
 
 public class GraphicalView extends JPanel {
 
-	private Map map;
-	private double heightScale;
-	private double widthScale;
-	private static final int pointRadius = 5;
-	private Graphics g;
-	Integer nearestDeliveryPoint;
-  private List<Integer> indexToDelete;
-	private double longMax;
-	private double latMax;
-	private List<Itinerary> itineraries;
-	private Integer itineraryIndex; //Index of the current highlighted itinerary
-	private Integer deliveryPointIndex; // Index of the index of the current highlihghted delivery point in the itinerary
-	private Integer previousNumberOfRounds;
-	private List<Color> colors ;
-  
-	/**
+    private Map map;
+    private double heightScale;
+    private double widthScale;
+    private static final int pointRadius = 5;
+    private Graphics g;
+    Integer nearestDeliveryPoint;
+    private List<Integer> indexToDelete;
+    private double longMax;
+    private double latMax;
+    private List<Itinerary> itineraries;
+    private Integer itineraryIndex; //Index of the current highlighted itinerary
+    private Integer deliveryPointIndex; // Index of the index of the current highlihghted delivery point in the itinerary
+    private Integer previousNumberOfRounds;
+    private List<Color> colors;
+
+    /**
      * the current zoom level (100 means the image is shown in original size)
      */
     private double zoom = 100;
@@ -70,44 +69,42 @@ public class GraphicalView extends JPanel {
 
     private int mapSize;
 
+    public GraphicalView(MainWindow mainWindow) {
+        super();
+        setLayout(null);
+        setBackground(Color.gray);
+        this.indexToDelete = new ArrayList<>();
+        colors = new ArrayList<Color>();
+        addMouseWheelListener(new MouseAdapter() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                super.mouseWheelMoved(e);
+                int rotation = e.getWheelRotation();
+                boolean zoomed = false;
+                if (rotation > 0) {
+                    if (scrollPane.getHeight() < getPreferredSize().getHeight()
+                            || scrollPane.getWidth() < getPreferredSize().getWidth()) {
+                        zoom = zoom / 1.3;
+                        zoomed = true;
+                    }
+                } else {
+                    double newCurrentZoom = zoom * 1.3;
+                    if (newCurrentZoom < 1000) { // 1000 ~ 10 times zoom
+                        zoom = newCurrentZoom;
+                        zoomed = true;
+                    }
+                }
+                if (zoomed) {
+                    scale = (float) (zoom / 100f);
+                    alignViewPort(e.getPoint());
+                    revalidate();
+                    scrollPane.repaint();
+                }
+            }
+        });
+    }
 
-
-	public GraphicalView(MainWindow mainWindow) {
-		super();
-		setLayout(null);
-		setBackground(Color.gray);
-    this.indexToDelete = new ArrayList<>();
-		colors=new ArrayList<Color>();
-		  addMouseWheelListener(new MouseAdapter() {
-	            @Override
-	            public void mouseWheelMoved(MouseWheelEvent e) {
-	                super.mouseWheelMoved(e);
-	                int rotation = e.getWheelRotation();
-	                boolean zoomed = false;
-	                if (rotation > 0) {
-	                    if (scrollPane.getHeight() < getPreferredSize().getHeight()
-	                            || scrollPane.getWidth() < getPreferredSize().getWidth()) {
-	                        zoom = zoom / 1.3;
-	                        zoomed = true;
-	                    }
-	                } else {
-	                    double newCurrentZoom = zoom * 1.3;
-	                    if (newCurrentZoom < 1000) { // 1000 ~ 10 times zoom
-	                        zoom = newCurrentZoom;
-	                        zoomed = true;
-	                    }
-	                }
-	                if (zoomed) {
-	                    scale = (float) (zoom / 100f);
-	                    alignViewPort(e.getPoint());
-	                    revalidate();
-	                    scrollPane.repaint();
-	                }
-	            }
-	        });
-	}
-  
-	public void alignViewPort(Point mousePosition) {
+    public void alignViewPort(Point mousePosition) {
         if (scale != lastScale) {
             double scaleChange = scale / lastScale;
             Point scaledMousePosition = new Point(
@@ -130,9 +127,9 @@ public class GraphicalView extends JPanel {
         return new Dimension((int) Math.round(mapSize * scale), (int) Math.round(mapSize * scale));
     }
 
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.scale(scale, scale);
         g2d.setColor(Color.white);
@@ -145,98 +142,107 @@ public class GraphicalView extends JPanel {
         if (itineraries != null) {
             drawRounds(g2d);
         }
-        
-		if(itineraryIndex!=null && deliveryPointIndex != null) {
-			displaySpecificRound(g2d);
-		}
-    
-		g2d.dispose();
-		
-		this.g = g;
-	
-	}
 
-	public void drawPlan(Graphics g) {
-		longMax = map.getCoordinateMax().getLongitude();
-		latMax = map.getCoordinateMax().getLatitude();
-		heightScale = (mapSize) / (longMax - map.getCoordinateMin().getLongitude());
-		widthScale = mapSize / (latMax - map.getCoordinateMin().getLatitude());
-		for (int i = 0; i < map.getGraph().size(); i++) {
-			int numberOfSuccessors = map.getGraph().get(i).size();// taille de la i�me liste de segments dans graph
-			for (int j = 0; j < numberOfSuccessors; j++) {// pour chaque successeur
-				Coordinate curSuccessor = map.getCoordinates()[map.getGraph().get(i).get(j).getDestIndex()];
-				g.drawLine((int) (mapSize - (longMax - map.getCoordinates()[i].getLongitude()) * heightScale),
-						(int) ((latMax - map.getCoordinates()[i].getLatitude()) * widthScale),
-						(int) (mapSize - (longMax - curSuccessor.getLongitude()) * heightScale),
-						(int) ((latMax - curSuccessor.getLatitude()) * widthScale));
-			}
-		}
-	}
+        if (itineraryIndex != null && deliveryPointIndex != null) {
+            displaySpecificRound(g2d);
+        }
 
-	public void drawDeliveries(Graphics g) {
-		double latitude;
-		double longitude;
-		int numberOfDeliveryPoints = map.getTabDeliveryPoints().size();
-		for (int i = 0; i < numberOfDeliveryPoints; i++) {
-                    if (indexToDelete.isEmpty()) {
-			latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
-			longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
+        g2d.dispose();
+
+        this.g = g;
+
+    }
+
+    public void drawPlan(Graphics g) {
+        longMax = map.getCoordinateMax().getLongitude();
+        latMax = map.getCoordinateMax().getLatitude();
+        heightScale = (mapSize) / (longMax - map.getCoordinateMin().getLongitude());
+        widthScale = mapSize / (latMax - map.getCoordinateMin().getLatitude());
+        for (int i = 0; i < map.getGraph().size(); i++) {
+            int numberOfSuccessors = map.getGraph().get(i).size();// taille de la i�me liste de segments dans graph
+            for (int j = 0; j < numberOfSuccessors; j++) {// pour chaque successeur
+                Coordinate curSuccessor = map.getCoordinates()[map.getGraph().get(i).get(j).getDestIndex()];
+                g.drawLine((int) (mapSize - (longMax - map.getCoordinates()[i].getLongitude()) * heightScale),
+                        (int) ((latMax - map.getCoordinates()[i].getLatitude()) * widthScale),
+                        (int) (mapSize - (longMax - curSuccessor.getLongitude()) * heightScale),
+                        (int) ((latMax - curSuccessor.getLatitude()) * widthScale));
+            }
+        }
+    }
+
+    public void drawDeliveries(Graphics g) {
+        double latitude;
+        double longitude;
+        int numberOfDeliveryPoints = map.getTabDeliveryPoints().size();
+        for (int i = 0; i < numberOfDeliveryPoints; i++) {
+            if (indexToDelete.isEmpty()) {
+                latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
+                longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
+                g.setColor(Color.pink);
+                g.drawOval((int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                g.fillOval((int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                try {
+                    BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
+                    g.drawImage(image, (int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("delete index : " + indexToDelete.get(0));
+                for (int deletedIndex : indexToDelete) {
+                    latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
+                    longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
+                    if (deletedIndex != i) {
                         g.setColor(Color.pink);
-                        g.drawOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
-                        g.fillOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
                         try {
                             BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
-                            g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-13, null);
+                            g.drawImage(image, (int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    } else {
+                        g.setColor(Color.gray);
+                        try {
+                            BufferedImage image = ImageIO.read(new File("images/delivPointDeleted.png"));
+                            g.drawImage(image, (int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     }
-                    else {
-                        System.out.println("delete index : " + indexToDelete.get(0));
-                        for (int deletedIndex : indexToDelete) {
-                            latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
-                            longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
-                            if (deletedIndex != i) {
-                                g.setColor(Color.pink);   
-                                try {
-                                BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
-                                g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-13, null);
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                g.setColor(Color.gray);   
-                                try {
-                                BufferedImage image = ImageIO.read(new File("images/delivPointDeleted.png"));
-                                g.drawImage(image, (int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius-13, null);
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                            }
-                            g.drawOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
-                            g.fillOval((int) (this.getWidth() - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
-                        }
-                    }
+                    g.drawOval((int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                    g.fillOval((int) (this.getWidth() - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
                 }
+            }
         }
         latitude = (latMax - map.getCoordinates()[map.getWareHouse().getKey()].getLatitude()) * widthScale;
         longitude = (longMax - map.getCoordinates()[map.getWareHouse().getKey()].getLongitude()) * heightScale;
+
         g.setColor(Color.blue);
-        g.drawOval((int) (mapSize - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
-        g.fillOval((int) (mapSize - longitude)-pointRadius, (int) latitude-pointRadius, pointRadius*2, pointRadius*2);
+
+        g.drawOval((int) (mapSize - longitude) - pointRadius, (int) latitude
+                - pointRadius, pointRadius
+                * 2, pointRadius
+                * 2);
+        g.fillOval(
+                (int) (mapSize - longitude) - pointRadius, (int) latitude
+                - pointRadius, pointRadius
+                * 2, pointRadius
+                * 2);
         try {
-          BufferedImage image = ImageIO.read(new File("images/warehouse.png"));
-          g.drawImage(image, (int) (mapSize - longitude)-pointRadius, (int) latitude-pointRadius-20, null);
-          } catch (IOException e) {
+            BufferedImage image = ImageIO.read(new File("images/warehouse.png"));
+            g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 20, null);
+        } catch (IOException e
+    
+        ) {
           // TODO Auto-generated catch block
           e.printStackTrace();
-        }
-	}
+    }
+}
 
-	public void setMap(Map map) {
+public void setMap(Map map) {
 		this.map = map;
 	}
 
@@ -266,7 +272,7 @@ public class GraphicalView extends JPanel {
 					latitude2 = (latMax - itineraries.get(i).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
 					longitude2 = (longMax - itineraries.get(i).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
 					Graphics2D g2 = (Graphics2D) g;
-	                g2.setStroke(new BasicStroke(3));
+                                        g2.setStroke(new BasicStroke(3));
 					g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1),
 							(int) (mapSize - longitude2), (int) (latitude2)));
 				}
@@ -427,10 +433,6 @@ public class GraphicalView extends JPanel {
         public void setIndexToDelete(List<Integer> indexToDelete) {
             this.indexToDelete = indexToDelete;
         }
-
-    public List<Itinerary> getItineraries() {
-        return itineraries;
-    }
         
         
         

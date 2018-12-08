@@ -42,9 +42,12 @@ public class CmdAddDeliveryPoint implements Command {
                                 numberPointAdd);
         if(addItinerary == true) {
                 //mainWindow.getGraphicalView().setItineraries(itineraries);
-                mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
+                mainWindow.getGraphicalView().setItineraryIndex(null);
+                mainWindow.getGraphicalView().setDeliveryPointIndex(null);
                 mainWindow.getGraphicalView().repaint();
                 mainWindow.getTextualView().setItineraries(itineraries);
+                mainWindow.getTextualView().setItineraryIndex(null);
+                mainWindow.getTextualView().setDeliveryPointIndex(null);
                 mainWindow.getTextualView().displayListOfRounds();
                 mainWindow.getTextualView().revalidate();
                 mainWindow.getTextualView().repaint();
@@ -68,10 +71,12 @@ public class CmdAddDeliveryPoint implements Command {
                                 numberPointAdd);
         if(addItinerary == true) {
                 //mainWindow.getGraphicalView().setItineraries(itineraries);
-                mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
-                mainWindow.getGraphicalView().setNearestDeliveryPoint(null);
+                mainWindow.getGraphicalView().setItineraryIndex(null);
+                mainWindow.getGraphicalView().setDeliveryPointIndex(null);
                 mainWindow.getGraphicalView().repaint();
                 mainWindow.getTextualView().setItineraries(itineraries);
+                mainWindow.getTextualView().setItineraryIndex(null);
+                mainWindow.getTextualView().setDeliveryPointIndex(null);
                 mainWindow.getTextualView().displayListOfRounds();
                 mainWindow.getTextualView().revalidate();
                 mainWindow.getTextualView().repaint();
