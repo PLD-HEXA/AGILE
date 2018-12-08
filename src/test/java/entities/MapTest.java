@@ -440,7 +440,7 @@ public class MapTest {
         assertNull(map.getTabDeliveryPoints());
     }
 
-
+    /*
     @Test 
     public void fillTabDeliveryPointsWareHouse() {
         // Given
@@ -448,5 +448,5 @@ public class MapTest {
         String pathnameXml = "./ressources/fichiersTestXml/dl-missingBalise.xml";
         DemandeDeLivraisons ddlNoWH = parser.parseDelivery(pathnameXml);
         assertNotNull(ddlNoWH);
-    }
+    }*/
 }
