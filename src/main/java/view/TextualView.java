@@ -89,12 +89,12 @@ public class TextualView extends JPanel {
 			Date diff;
 			for (int i = 0; i < numberOfRounds; i++) {
 				int numberOfStops = itineraries.get(i).getGeneralPath().size();
-				curRound = new DefaultMutableTreeNode("Round n°" + Integer.toString(i + 1));
+				curRound = new DefaultMutableTreeNode("Round n " + Integer.toString(i + 1));
 				nodesHierarchy.add(i, new ArrayList<DefaultMutableTreeNode>());
 				for (int j = 0; j < numberOfStops; j++) {
 					departureDate = itineraries.get(i).getGeneralPath().get(j).getDepartureTime();
 					arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();
-					curStop = new DefaultMutableTreeNode("Delivery n°" + Integer.toString(j));
+					curStop = new DefaultMutableTreeNode("Delivery n " + Integer.toString(j));
 					arrival = new DefaultMutableTreeNode("Departure  " + departureDate.toString().substring(11, 19));
 					departure = new DefaultMutableTreeNode(
 							"Arrival        " + arrivalDate.toString().substring(11, 19));

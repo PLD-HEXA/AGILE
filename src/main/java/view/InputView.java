@@ -39,25 +39,24 @@ public class InputView extends JPanel {
     protected final static String COMPUTE = "Compute";
     
     /**
-     * It represents the name of the button that allows to compute
+     * It represents the name of the button that allows to delete a delivery point
      */
     protected final static String DELETE = "Delete";
     
     /**
-     * It represents the name of the button that allows to compute
+     * It represents the name of the button that allows to add a delivery point
      */
     protected final static String ADD = "Add";
     
     /**
-     * It represents the name of the button that allows to compute
+     * It represents the name of the button that allows to undoes the last command
      */
     protected final static String UNDO = "Undo";
     
     /**
-     * It represents the name of the button that allows to compute
+     * It represents the name of the button that allows to redoes the last command
      */
     protected final static String REDO = "Redo";
-    
     
     /**
      * It represents the number of rounds
@@ -70,7 +69,8 @@ public class InputView extends JPanel {
     /**
      * It represents a board that contains the name of all buttons
      */
-    private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE,DELETE,ADD,UNDO,REDO};
+  
+    private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO};
 
     /**
      * The constructor

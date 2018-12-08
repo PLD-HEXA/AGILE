@@ -46,6 +46,7 @@ public class DetailState extends DefaultState{
                         mainWindow.getTextualView().displayListOfRounds();
                         mainWindow.getTextualView().revalidate();
                         mainWindow.getTextualView().repaint();
+                        controler.setCurState(controler.computeState);
                 }
                 else {
                         mainWindow.showError("Error when calculating"
@@ -66,7 +67,7 @@ public class DetailState extends DefaultState{
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = chooser.getSelectedFile();
-			controler.setCurState(controler.planState);
+			//controler.setCurState(controler.planState);
 			DemandeDeLivraisons ddl = controler.getParser().parseDelivery(selectedFile.toString());
                         if (ddl != null) {
                             mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
@@ -145,7 +146,7 @@ public class DetailState extends DefaultState{
 			mainWindow.getTextualView().setItineraryIndex(itineraryNumber);
 			mainWindow.getTextualView().setDeliveryPointIndex(deliveryPointNumber);
 			mainWindow.getTextualView().revalidate();
-            mainWindow.getTextualView().repaint();
+                        mainWindow.getTextualView().repaint();
 			controler.setCurState(controler.detailState);
 		}
 		
@@ -212,11 +213,21 @@ public class DetailState extends DefaultState{
 		mainWindow.getGraphicalView().repaint();
 		mainWindow.requestFocus();
 		mainWindow.getTextualView().revalidate();
-        mainWindow.getTextualView().repaint();
+                mainWindow.getTextualView().repaint();
 		controler.setCurState(controler.detailState);
 	
 	}
 	
+        
+        @Override
+        public void clickDeleteButton(Controler controler) {
+            controler.setCurState(controler.deleteState);
+        }
+        
+        @Override
+        public void clickAddButton(Controler controler) {
+            controler.setCurState(controler.addState);
+        }
 	
 
 }
