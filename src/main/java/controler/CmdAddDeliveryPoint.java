@@ -38,7 +38,7 @@ public class CmdAddDeliveryPoint implements Command {
         Pair<Integer,Integer> newDeliveryPoint = new Pair<>(indexNewDeliveryPoint, duration);
         mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().add(newDeliveryPoint);
         List<Itinerary> itineraries = mainWindow.getGraphicalView().getItineraries();
-        boolean addItinerary = pathFinder.findAdditionalPath(itineraries, mainWindow.getGraphicalView().getMap(),
+        boolean addItinerary = pathFinder.findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,
                                 numberPointAdd);
         if(addItinerary == true) {
                 //mainWindow.getGraphicalView().setItineraries(itineraries);
@@ -67,7 +67,7 @@ public class CmdAddDeliveryPoint implements Command {
         int indexToDelete = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
         List<Itinerary> itineraries = mainWindow.getGraphicalView().getItineraries();
         mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().remove(indexToDelete);
-        boolean addItinerary = pathFinder.findAdditionalPath(itineraries, mainWindow.getGraphicalView().getMap(),
+        boolean addItinerary = pathFinder.findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,
                                 numberPointAdd);
         if(addItinerary == true) {
                 //mainWindow.getGraphicalView().setItineraries(itineraries);

@@ -95,9 +95,11 @@ public class InputView extends JPanel {
                 add(label);
                 SpinnerModel spinner = new SpinnerNumberModel(1, 1, 100, 1);
                 numOfRounds = new JSpinner(spinner);
+                numOfRounds.setName("Number of delivery men");
                 add(numOfRounds);
             }
             JButton bouton = new JButton(buttonName);
+            bouton.setName(buttonName);
             buttons.add(bouton);
             bouton.setSize(120, 80);
             bouton.setLocation(0, (buttons.size() - 1) * 80);

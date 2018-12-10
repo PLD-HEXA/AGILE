@@ -34,7 +34,7 @@ public class ComputeState extends DefaultState {
                 }
             }
             if (compute) {
-                List<Itinerary> itineraries = controler.getPathFinder().findPathTSP(mainWindow.getGraphicalView().getMap(),
+                List<Itinerary> itineraries = controler.getPathFinder().findPath(mainWindow.getGraphicalView().getMap(),
                                 Integer.min(numberOfDeliveries, numberOfDeliveryMen));
                 if(itineraries != null) {
                         mainWindow.getGraphicalView().setItineraries(itineraries);

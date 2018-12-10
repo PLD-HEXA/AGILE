@@ -33,7 +33,7 @@ public class DetailState extends DefaultState{
                 }
             }
             if (compute) {
-                List<Itinerary> itineraries = controler.getPathFinder().findPathClustering(mainWindow.getGraphicalView().getMap(),
+                List<Itinerary> itineraries = controler.getPathFinder().findPath(mainWindow.getGraphicalView().getMap(),
                                 Integer.min(numberOfDeliveries, numberOfDeliveryMen));
                 if(itineraries != null) {
                         mainWindow.getGraphicalView().setItineraries(itineraries);

@@ -126,6 +126,8 @@ public class Controler {
 	public void redo(){
 		curState.redo(cmdList);
 	}
-	
 
+	public MainWindow getMainWindow() {
+		return mainWindow;
+	}
 }

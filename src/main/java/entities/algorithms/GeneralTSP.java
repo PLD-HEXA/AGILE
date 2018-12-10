@@ -28,6 +28,7 @@ public class GeneralTSP {
     Comparator<Integer> comparator;
     Comparator<Edge> comparator2;
     double[][] cost;
+    double[][] CICost;
     //int indexWarehouse;
     
     /**
@@ -47,12 +48,19 @@ public class GeneralTSP {
      * If null, the tab is generated in the method.
      * @return Tab of Coordinates representing the solution for the salesman problem
      */
-    public int[] getOrder(double[][] adjMatrix, int nbDeliveryMen){
+    public int[] getOrder(double[][] adjMatrix, int nbDeliveryMen, boolean optimalRes){
         
         cost = adjMatrix;
         //this.indexWarehouse = indexWarehouse;
         nbNodes = adjMatrix.length;
         
+        CICost = new double[adjMatrix.length][adjMatrix.length];
+        for(int i = 0; i< CICost.length; i++){
+            for(int j = 0; j< CICost.length; j++){
+                CICost[i][j] = adjMatrix[i][j];   
+            }
+        }
+        CICost[0][0] =Double.MAX_VALUE;
 
         int[] seen = new int[nbNodes+ nbDeliveryMen-1];
         Integer[] notSeen = new Integer[nbNodes - 1]; 
@@ -107,9 +115,14 @@ public class GeneralTSP {
             };
            
         //sp = permut(seen, 1, notSeen, nbNodes-1, 0, sp, nbDeliveriesByDeliveryMan);
-        sp = permut(seen, 1, notSeen, nbNodes-1, 0, sp, nbDeliveryMen);
+        if(optimalRes){
+            sp = optimalPermut(seen, 1, notSeen, nbNodes-1, 0, sp, nbDeliveryMen);
+        }
+        else{
+            sp = nonOptimalPermut(seen, 1, notSeen, nbNodes-1, 0, sp, nbDeliveryMen);
+        }
         
-//        System.out.println("length of the shortest path :" + sp);
+        //System.out.println("length of the shortest path :" + sp);
         
         //Coordinate[] res = new Coordinate[nbNodes+1];
         
@@ -130,7 +143,7 @@ public class GeneralTSP {
      * @param sp Current length of the shortest path
      * @return Length of the shortest path found
      */
-    public double permut(int[] seen, int nbSeen, Integer[] notSeen, int nbNotSeen, double length, double sp, int nbZerosLeft){
+    public double optimalPermut(int[] seen, int nbSeen, Integer[] notSeen, int nbNotSeen, double length, double sp, int nbZerosLeft){
         Integer[] order = new Integer[nbNotSeen];
         
         if(nbNotSeen == 0){
@@ -152,7 +165,7 @@ public class GeneralTSP {
             lastSeen=seen[nbSeen];
             nbZerosLeft --;
             //notSeen[j]=notSeen[nbNotSeen-1];
-            sp=permut(seen, nbSeen+1, order, nbNotSeen,length+cost[seen[nbSeen-1]][seen[nbSeen]],sp, nbZerosLeft);
+            sp=optimalPermut(seen, nbSeen+1, order, nbNotSeen,length+cost[seen[nbSeen-1]][seen[nbSeen]],sp, nbZerosLeft);
             //notSeen[j]=seen[nbSeen];
         }
         
@@ -164,6 +177,7 @@ public class GeneralTSP {
             Arrays.sort(order, comparator);
             
             double dmin = kruscal(notSeen, nbZerosLeft);
+            //double dmin = cheapestInsert(notSeen, nbZerosLeft);
         
         
             if(!(sp<length+dmin)){
@@ -171,7 +185,7 @@ public class GeneralTSP {
                     seen[nbSeen]=order[j];
                     lastSeen=seen[nbSeen];
                     order[j]=order[nbNotSeen-1];
-                    sp=permut(seen, nbSeen+1, order, nbNotSeen-1,length+cost[seen[nbSeen-1]][seen[nbSeen]],sp, nbZerosLeft);
+                    sp=optimalPermut(seen, nbSeen+1, order, nbNotSeen-1,length+cost[seen[nbSeen-1]][seen[nbSeen]],sp, nbZerosLeft);
                     order[j]=seen[nbSeen];
                 }
             }
@@ -179,6 +193,66 @@ public class GeneralTSP {
         return sp;
     }
     
+    
+    /**
+     * Recursive method using the branch and bound principle
+     * @param seen Tab of seen vertices
+     * @param nbSeen Number of seen vertices
+     * @param notSeen Tab of not seen vertices
+     * @param nbNotSeen Number of not seen vertices
+     * @param length Current length of the path
+     * @param sp Current length of the shortest path
+     * @return Length of the shortest path found
+     */
+    public double nonOptimalPermut(int[] seen, int nbSeen, Integer[] notSeen, int nbNotSeen, double length, double sp, int nbZerosLeft){
+        Integer[] order = new Integer[nbNotSeen];
+        
+        if(nbNotSeen == 0){
+            double finalCost = length + cost[seen[nbSeen-1]][0];
+            if(sp>finalCost){
+                sp=finalCost;
+                for(int i = 1; i< nbSeen; i++){
+                    optimalOrder[i] = seen[i];
+                }
+            }
+        }
+                
+        else if(nbSeen >1 && optimalOrder[nbSeen] == 0)
+        {
+            for(int i=0;i<nbNotSeen;i++){
+    		order[i]=notSeen[i];
+            }
+            seen[nbSeen]=0;
+            lastSeen=seen[nbSeen];
+            nbZerosLeft --;
+            //notSeen[j]=notSeen[nbNotSeen-1];
+            sp=nonOptimalPermut(seen, nbSeen+1, order, nbNotSeen,length+cost[seen[nbSeen-1]][seen[nbSeen]],sp, nbZerosLeft);
+            //notSeen[j]=seen[nbSeen];
+        }
+        
+        
+        else{
+            for(int i=0;i<nbNotSeen;i++){
+    		order[i]=notSeen[i];
+            }
+            Arrays.sort(order, comparator);
+            
+            //double dmin = kruscal(notSeen, nbZerosLeft);
+            double dmin = cheapestInsert(notSeen, nbZerosLeft);
+        
+        
+            if(!(sp<length+dmin)){
+                for(int j=0;j<nbNotSeen;j++){
+                    seen[nbSeen]=order[j];
+                    lastSeen=seen[nbSeen];
+                    order[j]=order[nbNotSeen-1];
+                    sp=nonOptimalPermut(seen, nbSeen+1, order, nbNotSeen-1,length+cost[seen[nbSeen-1]][seen[nbSeen]],sp, nbZerosLeft);
+                    order[j]=seen[nbSeen];
+                }
+            }
+        }
+        return sp;
+    }
     
     // A utility function to find set of an element i 
     // (uses path compression technique) 
@@ -240,7 +314,7 @@ public class GeneralTSP {
                 edges.add(new Edge(notSeen[i],lastSeen , Math.min(cost[notSeen[i]][lastSeen], cost[lastSeen][notSeen[i]]) ));
                 edges.add(new Edge(notSeen[i],0 , Math.min(cost[notSeen[i]][0], cost[0][notSeen[i]]) )); 
             }
-            edges.add(new Edge(lastSeen,0 , Math.min(cost[lastSeen][0], cost[0][lastSeen]) ));
+            //edges.add(new Edge(lastSeen,0 , Math.min(cost[lastSeen][0], cost[0][lastSeen]) ));
             
         }
         
@@ -267,23 +341,25 @@ public class GeneralTSP {
         int nbMaxAddedEdges = subsets.size()-1;
         int x;
         int y;
-        boolean selectedEdge = false;
-        double lengthEdge = 0;
-        //int idSelectedEdge = 0;
+        
+        
+        List<Double> edgesLinkedToWarehouse = new ArrayList<>();
+        int maxNbEdgesLinkedToWarehouse;
+        maxNbEdgesLinkedToWarehouse = lastSeen!=0?2*(nbZerosLeft-1):2*(nbZerosLeft-1)+1;
         for(Edge edge :edges){
             x = find(subsets, edge.getVertice1()); 
             y = find(subsets, edge.getVertice2());
             
-            if(!selectedEdge && (edge.getVertice1() == 0 || edge.getVertice2() == 0) ){
-                lengthEdge = edge.getCost();;
-                selectedEdge = true;
-            }
+            if( (edge.getVertice1() == 0 || edge.getVertice2() == 0) && edgesLinkedToWarehouse.size()<= maxNbEdgesLinkedToWarehouse ){
+                    edgesLinkedToWarehouse.add(edge.getCost());
+                }
   
             // If including this edge doesn't cause cycle, 
             // include it in result and increment the index  
             // of result for next edge 
             if (x != y) 
             { 
+                
                 res += edge.getCost();
                 addedEdges++;
                 Union(subsets, x, y); 
@@ -294,17 +370,65 @@ public class GeneralTSP {
                 break;
             }   
         }
-        
-        if(lastSeen != 0){
-            res+= 2*(nbZerosLeft-1)*lengthEdge;
+        double avg = 0;
+        for(Double edgeCost: edgesLinkedToWarehouse){
+            avg+= edgeCost;
         }
+        avg/= edgesLinkedToWarehouse.size();
         
-        else{
-            res+= 2*(nbZerosLeft-1)*lengthEdge + lengthEdge;
-        }
+        res+= maxNbEdgesLinkedToWarehouse*avg;
+        
+        
+        
         return res;
         
         
+    }
+    
+    
+    
+    
+    
+    
+    
+    public double cheapestInsert(Integer[] notSeen, int nbZerosLeft){
+        List<Integer> list = new ArrayList<>();
+        list.add(lastSeen);
+        for(int i=0; i<nbZerosLeft; i++){
+            list.add(0);
+        }
+        
+        List<Integer> notSeenTemp = new ArrayList<>();
+        for(Integer node: notSeen){
+            notSeenTemp.add(node);
+        }
+        
+        int i = 0;
+        int chosenIndex=0;
+        Integer chosenNode = null;
+        
+        while (notSeenTemp.size() >0){
+            double cheapestInsertCost = Double.MAX_VALUE;
+            for(i =0; i< list.size()-1; i++){
+                for(Integer nodeTemp: notSeenTemp){
+                    if(cheapestInsertCost>(CICost[list.get(i)][nodeTemp] + CICost[nodeTemp][list.get(i+1)] - CICost[list.get(i)][list.get(i+1)])){
+                        cheapestInsertCost=CICost[list.get(i)][nodeTemp] + CICost[nodeTemp][list.get(i+1)] - CICost[list.get(i)][list.get(i+1)];
+                        chosenIndex = i+1;
+                        chosenNode = nodeTemp;                              
+                    }
+                    
+                }
+                
+            }
+            list.add(chosenIndex, chosenNode);
+            notSeenTemp.remove(chosenNode);
+        }
+        
+        double res =0;
+        for(i = 0; i< list.size()-1; i++){
+            res+= CICost[list.get(i)][list.get(i+1)];
+        }
+        return res;
     }
     
 }
