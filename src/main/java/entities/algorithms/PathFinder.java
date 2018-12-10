@@ -201,7 +201,7 @@ public class PathFinder {
     }
 
     //Liste d'itinéraires !!!
-    public List<Itinerary> findPathTSP(Map map, int nbDeliveryMen) {
+    public List<Itinerary> findPathTSP(Map map, int nbDeliveryMen, boolean optimalRes) {
 
         //Check that all the parameters are well set to find the itineraries
         this.graph = map.getGraph();
@@ -224,7 +224,7 @@ public class PathFinder {
         this.buildAdjMatrix();
 
         GeneralTSP tsp = new GeneralTSP();
-        int[] order = tsp.getOrder(adjMatrix, nbDeliveryMen);
+        int[] order = tsp.getOrder(adjMatrix, nbDeliveryMen, optimalRes);
 
         List<List<Integer>> tempItineraries = new ArrayList<>();
         for (int i = 0; i < nbDeliveryMen; i++) {
@@ -282,7 +282,7 @@ public class PathFinder {
         return itineraries;
     }
 
-    public List<Itinerary> findPathClustering(Map map, int nbDeliveryMen) {
+    public List<Itinerary> findPathClustering(Map map, int nbDeliveryMen, boolean optimalRes) {
         long startTime = System.currentTimeMillis();
 
         // get needed data from the map
@@ -315,7 +315,7 @@ public class PathFinder {
             Collections.sort(tempItineraries.get(i));
 
             double[][] smallMatrix = extractAdjMatrix(tempItineraries.get(i));
-            int[] path = new TSP().getOrder(smallMatrix);
+            int[] path = new TSP().getOrder(smallMatrix,optimalRes);
             ArrayList<Integer> coordinatesItinerary = convertTSP(tempItineraries.get(i), path);
             itineraries.add(constructItinerary(departureTime, coordinatesItinerary));
         }
@@ -324,5 +324,66 @@ public class PathFinder {
         System.out.println("duration: " + (stopTime - startTime) + "ms");
 
         return itineraries;
+    }
+    
+    //Liste d'itinéraires !!!
+    public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints) {
+        
+        Date tempArrivalTime;
+        Date earlierArrivalTime = itineraries.get(0).getGeneralPath().get(itineraries.get(0).getGeneralPath().size() -1).getDepartureTime();
+        for(Itinerary itinerary: itineraries){
+            tempArrivalTime = itinerary.getGeneralPath().get(itinerary.getGeneralPath().size()-1).getDepartureTime(); 
+            if(tempArrivalTime.getHours() >=18){
+                return false;
+            }
+            if(earlierArrivalTime.getTime() > tempArrivalTime.getTime()){
+                earlierArrivalTime = tempArrivalTime;
+            }
+        }
+        
+        List<Pair<Integer,Integer>> tabDeliveryPointsTemp= new ArrayList<>();
+        List<Pair<Integer,Integer>> tabDeliveryPoints= map.getTabDeliveryPoints();
+        int sizeTabDeliveryPoints = tabDeliveryPoints.size();
+        for(int i = 0; i< nbNewPoints; i++){
+            tabDeliveryPointsTemp.add(new Pair(tabDeliveryPoints.get(sizeTabDeliveryPoints- 1 -i).getKey() , tabDeliveryPoints.get(sizeTabDeliveryPoints- 1 -i).getValue()));
+        }
+        map.setTabDeliveryPoints(tabDeliveryPointsTemp);
+        
+       
+        Pair<Integer, String> warehouse = map.getWareHouse();
+        String startingTime = map.getWareHouse().getValue();
+        
+        long startingTimeTempNanoSeconds = earlierArrivalTime.getTime()+1000*5*60;
+        DateFormat df = new SimpleDateFormat("hh:mm:ss");
+        String startingTimeTemp = df.format(startingTimeTempNanoSeconds);
+        
+        map.setWareHouse(new Pair(map.getWareHouse().getKey(), startingTimeTemp));
+        
+        Itinerary additionalItinerary = this.findPathTSP(map, 1,false).get(0);
+        
+        //Set the map as it was before
+        map.setTabDeliveryPoints(tabDeliveryPoints);
+        map.setWareHouse(warehouse);
+        
+        //long itineraryTime = additionalItinerary.getGeneralPath().get(0).getDepartureTime().getTime() - additionalItinerary.getGeneralPath().get(nbNewPoints+1).getDepartureTime().getTime();
+        if(additionalItinerary.getGeneralPath().get(nbNewPoints+1).getDepartureTime().getHours()>=18){
+            return false;          
+        }
+        else{
+            additionalItinerary.getGeneralPath().get(0).setArrivalTime(new Date(earlierArrivalTime.getTime()));
+            itineraries.add(additionalItinerary);
+            return true;
+        }
+    }
+    
+    public List<Itinerary> findPath(Map map, int nbDeliveryMen){
+        
+        if(nbDeliveryMen < 16){
+            return findPathTSP(map,nbDeliveryMen,false);    
+        }
+       
+        else{
+            return findPathClustering(map,nbDeliveryMen,false);
+        }
     }
 }

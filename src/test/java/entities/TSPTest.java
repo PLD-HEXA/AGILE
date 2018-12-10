@@ -32,7 +32,7 @@ public class TSPTest {
         
         
 
-        int[] optimalOrder = tsp.getOrder(adjMatrix);
+        int[] optimalOrder = tsp.getOrder(adjMatrix,true);
         
         int[] resExpOptimalOrder = {0, 2, 4, 3, 1, 0};
         
