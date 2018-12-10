@@ -27,7 +27,7 @@ public class SystemTest {
         try {
             utils.setOrigin(controler.getMainWindow().getInputView());
             validateTour("petitPlan.xml", "dl-petit-3.xml", 1);
-        } catch (HeadlessException e) {
+        } catch (java.awt.HeadlessException e) {
             System.out.println("graphical interface not set: \n" + e);
         }
     }
@@ -37,7 +37,7 @@ public class SystemTest {
         try {
             utils.setOrigin(controler.getMainWindow().getInputView());
             validateTour("petitPlan.xml", "dl-petit-3.xml", 3);
-        } catch (HeadlessException e) {
+        } catch (java.awt.HeadlessException e) {
             System.out.println("graphical interface not set: \n" + e);
         }
     }
@@ -47,7 +47,7 @@ public class SystemTest {
         try {
             utils.setOrigin(controler.getMainWindow().getInputView());
             validateTour("moyenPlan.xml", "dl-moyen-9.xml", 3);
-        } catch (HeadlessException e) {
+        } catch (java.awt.HeadlessException e) {
             System.out.println("graphical interface not set: \n" + e);
         }
     }
@@ -57,7 +57,7 @@ public class SystemTest {
         try {
             utils.setOrigin(controler.getMainWindow().getInputView());
             validateTour("moyenPlan.xml", "dl-moyen-9.xml", 6);
-        } catch (HeadlessException e) {
+        } catch (java.awt.HeadlessException e) {
             System.out.println("graphical interface not set: \n" + e);
         }
     }
