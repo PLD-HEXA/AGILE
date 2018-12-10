@@ -28,26 +28,42 @@ public class SystemTest {
 
     @Test
     public void oneDeliveryManSmallPanSystemTest() throws InterruptedException {
-        utils.setOrigin(controler.getMainWindow().getInputView());
-        validateTour("petitPlan.xml", "dl-petit-3.xml", 1);
+        try {
+            utils.setOrigin(controler.getMainWindow().getInputView());
+            validateTour("petitPlan.xml", "dl-petit-3.xml", 1);
+        } catch (java.awt.HeadlessException e) {
+            System.out.println("graphical interface not set: \n" + e);
+        }
     }
 
     @Test
     public void threeDeliveryMenSmallPlanSystemTest() throws InterruptedException {
-        utils.setOrigin(controler.getMainWindow().getInputView());
-        validateTour("petitPlan.xml", "dl-petit-3.xml", 3);
+        try {
+            utils.setOrigin(controler.getMainWindow().getInputView());
+            validateTour("petitPlan.xml", "dl-petit-3.xml", 3);
+        } catch (java.awt.HeadlessException e) {
+            System.out.println("graphical interface not set: \n" + e);
+        }
     }
 
     @Test
     public void threeDeliveryMediumPlanSystemTest() throws InterruptedException {
-        utils.setOrigin(controler.getMainWindow().getInputView());
-        validateTour("moyenPlan.xml", "dl-moyen-9.xml", 3);
+        try {
+            utils.setOrigin(controler.getMainWindow().getInputView());
+            validateTour("moyenPlan.xml", "dl-moyen-9.xml", 3);
+        } catch (java.awt.HeadlessException e) {
+            System.out.println("graphical interface not set: \n" + e);
+        }
     }
 
     @Test
     public void sixDeliveryMediumPlanSystemTest() throws InterruptedException {
-        utils.setOrigin(controler.getMainWindow().getInputView());
-        validateTour("moyenPlan.xml", "dl-moyen-9.xml", 6);
+        try {
+            utils.setOrigin(controler.getMainWindow().getInputView());
+            validateTour("moyenPlan.xml", "dl-moyen-9.xml", 6);
+        } catch (java.awt.HeadlessException e) {
+            System.out.println("graphical interface not set: \n" + e);
+        }
     }
 
     private void validateTour(String planFile, String deliveriesFile, int deliveryMenNumber) throws InterruptedException {
