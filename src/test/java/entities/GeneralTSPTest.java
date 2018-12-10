@@ -69,7 +69,7 @@ public class GeneralTSPTest {
         
         
 
-        int[] optimalOrder = tsp.getOrder(adjMatrix, 3);
+        int[] optimalOrder = tsp.getOrder(adjMatrix, 3, false);
         
         //int[] resExpOptimalOrder = {0, 2, 4, 3, 1, 0};
         
