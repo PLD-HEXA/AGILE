@@ -18,52 +18,32 @@ public class SystemTest {
 
     @BeforeClass
     public static void launchGUI() throws AWTException {
-        try {
-            controler = new Controler();
-            utils = new Utils(controler);
-        } catch (java.awt.HeadlessException e) {
-            System.out.println("graphical interface not set: \n" + e);
-        }
+        controler = new Controler();
+        utils = new Utils(controler);
     }
 
     @Test
     public void oneDeliveryManSmallPanSystemTest() throws InterruptedException {
-        try {
-            utils.setOrigin(controler.getMainWindow().getInputView());
-            validateTour("petitPlan.xml", "dl-petit-3.xml", 1);
-        } catch (java.awt.HeadlessException e) {
-            System.out.println("graphical interface not set: \n" + e);
-        }
+        utils.setOrigin(controler.getMainWindow().getInputView());
+        validateTour("petitPlan.xml", "dl-petit-3.xml", 1);
     }
 
     @Test
     public void threeDeliveryMenSmallPlanSystemTest() throws InterruptedException {
-        try {
-            utils.setOrigin(controler.getMainWindow().getInputView());
-            validateTour("petitPlan.xml", "dl-petit-3.xml", 3);
-        } catch (java.awt.HeadlessException e) {
-            System.out.println("graphical interface not set: \n" + e);
-        }
+        utils.setOrigin(controler.getMainWindow().getInputView());
+        validateTour("petitPlan.xml", "dl-petit-3.xml", 3);
     }
 
     @Test
     public void threeDeliveryMediumPlanSystemTest() throws InterruptedException {
-        try {
-            utils.setOrigin(controler.getMainWindow().getInputView());
-            validateTour("moyenPlan.xml", "dl-moyen-9.xml", 3);
-        } catch (java.awt.HeadlessException e) {
-            System.out.println("graphical interface not set: \n" + e);
-        }
+        utils.setOrigin(controler.getMainWindow().getInputView());
+        validateTour("moyenPlan.xml", "dl-moyen-9.xml", 3);
     }
 
     @Test
     public void sixDeliveryMediumPlanSystemTest() throws InterruptedException {
-        try {
-            utils.setOrigin(controler.getMainWindow().getInputView());
-            validateTour("moyenPlan.xml", "dl-moyen-9.xml", 6);
-        } catch (java.awt.HeadlessException e) {
-            System.out.println("graphical interface not set: \n" + e);
-        }
+        utils.setOrigin(controler.getMainWindow().getInputView());
+        validateTour("moyenPlan.xml", "dl-moyen-9.xml", 6);
     }
 
     private void validateTour(String planFile, String deliveriesFile, int deliveryMenNumber) throws InterruptedException {
