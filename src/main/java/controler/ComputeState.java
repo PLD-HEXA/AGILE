@@ -11,7 +11,6 @@ import entities.Itinerary;
 import view.MainWindow;
 
 
-
 /**
  * The state after the rounds have been computed and displayed.
  * @author PLD-HEXA-301

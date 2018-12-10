@@ -93,6 +93,7 @@ public class PathFinderTest {
         
         PathFinder pf = new PathFinder();
         List<Itinerary> itineraries = pf.findPathClustering(map, 2,true);
+
      
     }
 }

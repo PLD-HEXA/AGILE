@@ -127,4 +127,3 @@ public class TextualView extends JPanel {
 		this.itineraries = itineraries; 
 	}
 }
-

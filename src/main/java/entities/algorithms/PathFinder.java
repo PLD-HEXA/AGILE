@@ -302,7 +302,7 @@ public class PathFinder {
         ArrayList<ArrayList<Integer>> tempItineraries1 = kMeans.findClusters();
         ArrayList<ArrayList<Integer>> tempItineraries = new ArrayList<>();
         List<Itinerary> itineraries = new ArrayList<>();
-
+        
         Date departureTime = getDepartureTime();
 
         for (int i = 0; i < tempItineraries1.size(); i++) {

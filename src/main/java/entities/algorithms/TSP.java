@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities.algorithms;
 
 import entities.Edge;
@@ -16,7 +11,7 @@ import java.util.List;
 
 /**
  * Implementation of the branch and bound algorithm to solve the traveling salesman problem (TSP)
- * @author Youssef
+ * @author PLD-HEXA-301
  */
 public class TSP {
     
