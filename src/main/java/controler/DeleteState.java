@@ -5,6 +5,9 @@
  */
 package controler;
 
+import entities.Itinerary;
+import java.util.List;
+import javafx.util.Pair;
 import view.MainWindow;
 
 /**
@@ -13,9 +16,27 @@ import view.MainWindow;
  */
 public class DeleteState extends DefaultState {
     
-    // Ajouter un bouton (inputView) pour supprimer. Au clique on rentre dans l'état
-    // DeleteState. Si il il clique sur une icone, on doCmd pour enlever ce point
-    // Et si il fait annuler on undo
+    private int numberDeliveryPointDeleted;
+
+    public DeleteState() {
+        this.numberDeliveryPointDeleted = 0;
+    }
+
+    public int getNumberDeliveryPointDeleted() {
+        return numberDeliveryPointDeleted;
+    }
+
+    public void setNumberDeliveryPointDeleted(int numberDeliveryPointDeleted) {
+        this.numberDeliveryPointDeleted = numberDeliveryPointDeleted;
+    }
+    
+    public void addNumberDeliveryPointDeleted() {
+        numberDeliveryPointDeleted++;
+    }
+    
+    public void soustractNumberDeliveryPointDeleted() {
+        numberDeliveryPointDeleted--;
+    }
     
     // Faire la meme chose que pour mouseListener mais une fois qu'on est dans cet état
     @Override
@@ -40,8 +61,45 @@ public class DeleteState extends DefaultState {
             }
             System.out.println(minDistance);
             if(nearestDeliveryPoint != null) {
-                    cmdList.add(new CmdDeleteDeliveryPoint(mainWindow,nearestDeliveryPoint));
+                Pair<Integer,Integer> itineraryIndex = findItineraryPointCorresponding(mainWindow, nearestDeliveryPoint);
+                if (mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size() > numberDeliveryPointDeleted) {
+                    cmdList.add(new CmdDeleteDeliveryPoint(mainWindow,nearestDeliveryPoint, controler, itineraryIndex));
                     controler.setCurState(controler.computeState);
+                } else {
+                    mainWindow.showError("All the delivery points have been deleted");
+                    controler.setCurState(controler.computeState);
+                }
             }
     }
+    
+    //Finding the itinerary that includes this delivery point
+    public Pair<Integer,Integer> findItineraryPointCorresponding(MainWindow mainWindow, int nearestDeliveryPoint) {
+			boolean globalFound = false;
+			boolean localFound = false;
+			int itineraryNumber=0;
+			int deliveryPointNumber=0;
+			int numberOfStops;
+			List<Itinerary> itineraries = mainWindow.getGraphicalView().getItineraries();
+			int numberOfItineraries = itineraries.size();
+			while (!globalFound && itineraryNumber< numberOfItineraries) {
+				deliveryPointNumber=0;
+				numberOfStops = itineraries.get(itineraryNumber).getGeneralPath().size();
+				while(!localFound && deliveryPointNumber < numberOfStops) {
+					//If it's the good delivery point
+					if(itineraries.get(itineraryNumber).getGeneralPath().get(deliveryPointNumber).getCoordinate() == mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()]) {
+						localFound=true;
+						globalFound=true;
+					}
+					else {
+						deliveryPointNumber++;
+					}
+				}
+				if(!localFound) {
+					itineraryNumber++;
+				}
+			}
+                        Pair<Integer,Integer> result = new Pair<>(itineraryNumber, deliveryPointNumber);
+                        return result;
+        }
 }
+

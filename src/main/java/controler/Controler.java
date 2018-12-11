@@ -19,8 +19,8 @@ public class Controler {
 	protected final PlanState planState = new PlanState();
 	protected final DeliveriesState deliveriesState = new DeliveriesState();
 	protected final ComputeState computeState = new ComputeState();
-  protected final DeleteState deleteState = new DeleteState();
-  protected final AddState addState = new AddState();
+        protected final DeleteState deleteState = new DeleteState();
+        protected final AddState addState = new AddState();
 	protected final DetailState detailState = new DetailState();
 	
 	/**
@@ -130,4 +130,14 @@ public class Controler {
 	public MainWindow getMainWindow() {
 		return mainWindow;
 	}
+
+    public DeleteState getDeleteState() {
+        return deleteState;
+    }
+
+    public AddState getAddState() {
+        return addState;
+    }
+        
+        
 }

@@ -18,6 +18,23 @@ public class AddState extends DefaultState {
     private int numberPointOriginal;
 
     public AddState() {
+        numberPointOriginal = 0;
+    }
+
+    public int getNumberPointOriginal() {
+        return numberPointOriginal;
+    }
+
+    public void setNumberPointOriginal(int numberPointOriginal) {
+        this.numberPointOriginal = numberPointOriginal;
+    }
+    
+    public void addNumberPoint() {
+        numberPointOriginal++;
+    }
+    
+    public void soustractNumberPoint() {
+        numberPointOriginal--;
     }
     
     public int getDuration() {
@@ -52,8 +69,7 @@ public class AddState extends DefaultState {
             }
             System.out.println(minDistance);
             if(indexNewDeliveryPoint != null) {
-                
-                cmdList.add(new CmdAddDeliveryPoint(mainWindow, indexNewDeliveryPoint, duration, controler.getPathFinder()));
+                cmdList.add(new CmdAddDeliveryPoint(mainWindow, indexNewDeliveryPoint, duration, numberPointOriginal, controler));
                 controler.setCurState(controler.computeState);
             }
     }
