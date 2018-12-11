@@ -55,19 +55,16 @@ public class AddState extends DefaultState {
             double distance;
             Integer indexNewDeliveryPoint = null;
             
-            
             int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
             for(int i=0;i<numberOfDeliveryPoints;i++) {
                     double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLatitude();
                     double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLongitude();
                     distance=Math.sqrt(Math.pow(latitude-curLatitude, 2)+Math.pow(longitude-curLongitude, 2));
-                    System.out.println(distance);
                     if(distance < minDistance) {
                             minDistance=distance;
                             indexNewDeliveryPoint=i;
                     }
             }
-            System.out.println(minDistance);
             if(indexNewDeliveryPoint != null) {
                 cmdList.add(new CmdAddDeliveryPoint(mainWindow, indexNewDeliveryPoint, duration, numberPointOriginal, controler));
                 controler.setCurState(controler.computeState);

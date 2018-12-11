@@ -34,7 +34,7 @@ public class CmdDeleteDeliveryPoint implements Command  {
         mainWindow.getTextualView().getIndexItineraryToDelete().add(itineraryIndex);
         mainWindow.getGraphicalView().repaint();
         mainWindow.getTextualView().displayListOfRounds();
-        mainWindow.showInformationDeleteState("You have deleted the delivery point.");
+        mainWindow.showInformationConfirmationCommand("You have deleted the delivery point.");
     }
 
     @Override

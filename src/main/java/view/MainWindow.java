@@ -126,8 +126,8 @@ public class MainWindow extends JFrame {
        return JOptionPane.showConfirmDialog(null, text, "Warning",JOptionPane.YES_NO_OPTION);
   }
   
-  public void showInformationDeleteState(String text) {
-      JOptionPane.showConfirmDialog(null, text, "Delete delivery point information",JOptionPane.DEFAULT_OPTION);
+  public int showInformationDeleteState(String text) {
+      return JOptionPane.showConfirmDialog(null, text, "Delete delivery point information",JOptionPane.OK_CANCEL_OPTION);
   }
   
   /**
@@ -161,5 +161,9 @@ public class MainWindow extends JFrame {
         String duration = JOptionPane.showInputDialog(null, text, "Duration",JOptionPane.DEFAULT_OPTION);
         
         return Integer.valueOf(duration);
+    }
+
+    public void showInformationConfirmationCommand(String text) {
+        JOptionPane.showConfirmDialog(null, text, "Confirmation of the action",JOptionPane.DEFAULT_OPTION);
     }
 }

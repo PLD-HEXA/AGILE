@@ -39,7 +39,7 @@ public class CmdAddDeliveryPoint implements Command {
         mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().add(newDeliveryPoint);
         List<Itinerary> itineraries = mainWindow.getGraphicalView().getItineraries();
         boolean addItinerary = controler.getPathFinder().findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,
-                                numberPointAdd);
+                                (numberPointAdd+1));
         if(addItinerary == true) {
                 //mainWindow.getGraphicalView().setItineraries(itineraries);
                 mainWindow.getGraphicalView().setItineraryIndex(null);
@@ -51,6 +51,8 @@ public class CmdAddDeliveryPoint implements Command {
                 mainWindow.getTextualView().displayListOfRounds();
                 mainWindow.getTextualView().revalidate();
                 mainWindow.getTextualView().repaint();
+                mainWindow.showInformationConfirmationCommand("You have added the delivery point. A new round has been added"
+                        + " and the first delivery man to finish will do it.");
                 // On est deja dans cet etat
                 // controler.setCurState(controler.computeState);
         }
