@@ -48,13 +48,13 @@ public class Parser {
             try {
                 res = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8),Reseau.class);
             } catch (JsonParseException ex) {
-                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
             } catch (JsonMappingException ex) {
-                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
             } catch (IOException ex) {
-                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
             }
             return res;      
@@ -83,13 +83,13 @@ public class Parser {
             try {
                 ddl = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8),DemandeDeLivraisons.class);
             }catch (JsonParseException ex) {
-                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
             } catch (JsonMappingException ex) {
-                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
             } catch (IOException ex) {
-                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
             }
             return ddl;
