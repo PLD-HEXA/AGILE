@@ -351,6 +351,12 @@ public class GraphicalView extends JPanel {
 
     }
 
+    public double[] getCoordinatePosition(Coordinate coordinate) {
+        double x = mapSize - ((longMax - coordinate.getLongitude()) * heightScale + pointRadius);
+        double y = ((latMax - coordinate.getLatitude()) * widthScale - pointRadius);
+        return new double[]{x, y};
+    }
+
     public void setItineraries(List<Itinerary> itineraries) {
         this.itineraries = itineraries;
     }
