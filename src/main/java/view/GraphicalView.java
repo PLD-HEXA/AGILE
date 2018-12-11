@@ -35,6 +35,7 @@ import entities.Map;
 import entities.Segment;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.util.Pair;
 
 public class GraphicalView extends JPanel {
 
@@ -43,6 +44,9 @@ public class GraphicalView extends JPanel {
     private double widthScale;
     private static final int pointRadius = 5;
     private Graphics g;
+    /**
+     * indexToDelete contains the index in the deliveryPointTab 
+     */
     private List<Integer> indexToDelete;
     private double longMax;
     private double latMax;

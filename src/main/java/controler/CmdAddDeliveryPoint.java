@@ -17,29 +17,29 @@ import view.MainWindow;
  */
 public class CmdAddDeliveryPoint implements Command {
 
-    PathFinder pathFinder;
+    Controler controler;
     private MainWindow mainWindow;
     private int indexNewDeliveryPoint;
     private int duration;
     private int numberPointAdd;
     
-    public CmdAddDeliveryPoint(MainWindow mainWindow, int indexNewDeliveryPoint, int duration, PathFinder pathFinder) {
+    public CmdAddDeliveryPoint(MainWindow mainWindow, int indexNewDeliveryPoint, int duration, int numberPointOriginal, Controler controler) {
         this.mainWindow = mainWindow;
         this.indexNewDeliveryPoint = indexNewDeliveryPoint;
         this.duration = duration;
-        this.numberPointAdd = 0;
-        this.pathFinder = pathFinder;
+        this.numberPointAdd = numberPointOriginal;
+        this.controler = controler;
     }
 
     
     @Override
     public void doCmd() {
-        numberPointAdd++;
+        controler.getAddState().addNumberPoint();
         Pair<Integer,Integer> newDeliveryPoint = new Pair<>(indexNewDeliveryPoint, duration);
         mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().add(newDeliveryPoint);
         List<Itinerary> itineraries = mainWindow.getGraphicalView().getItineraries();
-        boolean addItinerary = pathFinder.findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,
-                                numberPointAdd);
+        boolean addItinerary = controler.getPathFinder().findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,
+                                (numberPointAdd+1));
         if(addItinerary == true) {
                 //mainWindow.getGraphicalView().setItineraries(itineraries);
                 mainWindow.getGraphicalView().setItineraryIndex(null);
@@ -51,6 +51,8 @@ public class CmdAddDeliveryPoint implements Command {
                 mainWindow.getTextualView().displayListOfRounds();
                 mainWindow.getTextualView().revalidate();
                 mainWindow.getTextualView().repaint();
+                mainWindow.showInformationConfirmationCommand("You have added the delivery point. A new round has been added"
+                        + " and the first delivery man to finish will do it.");
                 // On est deja dans cet etat
                 // controler.setCurState(controler.computeState);
         }
@@ -63,11 +65,11 @@ public class CmdAddDeliveryPoint implements Command {
 
     @Override
     public void undoCmd() {
-        numberPointAdd--;
+        controler.getAddState().soustractNumberPoint();
         int indexToDelete = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
         List<Itinerary> itineraries = mainWindow.getGraphicalView().getItineraries();
         mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().remove(indexToDelete);
-        boolean addItinerary = pathFinder.findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,
+        boolean addItinerary = controler.getPathFinder().findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,
                                 numberPointAdd);
         if(addItinerary == true) {
                 //mainWindow.getGraphicalView().setItineraries(itineraries);

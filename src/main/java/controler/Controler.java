@@ -19,8 +19,8 @@ public class Controler {
 	protected final PlanState planState = new PlanState();
 	protected final DeliveriesState deliveriesState = new DeliveriesState();
 	protected final ComputeState computeState = new ComputeState();
-  protected final DeleteState deleteState = new DeleteState();
-  protected final AddState addState = new AddState();
+        protected final DeleteState deleteState = new DeleteState();
+        protected final AddState addState = new AddState();
 	protected final DetailState detailState = new DetailState();
 	
 	/**
@@ -79,7 +79,7 @@ public class Controler {
         
         public void buttonAddClick() {
             int duration = mainWindow.showInformationAddState("You can click on the locate of the delivery point"
-                    + " you want to add");
+                    + " you want to add. \nPlease, Enter the duration of the new delivery point.");
             if (duration >= 0) {
                 addState.setDuration(duration);
                 curState.clickAddButton(this);
@@ -89,9 +89,11 @@ public class Controler {
         }
         
         public void buttonDeleteClick() {
-            mainWindow.showInformationDeleteState("You can click on one delivery point"
+            int wantToDelete = mainWindow.showInformationDeleteState("You can click on one delivery point"
                     + " in order to delete it.");
-            curState.clickDeleteButton(this);
+            if (wantToDelete == 0) {
+                curState.clickDeleteButton(this);
+            }
         }
 	/**
 	 * Allows the user to move dynamically through a specific round.
@@ -130,4 +132,14 @@ public class Controler {
 	public MainWindow getMainWindow() {
 		return mainWindow;
 	}
+
+        public DeleteState getDeleteState() {
+            return deleteState;
+        }
+
+        public AddState getAddState() {
+            return addState;
+        }
+        
+        
 }

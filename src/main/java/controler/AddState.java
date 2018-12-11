@@ -18,6 +18,23 @@ public class AddState extends DefaultState {
     private int numberPointOriginal;
 
     public AddState() {
+        numberPointOriginal = 0;
+    }
+
+    public int getNumberPointOriginal() {
+        return numberPointOriginal;
+    }
+
+    public void setNumberPointOriginal(int numberPointOriginal) {
+        this.numberPointOriginal = numberPointOriginal;
+    }
+    
+    public void addNumberPoint() {
+        numberPointOriginal++;
+    }
+    
+    public void soustractNumberPoint() {
+        numberPointOriginal--;
     }
     
     public int getDuration() {
@@ -38,22 +55,18 @@ public class AddState extends DefaultState {
             double distance;
             Integer indexNewDeliveryPoint = null;
             
-            
             int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
             for(int i=0;i<numberOfDeliveryPoints;i++) {
                     double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLatitude();
                     double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLongitude();
                     distance=Math.sqrt(Math.pow(latitude-curLatitude, 2)+Math.pow(longitude-curLongitude, 2));
-                    System.out.println(distance);
                     if(distance < minDistance) {
                             minDistance=distance;
                             indexNewDeliveryPoint=i;
                     }
             }
-            System.out.println(minDistance);
             if(indexNewDeliveryPoint != null) {
-                
-                cmdList.add(new CmdAddDeliveryPoint(mainWindow, indexNewDeliveryPoint, duration, controler.getPathFinder()));
+                cmdList.add(new CmdAddDeliveryPoint(mainWindow, indexNewDeliveryPoint, duration, numberPointOriginal, controler));
                 controler.setCurState(controler.computeState);
             }
     }
