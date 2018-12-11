@@ -320,10 +320,10 @@ public void setMap(Map map) {
 		double delivLatitude;
 		double delivLongitude;
 		int numberOfGeneralStops = itineraries.get(itineraryIndex).getGeneralPath().size();		
-		for (int i = 1; i < numberOfGeneralStops-1; i++) {
+		for (int i = 0; i < numberOfGeneralStops ; i++) {
 			delivLatitude = (latMax - itineraries.get(itineraryIndex).getGeneralPath().get(i).getCoordinate().getLatitude()) * widthScale;
 			delivLongitude = (longMax - itineraries.get(itineraryIndex).getGeneralPath().get(i).getCoordinate().getLongitude()) * heightScale;
-			if(i>deliveryPointIndex) {
+			if(i>deliveryPointIndex ) {
 				g.setColor(Color.red);
 				g.drawOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
 				g.fillOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
@@ -345,7 +345,7 @@ public void setMap(Map map) {
 						e.printStackTrace();
 					} 
 			}
-			else {
+			else{
 				g.setColor(Color.green);
 				g.drawOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
 				g.fillOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
@@ -358,6 +358,20 @@ public void setMap(Map map) {
 					} 
 			}
 		}	
+		if(deliveryPointIndex==0 ) {
+			delivLatitude = (latMax - itineraries.get(itineraryIndex).getGeneralPath().get(deliveryPointIndex).getCoordinate().getLatitude()) * widthScale;
+			delivLongitude = (longMax - itineraries.get(itineraryIndex).getGeneralPath().get(deliveryPointIndex).getCoordinate().getLongitude()) * heightScale;
+			g.setColor(Color.orange);
+			g.drawOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
+			g.fillOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
+			 try {
+					BufferedImage image = ImageIO.read(new File("images/deliveryMan.png"));
+					g.drawImage(image, (int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius-13, null);
+			    } catch (IOException e) {
+					e.printStackTrace();
+				} 
+		}
+		
 	}
 	
 	
