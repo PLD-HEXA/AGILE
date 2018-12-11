@@ -327,7 +327,10 @@ public class PathFinder {
     }
     
     //Liste d'itinÃ©raires !!!
-    public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints) {
+    public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints) {    
+        if(nbNewPoints >1){
+            itineraries.remove(itineraries.size() -1);
+        }
         
         Date tempArrivalTime;
         Date earlierArrivalTime = itineraries.get(0).getGeneralPath().get(itineraries.get(0).getGeneralPath().size() -1).getDepartureTime();
@@ -385,5 +388,23 @@ public class PathFinder {
         else{
             return findPathClustering(map,nbDeliveryMen,false);
         }
+        
+        /*
+        long startTime = System.currentTimeMillis();
+        List<Itinerary> res =  findPathClustering(map,nbDeliveryMen,false);
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println("Temps d'exécution : "+ elapsedTime/1000.0);
+        long totalDuration = 0;
+        int size;
+        for(Itinerary itinerary: res){
+            size = itinerary.getGeneralPath().size();
+            totalDuration += (itinerary.getGeneralPath().get(size-1).getDepartureTime().getTime() - itinerary.getGeneralPath().get(0).getArrivalTime().getTime());
+        }
+        Date duration = new Date(totalDuration);
+        System.out.println("Total time of all the itineraries: " + duration.toGMTString()); 
+        
+        return res;
+*/
     }
 }
