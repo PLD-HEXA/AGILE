@@ -48,14 +48,23 @@ public class SystemTest {
      * Choose and load an XML plan and deliveries
      * @throws InterruptedException
      */
-    private void loadFiles() throws InterruptedException {
+    @Test
+    public void loadFiles() throws InterruptedException {
+        Thread.sleep(1000);
+        utils.setInputViewOrigin(controler.getMainWindow().getInputView());
+        utils.setGraphicalViewOrigin(controler.getMainWindow().getGraphicalView());
+
         // choose an XML file
         utils.loadXML("Load an xml plan", utils.XML_FOLDER + "moyenPlan.xml");
         utils.loadXML("Load deliveries", utils.XML_FOLDER + "dl-moyen-9.xml");
+
+        Thread.sleep(100000);
     }
 
     private void validateTour(String planFile, String deliveriesFile, int deliveryMenNumber) throws InterruptedException {
         Thread.sleep(1000);
+
+        // define the origin
         utils.setInputViewOrigin(controler.getMainWindow().getInputView());
         utils.setGraphicalViewOrigin(controler.getMainWindow().getGraphicalView());
 
