@@ -67,7 +67,6 @@ public class SystemTest {
         utils.setInputViewOrigin(controler.getMainWindow().getInputView());
         utils.setGraphicalViewOrigin(controler.getMainWindow().getGraphicalView());
 
-
         // choose an XML file
         utils.loadXML("Load an xml plan", utils.XML_FOLDER + planFile);
         utils.loadXML("Load deliveries", utils.XML_FOLDER + deliveriesFile);
