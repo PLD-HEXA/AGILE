@@ -124,13 +124,11 @@ public class TextualView extends JPanel {
 							int deliveryPoint = 1;
 							int itinerary = 0;
 							if (parent.equals("Rounds")) {
-								System.out.print("parsing child " + child.substring(8));
 								itinerary = Integer.parseInt(child.substring(8)) - 1;
 								mainWindow.getGraphicalView().setItineraryIndex(itinerary);
 								mainWindow.getGraphicalView().setDeliveryPointIndex(deliveryPoint);
 								mainWindow.getGraphicalView().repaint();
 							} else if (parent.contains("Round n")) {
-								System.out.print("parsing parent " + parent.substring(8));
 								itinerary = Integer.parseInt(parent.substring(8)) - 1;
 								System.out.print("parsing child " + child.substring(11));
 								deliveryPoint = Integer.parseInt(child.substring(11));

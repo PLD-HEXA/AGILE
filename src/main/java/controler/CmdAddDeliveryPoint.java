@@ -51,7 +51,7 @@ public class CmdAddDeliveryPoint implements Command {
                 mainWindow.getTextualView().displayListOfRounds();
                 mainWindow.getTextualView().revalidate();
                 mainWindow.getTextualView().repaint();
-                // On est deja dans ce etat
+                // On est deja dans cet etat
                 // controler.setCurState(controler.computeState);
         }
         else {
