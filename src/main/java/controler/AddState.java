@@ -34,15 +34,15 @@ public class AddState extends DefaultState {
             System.out.println("Y : " + y);
             double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
             double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getWidth()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
-            double minDistance=0.0062; // distance minimale 
+            double minDistance=0.0025; // distance minimale 
             double distance;
             Integer indexNewDeliveryPoint = null;
             
             
             int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
             for(int i=0;i<numberOfDeliveryPoints;i++) {
-                    double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey()].getLatitude();
-                    double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey()].getLongitude();
+                    double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLatitude();
+                    double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLongitude();
                     distance=Math.sqrt(Math.pow(latitude-curLatitude, 2)+Math.pow(longitude-curLongitude, 2));
                     System.out.println(distance);
                     if(distance < minDistance) {
@@ -54,7 +54,6 @@ public class AddState extends DefaultState {
             if(indexNewDeliveryPoint != null) {
                 
                 cmdList.add(new CmdAddDeliveryPoint(mainWindow, indexNewDeliveryPoint, duration, controler.getPathFinder()));
-
                 controler.setCurState(controler.computeState);
             }
     }

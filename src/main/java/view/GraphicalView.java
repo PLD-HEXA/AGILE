@@ -34,6 +34,7 @@ import entities.Itinerary;
 import entities.Map;
 import entities.Segment;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GraphicalView extends JPanel {
 
@@ -174,47 +175,29 @@ public class GraphicalView extends JPanel {
         double longitude;
         int numberOfDeliveryPoints = map.getTabDeliveryPoints().size();
         for (int i = 0; i < numberOfDeliveryPoints; i++) {
-            if (indexToDelete.isEmpty()) {
                 latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
                 longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
-                g.setColor(Color.pink);
-                g.drawOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
-                g.fillOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
-                try {
-                    BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
-                    g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("delete index : " + indexToDelete.get(0));
-                for (int deletedIndex : indexToDelete) {
-                    latitude = (latMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLatitude()) * widthScale;
-                    longitude = (longMax - map.getCoordinates()[map.getTabDeliveryPoints().get(i).getKey()].getLongitude()) * heightScale;
-                    if (deletedIndex != i) {
-                        g.setColor(Color.pink);
-                        try {
-                            BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
-                            g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    } else {
-                        g.setColor(Color.gray);
-                        try {
-                            BufferedImage image = ImageIO.read(new File("images/delivPointDeleted.png"));
-                            g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
+                if (!indexToDelete.contains(i)) {
+                    g.setColor(Color.pink);
                     g.drawOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
                     g.fillOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                    try {
+                        BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
+                        g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                } else {
+                    g.setColor(Color.gray);
+                    try {
+                        BufferedImage image = ImageIO.read(new File("images/delivPointDeleted.png"));
+                        g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
-            }
         }
         latitude = (latMax - map.getCoordinates()[map.getWareHouse().getKey()].getLatitude()) * widthScale;
         longitude = (longMax - map.getCoordinates()[map.getWareHouse().getKey()].getLongitude()) * heightScale;
