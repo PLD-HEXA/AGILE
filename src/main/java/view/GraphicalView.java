@@ -408,6 +408,11 @@ public void setMap(Map map) {
             this.indexToDelete = indexToDelete;
         }
         
-        
+        public double getScale() {
+            return scale;
+        }
+        public int getMapSize() {
+                return mapSize;
+        }
         
 }

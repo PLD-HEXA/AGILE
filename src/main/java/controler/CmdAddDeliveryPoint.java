@@ -67,16 +67,17 @@ public class CmdAddDeliveryPoint implements Command {
     public void undoCmd() {
         controler.getAddState().soustractNumberPoint();
         int indexToDelete = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
-        List<Itinerary> itineraries = mainWindow.getGraphicalView().getItineraries();
-        mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().remove(indexToDelete);
-        boolean addItinerary = controler.getPathFinder().findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,
-                                numberPointAdd);
+        mainWindow.getGraphicalView().getItineraries().remove(mainWindow.getGraphicalView().getItineraries().size()-1-numberPointAdd);
+        mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().remove(indexToDelete-1);
+        boolean addItinerary  = true;
+                //controler.getPathFinder().findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,
+                   //                 numberPointAdd);
         if(addItinerary == true) {
                 //mainWindow.getGraphicalView().setItineraries(itineraries);
                 mainWindow.getGraphicalView().setItineraryIndex(null);
                 mainWindow.getGraphicalView().setDeliveryPointIndex(null);
                 mainWindow.getGraphicalView().repaint();
-                mainWindow.getTextualView().setItineraries(itineraries);
+                mainWindow.getTextualView().setItineraries(mainWindow.getGraphicalView().getItineraries());
                 mainWindow.getTextualView().setItineraryIndex(null);
                 mainWindow.getTextualView().setDeliveryPointIndex(null);
                 mainWindow.getTextualView().displayListOfRounds();

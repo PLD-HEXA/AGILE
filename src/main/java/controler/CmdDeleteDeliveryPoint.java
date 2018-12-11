@@ -30,7 +30,6 @@ public class CmdDeleteDeliveryPoint implements Command  {
     public void doCmd() {
         controler.getDeleteState().addNumberDeliveryPointDeleted();
         mainWindow.getGraphicalView().getIndexToDelete().add(indexDeliveryPoint);
-        System.out.println("Pair supprimée : " + itineraryIndex.toString());
         mainWindow.getTextualView().getIndexItineraryToDelete().add(itineraryIndex);
         mainWindow.getGraphicalView().repaint();
         mainWindow.getTextualView().displayListOfRounds();

@@ -47,10 +47,10 @@ public class AddState extends DefaultState {
     
     @Override
     public void mouseClick(Controler controler, MainWindow mainWindow, CmdList cmdList, int x,int y) {
-            System.out.println("X : " + x);
-            System.out.println("Y : " + y);
+            x/=mainWindow.getGraphicalView().getScale();
+            y/=mainWindow.getGraphicalView().getScale();
             double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
-            double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getWidth()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
+            double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getMapSize()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
             double minDistance=0.0025; // distance minimale 
             double distance;
             Integer indexNewDeliveryPoint = null;
