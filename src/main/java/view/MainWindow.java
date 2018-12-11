@@ -73,7 +73,9 @@ public class MainWindow extends JFrame {
 	    container.setLocation(0,size.height);
 	    container.setPreferredSize(new Dimension(size.width-size.height,size.height));
 	    container.setLayout(new BorderLayout());
+	    inputView.setPreferredSize(new Dimension(size.width-size.height,50));
 	    container.add(inputView, BorderLayout.NORTH);
+	    textualView.setPreferredSize(new Dimension(size.width-size.height,size.height-50));
 	    container.add(textualView, BorderLayout.CENTER);
 	    this.getContentPane().add(container,BorderLayout.EAST);
 	    this.getContentPane().add(jScroolPane,BorderLayout.CENTER);

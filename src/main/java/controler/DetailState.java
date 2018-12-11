@@ -94,9 +94,11 @@ public class DetailState extends DefaultState{
 	
 	@Override
 	public void mouseClick(Controler controler, MainWindow mainWindow,int x,int y) {
+		x/=mainWindow.getGraphicalView().getScale();
+		y/=mainWindow.getGraphicalView().getScale();
 		double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
-		double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getWidth()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
-		double minDistance= minimalDistance; 
+		double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getMapSize()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
+		double minDistance=minimalDistance; // distance minimale 
 		double distance;
 		Integer nearestDeliveryPoint = null;
 		int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
@@ -104,6 +106,7 @@ public class DetailState extends DefaultState{
 			double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey()].getLatitude();
 			double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey()].getLongitude();
 			distance=Math.sqrt(Math.pow(latitude-curLatitude, 2)+Math.pow(longitude-curLongitude, 2));
+			System.out.println(distance);
 			if(distance <minDistance) {
 				minDistance=distance;
 				nearestDeliveryPoint=i;

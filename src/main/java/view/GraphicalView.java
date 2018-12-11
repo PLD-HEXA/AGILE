@@ -189,7 +189,10 @@ public class GraphicalView extends JPanel {
                         e.printStackTrace();
                     }
                 } else {
-                    g.setColor(Color.gray);
+                    g.setColor(Color.DARK_GRAY);
+                    g.drawOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                    g.fillOval((int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                    
                     try {
                         BufferedImage image = ImageIO.read(new File("images/delivPointDeleted.png"));
                         g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13, null);
@@ -417,6 +420,14 @@ public void setMap(Map map) {
         public void setIndexToDelete(List<Integer> indexToDelete) {
             this.indexToDelete = indexToDelete;
         }
+
+		public double getScale() {
+			return scale;
+		}
+
+		public int getMapSize() {
+			return mapSize;
+		}
         
         
         

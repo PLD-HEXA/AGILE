@@ -107,6 +107,7 @@ private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, CO
             bouton.setFocusPainted(false);
             bouton.addActionListener(buttonListener);
             add(bouton);
+            System.out.println(bouton.getSize());
         }
     }
 
