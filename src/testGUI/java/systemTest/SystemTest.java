@@ -78,6 +78,6 @@ public class SystemTest {
         assertEquals(deliveryMenNumberMin, deliveryMenNumberMax, 1);
 
         // check if the response is correct
-
+        Thread.sleep(100000);
     }
 }

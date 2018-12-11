@@ -112,25 +112,25 @@ public class DefaultState implements State {
      @Override
     public void keyPressed(Controler controler, MainWindow mainWindow, int keyCode) {
 
-        if (keyCode == KeyEvent.VK_NUMPAD1) {
+        if (keyCode == KeyEvent.VK_Q) {
             JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getHorizontalScrollBar();
             if (scrollBar != null) {
                 scrollBar.setValue(scrollBar.getValue()
                         - scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
             }
-        } else if (keyCode == KeyEvent.VK_NUMPAD2) {
+        } else if (keyCode == KeyEvent.VK_S) {
             JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getVerticalScrollBar();
             if (scrollBar != null) {
                 scrollBar.setValue(scrollBar.getValue()
                         + scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
             }
-        } else if (keyCode == KeyEvent.VK_NUMPAD3) {
+        } else if (keyCode == KeyEvent.VK_D) {
             JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getHorizontalScrollBar();
             if (scrollBar != null) {
                 scrollBar.setValue(scrollBar.getValue()
                         + scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
             }
-        } else if (keyCode == KeyEvent.VK_NUMPAD5) {
+        } else if (keyCode == KeyEvent.VK_Z) {
             JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getVerticalScrollBar();
             if (scrollBar != null) {
                 scrollBar.setValue(scrollBar.getValue()
