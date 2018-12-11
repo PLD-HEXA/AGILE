@@ -1,6 +1,7 @@
 package systemTest;
 
 import controler.Controler;
+import entities.Coordinate;
 import entities.Itinerary;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -24,29 +26,39 @@ public class SystemTest {
 
     @Test
     public void oneDeliveryManSmallPanSystemTest() throws InterruptedException {
-        utils.setOrigin(controler.getMainWindow().getInputView());
         validateTour("petitPlan.xml", "dl-petit-3.xml", 1);
     }
 
     @Test
     public void threeDeliveryMenSmallPlanSystemTest() throws InterruptedException {
-        utils.setOrigin(controler.getMainWindow().getInputView());
         validateTour("petitPlan.xml", "dl-petit-3.xml", 3);
     }
 
     @Test
     public void threeDeliveryMediumPlanSystemTest() throws InterruptedException {
-        utils.setOrigin(controler.getMainWindow().getInputView());
         validateTour("moyenPlan.xml", "dl-moyen-9.xml", 3);
     }
 
     @Test
     public void sixDeliveryMediumPlanSystemTest() throws InterruptedException {
-        utils.setOrigin(controler.getMainWindow().getInputView());
         validateTour("moyenPlan.xml", "dl-moyen-9.xml", 6);
     }
 
+    /**
+     * Choose and load an XML plan and deliveries
+     * @throws InterruptedException
+     */
+    private void loadFiles() throws InterruptedException {
+        // choose an XML file
+        utils.loadXML("Load an xml plan", utils.XML_FOLDER + "moyenPlan.xml");
+        utils.loadXML("Load deliveries", utils.XML_FOLDER + "dl-moyen-9.xml");
+    }
+
     private void validateTour(String planFile, String deliveriesFile, int deliveryMenNumber) throws InterruptedException {
+        Thread.sleep(1000);
+        utils.setInputViewOrigin(controler.getMainWindow().getInputView());
+        utils.setGraphicalViewOrigin(controler.getMainWindow().getGraphicalView());
+
         // choose an XML file
         utils.loadXML("Load an xml plan", utils.XML_FOLDER + planFile);
         utils.loadXML("Load deliveries", utils.XML_FOLDER + deliveriesFile);
@@ -68,16 +80,23 @@ public class SystemTest {
         List<Itinerary> deliveries = controler.getMainWindow().getGraphicalView().getItineraries();
         assertEquals(deliveryMenNumber, deliveries.size());
 
+        // click on the first delivery
+        Coordinate coordinate = deliveries.get(0).getGeneralPath().get(0).getCoordinate();
+        double[] positions = controler.getMainWindow().getGraphicalView().getCoordinatePosition(coordinate);
+        utils.clickOnCoordinate(positions[0], positions[1]);
+
         // check if there is the same number of delivery in each itinerary
-        int deliveryMenNumberMin = deliveries.get(0).getGeneralPath().size();
+        int deliveryMenNumberMin = deliveries.get(1).getGeneralPath().size();
         int deliveryMenNumberMax = deliveryMenNumberMin;
         for (Itinerary delivery : deliveries) {
-            deliveryMenNumberMin = Math.min(deliveryMenNumberMin, delivery.getGeneralPath().size());
-            deliveryMenNumberMax = Math.max(deliveryMenNumberMax, delivery.getGeneralPath().size());
+            int deliveryNumber = delivery.getGeneralPath().size();
+            deliveryMenNumberMin = Math.min(deliveryMenNumberMin, deliveryNumber);
+            deliveryMenNumberMax = Math.max(deliveryMenNumberMax, deliveryNumber);
+            utils.clickOnRightArrow(deliveryNumber + 1);
         }
+
         assertEquals(deliveryMenNumberMin, deliveryMenNumberMax, 1);
 
-        // check if the response is correct
-
+        Thread.sleep(100000);
     }
 }
