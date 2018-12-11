@@ -70,7 +70,7 @@ public class InputView extends JPanel {
      * It represents a board that contains the name of all buttons
      */
   
-    private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO};
+private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO};
 
     /**
      * The constructor
