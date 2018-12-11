@@ -107,10 +107,7 @@ private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, CO
             bouton.setFocusable(false);
             bouton.setFocusPainted(false);
             bouton.addActionListener(buttonListener);
-            bouton.setFont(new Font("sansserif",Font.PLAIN,12));
             add(bouton);
-            System.out.println(bouton.getFont());
-            System.out.println(bouton.getFontMetrics(bouton.getFont()));
         }
     }
 
