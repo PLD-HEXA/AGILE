@@ -227,6 +227,7 @@ public class GraphicalView extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 	public void setMap(Map map) {
