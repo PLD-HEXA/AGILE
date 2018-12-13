@@ -1,5 +1,6 @@
 package entities;
 
+import entities.algorithms.Dijkstra;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +56,9 @@ public class Map {
      * represents the duration at the delivery point in second
      */
     private List<Pair<Integer,Integer>> tabDeliveryPoints;
+    
+    private List<Integer> unreachablePoints;
+    private List<Integer> nonReturnPoints;
 
 
     /**
@@ -307,6 +311,46 @@ public class Map {
         else {
             graph = null;
         }
+    }
+    
+    public void fillUnreachablePoints(){
+        this.unreachablePoints = new ArrayList<>();
+        
+        //Find the unreachable points in the graph
+        Dijkstra dijkstra = new Dijkstra(this.graph);
+        dijkstra.executeDijkstra(this.wareHouse.getKey(), new ArrayList<Integer>());
+        double[] distance = dijkstra.getDistance();
+        for(int i = 0; i< distance.length;i++){
+            if(distance[i] == Double.MAX_VALUE){
+                this.unreachablePoints.add(new Integer(i));
+            }
+        }    
+    }
+    
+    public void fillNonReturnPoints(){
+        this.nonReturnPoints = new ArrayList<>();
+        
+        //Find the points from which there is no possible return in the graph
+        List<Integer> tempNonReturnPoints1 = new ArrayList<>();
+        for(int i = 0; i< graph.size(); i++){
+            if(graph.get(i).isEmpty()){
+                nonReturnPoints.add(i);
+                tempNonReturnPoints1.add(i);
+            }
+        }
+        
+        List<Integer> tempNonReturnPoints2;
+        while(!tempNonReturnPoints1.isEmpty()){
+            tempNonReturnPoints2 = new ArrayList<>();
+            for(int i = 0; i< graph.size(); i++){
+                if(graph.get(i).size() == 1 && tempNonReturnPoints1.contains(graph.get(i).get(0).getDestIndex())){
+                    tempNonReturnPoints2.add(i);
+                    nonReturnPoints.add(i);
+                }
+            }
+            tempNonReturnPoints1 = new ArrayList<>();
+            tempNonReturnPoints1.addAll(tempNonReturnPoints2);
+        } 
     }
     
     /**
