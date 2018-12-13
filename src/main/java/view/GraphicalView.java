@@ -352,7 +352,13 @@ public class GraphicalView extends JPanel {
                 e.printStackTrace();
             }
         }
+    }
 
+    public double getScale() {
+        return scale;
+    }
+    public int getMapSize() {
+        return mapSize;
     }
 
     public double[] getCoordinatePosition(Coordinate coordinate) {
@@ -393,10 +399,6 @@ public class GraphicalView extends JPanel {
         return scrollPane;
     }
 
-    public double getScale() {
-        return scale;
-    }
-
     public void setItineraryIndex(Integer itineraryIndex) {
         this.itineraryIndex = itineraryIndex;
     }
@@ -428,5 +430,4 @@ public class GraphicalView extends JPanel {
     public void setIndexToDelete(List<Integer> indexToDelete) {
         this.indexToDelete = indexToDelete;
     }
-
 }
