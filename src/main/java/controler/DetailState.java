@@ -162,9 +162,9 @@ public class DetailState extends DefaultState{
 		int currentItinerary=mainWindow.getGraphicalView().getItineraryIndex();
 		if(keyCode == KeyEvent.VK_RIGHT) {
 			numberOfDeliveryPoints=mainWindow.getGraphicalView().getItineraries().get(currentItinerary).getGeneralPath().size();
-			if(currentDeliveryPoint==(numberOfDeliveryPoints-2)) {//If it's the last delivery point
-				mainWindow.getGraphicalView().setDeliveryPointIndex(1);
-				mainWindow.getTextualView().setDeliveryPointIndex(1);
+			if(currentDeliveryPoint==(numberOfDeliveryPoints-1)) {//If it's the last delivery point
+				mainWindow.getGraphicalView().setDeliveryPointIndex(0);
+				mainWindow.getTextualView().setDeliveryPointIndex(0);
 			}
 			else {
 				mainWindow.getGraphicalView().setDeliveryPointIndex(currentDeliveryPoint+1);
@@ -174,9 +174,9 @@ public class DetailState extends DefaultState{
 		}
 		else if(keyCode == KeyEvent.VK_LEFT) {
 			numberOfDeliveryPoints=mainWindow.getGraphicalView().getItineraries().get(currentItinerary).getGeneralPath().size();
-			if(currentDeliveryPoint==1) {
-				mainWindow.getGraphicalView().setDeliveryPointIndex(numberOfDeliveryPoints-2);
-				mainWindow.getTextualView().setDeliveryPointIndex(numberOfDeliveryPoints-2);
+			if(currentDeliveryPoint==0) {
+				mainWindow.getGraphicalView().setDeliveryPointIndex(numberOfDeliveryPoints-1);
+				mainWindow.getTextualView().setDeliveryPointIndex(numberOfDeliveryPoints-1);
 			}
 			else {
 				mainWindow.getGraphicalView().setDeliveryPointIndex(currentDeliveryPoint-1);
