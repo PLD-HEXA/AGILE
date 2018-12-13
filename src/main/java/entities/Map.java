@@ -55,6 +55,8 @@ public class Map {
      * represents the duration at the delivery point in second
      */
     private List<Pair<Integer,Integer>> tabDeliveryPoints;
+    
+    private List<Integer> nonValidPoints;
 
 
     /**
@@ -307,6 +309,10 @@ public class Map {
         else {
             graph = null;
         }
+    }
+    
+    public void fillNonValidPoints(){
+        
     }
     
     /**
