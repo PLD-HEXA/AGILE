@@ -52,6 +52,10 @@ public class ButtonListener implements ActionListener {
                 System.out.println("Clique sur redo");
                 controler.redo();
                 break;
+            case InputView.RESET:
+                System.out.println("Clique sur reset");
+                controler.reset();
+                break;
             
         }
     }

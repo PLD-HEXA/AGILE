@@ -48,6 +48,25 @@ public class Utils {
         }
     }
 
+    public void goThroughDeliveries() throws InterruptedException {
+        robot.keyPress(KeyEvent.VK_RIGHT);
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_RIGHT);
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_RIGHT);
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_LEFT);
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_LEFT);
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_DOWN);
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_DOWN);
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_UP);
+        Thread.sleep(1000);
+    }
+
     public void clickOnRightArrow(int numberOfClicks) throws InterruptedException {
         for (int i = 0; i < numberOfClicks; i++) {
             robot.keyPress(KeyEvent.VK_RIGHT);

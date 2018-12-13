@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,9 +22,8 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import entities.Coordinate;
-import entities.DeliveryPoint;
 import entities.Itinerary;
+import javafx.util.Pair;
 
 public class TextualView extends JPanel {
 
@@ -40,10 +37,15 @@ public class TextualView extends JPanel {
 	private Integer deliveryPointIndex; // Index of the index of the current highlihghted delivery point in the
 										// itinerary
 	private List<List<DefaultMutableTreeNode>> nodesHierarchy;
+        /**
+         * Contains the index of the delivery to delete in the itinerary
+         */
+        private List<Pair<Integer,Integer>> indexItineraryToDelete;
 
 	public TextualView(MainWindow mainWindow) {
 		super();
 		this.mainWindow = mainWindow;
+                this.indexItineraryToDelete = new ArrayList<>();
 		setLayout(new BorderLayout());
 		setBackground(Color.pink);
 		nodesHierarchy = new ArrayList<List<DefaultMutableTreeNode>>();
@@ -78,7 +80,9 @@ public class TextualView extends JPanel {
 	public void displayListOfRounds() {
 		DefaultMutableTreeNode rounds = new DefaultMutableTreeNode("Rounds");
 		if (itineraries != null) {
+                    
 			int numberOfRounds = itineraries.size();
+                        System.out.println("size iti : " + numberOfRounds);
 			DefaultMutableTreeNode curRound;
 			DefaultMutableTreeNode curStop;
 			DefaultMutableTreeNode arrival;
@@ -88,9 +92,18 @@ public class TextualView extends JPanel {
 			Date arrivalDate;
 			Date diff;
 			for (int i = 0; i < numberOfRounds; i++) {
-				int numberOfStops = itineraries.get(i).getGeneralPath().size();
-				curRound = new DefaultMutableTreeNode("Round n " + Integer.toString(i + 1));
-				nodesHierarchy.add(i, new ArrayList<DefaultMutableTreeNode>());
+                            boolean itineraryWithDeletedPoint = false;
+                            List<Integer> indexDelPointToDelete = new ArrayList<>();
+                            for (Pair<Integer,Integer> p : indexItineraryToDelete) {
+                                if (p.getKey() == i) {
+                                    itineraryWithDeletedPoint = true;
+                                    indexDelPointToDelete.add(p.getValue());
+                                }
+                            }
+                            int numberOfStops = itineraries.get(i).getGeneralPath().size();
+                            curRound = new DefaultMutableTreeNode("Round n " + Integer.toString(i + 1));
+                            nodesHierarchy.add(i, new ArrayList<DefaultMutableTreeNode>());
+                            if (!itineraryWithDeletedPoint) {
 				for (int j = 0; j < numberOfStops; j++) {
 					departureDate = itineraries.get(i).getGeneralPath().get(j).getDepartureTime();
 					arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();
@@ -107,18 +120,41 @@ public class TextualView extends JPanel {
 					curRound.add(curStop);
 					rounds.add(curRound);
 					nodesHierarchy.get(i).add(curStop);
-				}
+                                    }
+                            } else {
+                                for (int j = 0; j < numberOfStops; j++) {
+                                    departureDate = itineraries.get(i).getGeneralPath().get(j).getDepartureTime();
+                                    arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();
+                                    int ind = indexDelPointToDelete.indexOf(j);
+                                    if (ind != -1) {
+					curStop = new DefaultMutableTreeNode("(DELETED) Delivery n " + Integer.toString(j));
+                                    } else {
+                                        curStop = new DefaultMutableTreeNode("Delivery n " + Integer.toString(j));
+                                    }
+                                    arrival = new DefaultMutableTreeNode("Departure  " + departureDate.toString().substring(11, 19));
+                                    departure = new DefaultMutableTreeNode(
+                                                    "Arrival        " + arrivalDate.toString().substring(11, 19));
+                                    diff = new Date(departureDate.getTime() - arrivalDate.getTime());
+                                    duration = new DefaultMutableTreeNode(
+                                                    "Duration     " + diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                                    curStop.add(departure);
+                                    curStop.add(arrival);
+                                    curStop.add(duration);
+                                    curRound.add(curStop);
+                                    rounds.add(curRound);
+                                    nodesHierarchy.get(i).add(curStop);
+                                }
+                            }
 			}
 			listOfRounds = new JTree(rounds);
 			listOfRounds.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 			listOfRounds.addTreeSelectionListener(new TreeSelectionListener() {
 				public void valueChanged(TreeSelectionEvent e) {
+                                    System.out.println("value changed : " );
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) listOfRounds.getLastSelectedPathComponent();
 					if (node != null) {
-						System.out.println(node);
 						TreeNode parentNode = node.getParent();
 						if (parentNode != null) {
-							System.out.println(parentNode);
 							String parent = parentNode.toString();
 							String child = node.toString();
 							int deliveryPoint = 1;
@@ -129,12 +165,17 @@ public class TextualView extends JPanel {
 								mainWindow.getGraphicalView().setDeliveryPointIndex(deliveryPoint);
 								mainWindow.getGraphicalView().repaint();
 							} else if (parent.contains("Round n")) {
+                if (!child.contains("DELETED")) {
 								itinerary = Integer.parseInt(parent.substring(8)) - 1;
-								System.out.print("parsing child " + child.substring(11));
 								deliveryPoint = Integer.parseInt(child.substring(11));
+                                                            } else {
+                                                                itinerary = Integer.parseInt(parent.substring(8)) - 1;
+								deliveryPoint = Integer.parseInt(child.substring(21));
+                                                            }
 								mainWindow.getGraphicalView().setItineraryIndex(itinerary);
 								mainWindow.getGraphicalView().setDeliveryPointIndex(deliveryPoint);
 								mainWindow.getGraphicalView().repaint();
+                                                            
 							}
 
 						}
@@ -195,4 +236,11 @@ public class TextualView extends JPanel {
 		return deliveryPointIndex;
 	}
 
+    public List<Pair<Integer, Integer>> getIndexItineraryToDelete() {
+        return indexItineraryToDelete;
+    }
+
+    public void setIndexItineraryToDelete(List<Pair<Integer, Integer>> indexItineraryToDelete) {
+        this.indexItineraryToDelete = indexItineraryToDelete;
+    }
 }
