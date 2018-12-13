@@ -77,4 +77,6 @@ public interface State {
 	 */
 	public void keyPressed(Controler controler, MainWindow mainWindow,int keyCode);
 	
+	public void reset(Controler controler, MainWindow mainWindow);
+	
 }

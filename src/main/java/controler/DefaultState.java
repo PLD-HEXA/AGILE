@@ -139,4 +139,18 @@ public class DefaultState implements State {
         }
         mainWindow.getGraphicalView().repaint();
     }
+     
+     public void reset(Controler controler, MainWindow mainWindow) {
+    	 mainWindow.getTextualView().setItineraries(null);
+         mainWindow.getTextualView().setDeliveryPointIndex(null);
+         mainWindow.getTextualView().setItineraryIndex(null);
+         mainWindow.getTextualView().revalidate();
+         mainWindow.getTextualView().repaint();
+         mainWindow.getGraphicalView().setItineraries(null);
+         mainWindow.getGraphicalView().setMap(null);
+         mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+         mainWindow.getGraphicalView().setItineraryIndex(null);
+         mainWindow.getGraphicalView().repaint();
+         controler.setCurState(controler.initState);
+     }
 }

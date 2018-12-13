@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import controler.Controler;
+import java.awt.GridLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -71,11 +72,11 @@ public class MainWindow extends JFrame {
         graphicalView.setMapSize(size.height - 30);
         graphicalView.setLocation(0, 0);
         container = new JPanel();
+        container.setLayout(new BorderLayout());
         container.setLocation(0, size.height);
         container.setPreferredSize(new Dimension(size.width - size.height, size.height));
-        container.setLayout(new FlowLayout());
-        container.add(inputView);
-        container.add(textualView);
+        container.add(inputView, BorderLayout.NORTH);
+        container.add(textualView, BorderLayout.CENTER);
         this.getContentPane().add(container, BorderLayout.EAST);
         this.getContentPane().add(jScroolPane, BorderLayout.CENTER);
 

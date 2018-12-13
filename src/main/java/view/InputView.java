@@ -9,6 +9,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import controler.Controler;
 import entities.Map;
+import java.awt.GridLayout;
 
 /**
  * this class represents the input view of our project it allows to create all
@@ -57,6 +58,11 @@ public class InputView extends JPanel {
      * It represents the name of the button that allows to redoes the last command
      */
     protected final static String REDO = "Redo";
+    
+    /**
+     * It represents the name of the button that allows to reset the application
+     */
+    protected final static String RESET = "Reset";
 
     /**
      * It represents the number of rounds
@@ -70,7 +76,7 @@ public class InputView extends JPanel {
      * It represents a board that contains the name of all buttons
      */
 
-    private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO};
+    private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO,RESET};
 
     /**
      * The constructor
@@ -89,6 +95,7 @@ public class InputView extends JPanel {
      * @param buttonListener The buttonListener
      */
     public void createButtons(Controler controler, ButtonListener buttonListener) {
+        this.setLayout(new GridLayout(2,4));
         for (String buttonName : buttonNames) {
             if (buttonName.equals("Compute")) {
                 JLabel label = new JLabel("Number of delivery men :");
@@ -106,7 +113,7 @@ public class InputView extends JPanel {
             bouton.setFocusable(false);
             bouton.setFocusPainted(false);
             bouton.addActionListener(buttonListener);
-            add(bouton);
+            this.add(bouton);
         }
     }
 
