@@ -9,6 +9,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import controler.Controler;
 import entities.Map;
+import java.awt.GridLayout;
 
 /**
  * this class represents the input view of our project it allows to create all
@@ -89,6 +90,7 @@ public class InputView extends JPanel {
      * @param buttonListener The buttonListener
      */
     public void createButtons(Controler controler, ButtonListener buttonListener) {
+        this.setLayout(new GridLayout(2,4));
         for (String buttonName : buttonNames) {
             if (buttonName.equals("Compute")) {
                 JLabel label = new JLabel("Number of delivery men :");
@@ -106,7 +108,7 @@ public class InputView extends JPanel {
             bouton.setFocusable(false);
             bouton.setFocusPainted(false);
             bouton.addActionListener(buttonListener);
-            add(bouton);
+            this.add(bouton);
         }
     }
 
