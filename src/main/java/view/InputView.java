@@ -58,6 +58,11 @@ public class InputView extends JPanel {
      * It represents the name of the button that allows to redoes the last command
      */
     protected final static String REDO = "Redo";
+    
+    /**
+     * It represents the name of the button that allows to reset the application
+     */
+    protected final static String RESET = "Reset";
 
     /**
      * It represents the number of rounds
@@ -71,7 +76,7 @@ public class InputView extends JPanel {
      * It represents a board that contains the name of all buttons
      */
 
-    private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO};
+    private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO,RESET};
 
     /**
      * The constructor

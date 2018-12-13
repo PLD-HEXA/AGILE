@@ -78,22 +78,26 @@ public class Controler {
 	}
         
         public void buttonAddClick() {
-            int duration = mainWindow.showInformationAddState("You can click on the locate of the delivery point"
-                    + " you want to add. \nPlease, Enter the duration of the new delivery point.");
-            if (duration >= 0) {
-                addState.setDuration(duration);
-                curState.clickAddButton(this);
-            } else {
-                mainWindow.showError("The duration entered is not valid.");
-            }
+        	if (curState.equals(computeState)) {
+	            int duration = mainWindow.showInformationAddState("You can click on the locate of the delivery point"
+	                    + " you want to add. \nPlease, Enter the duration of the new delivery point.");
+	            if (duration >= 0) {
+	                addState.setDuration(duration);
+	                curState.clickAddButton(this);
+	            } else {
+	                mainWindow.showError("The duration entered is not valid.");
+	            }
+        	}
         }
         
         public void buttonDeleteClick() {
-            int wantToDelete = mainWindow.showInformationDeleteState("You can click on one delivery point"
-                    + " in order to delete it.");
-            if (wantToDelete == 0) {
-                curState.clickDeleteButton(this);
-            }
+        	if (curState.equals(computeState) || curState.equals(detailState)) {
+	            int wantToDelete = mainWindow.showInformationDeleteState("You can click on one delivery point"
+	                    + " in order to delete it.");
+	            if (wantToDelete == 0) {
+	                curState.clickDeleteButton(this);
+	            }
+        	}
         }
 	/**
 	 * Allows the user to move dynamically through a specific round.
@@ -128,18 +132,26 @@ public class Controler {
 	public void redo(){
 		curState.redo(cmdList);
 	}
+	
 
 	public MainWindow getMainWindow() {
 		return mainWindow;
 	}
 
-        public DeleteState getDeleteState() {
-            return deleteState;
-        }
+    public DeleteState getDeleteState() {
+        return deleteState;
+    }
 
-        public AddState getAddState() {
-            return addState;
-        }
+    public AddState getAddState() {
+        return addState;
+    }
+    
+    /**
+	 * Resets the application.
+	 */
+	public void reset() {
+		curState.reset(this, mainWindow);
+	}
         
         
 }
