@@ -352,13 +352,13 @@ public class GraphicalView extends JPanel {
                 e.printStackTrace();
             }
         }
-        
-        public double getScale() {
-            return scale;
-        }
-        public int getMapSize() {
-                return mapSize;
-        }
+    }
+
+    public double getScale() {
+        return scale;
+    }
+    public int getMapSize() {
+        return mapSize;
     }
 
     public double[] getCoordinatePosition(Coordinate coordinate) {
@@ -397,10 +397,6 @@ public class GraphicalView extends JPanel {
 
     public JScrollPane getScrollPane() {
         return scrollPane;
-    }
-
-    public double getScale() {
-        return scale;
     }
 
     public void setItineraryIndex(Integer itineraryIndex) {
