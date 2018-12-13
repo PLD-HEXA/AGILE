@@ -97,9 +97,13 @@ public class ComputeState extends DefaultState {
 	
 	@Override
 	public void mouseClick(Controler controler, MainWindow mainWindow,int x,int y) {
-		double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
-		double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getWidth()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
-		double minDistance=0.0062; // distance minimale 
+		x/=mainWindow.getGraphicalView().getScale(); // Allows to get the x and y corresponding when the 
+        // use has zoomed
+        y/=mainWindow.getGraphicalView().getScale();
+        
+        double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
+        double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getMapSize()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
+        double minDistance=minimalDistance; // minimal distance to get the point clicked in the map
 		double distance;
 		Integer nearestDeliveryPoint = null;
 		int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();

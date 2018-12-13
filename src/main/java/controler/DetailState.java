@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.JScrollBar;
 
 import entities.DemandeDeLivraisons;
 import entities.Itinerary;
@@ -94,9 +95,13 @@ public class DetailState extends DefaultState{
 	
 	@Override
 	public void mouseClick(Controler controler, MainWindow mainWindow,int x,int y) {
-		double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
-		double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getWidth()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
-		double minDistance= minimalDistance; 
+		x/=mainWindow.getGraphicalView().getScale(); // Allows to get the x and y corresponding when the 
+        // use has zoomed
+        y/=mainWindow.getGraphicalView().getScale();
+        
+        double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
+        double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getMapSize()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
+        double minDistance=minimalDistance; // minimal distance to get the point clicked in the map
 		double distance;
 		Integer nearestDeliveryPoint = null;
 		int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
@@ -170,6 +175,8 @@ public class DetailState extends DefaultState{
 				mainWindow.getGraphicalView().setDeliveryPointIndex(currentDeliveryPoint+1);
 				mainWindow.getTextualView().setDeliveryPointIndex(currentDeliveryPoint+1);
 			}
+			mainWindow.getTextualView().revalidate();
+	        mainWindow.getTextualView().repaint();
 			
 		}
 		else if(keyCode == KeyEvent.VK_LEFT) {
@@ -183,6 +190,8 @@ public class DetailState extends DefaultState{
 				mainWindow.getTextualView().setDeliveryPointIndex(currentDeliveryPoint-1);
 
 			}
+			mainWindow.getTextualView().revalidate();
+	        mainWindow.getTextualView().repaint();
 		}
 		else if(keyCode == KeyEvent.VK_UP) {
 			numberOfItineraries=mainWindow.getGraphicalView().getItineraries().size();
@@ -196,6 +205,8 @@ public class DetailState extends DefaultState{
 			}
 			mainWindow.getGraphicalView().setDeliveryPointIndex(1);//On se positionne au premier point de livraison
 			mainWindow.getTextualView().setDeliveryPointIndex(1);//On se positionne au premier point de livraison
+			mainWindow.getTextualView().revalidate();
+	        mainWindow.getTextualView().repaint();
 		}
 		else if(keyCode == KeyEvent.VK_DOWN) {
 			numberOfItineraries=mainWindow.getGraphicalView().getItineraries().size();
@@ -209,25 +220,50 @@ public class DetailState extends DefaultState{
 			}
 			mainWindow.getGraphicalView().setDeliveryPointIndex(1);//On se positionne au premier point de livraison
 			mainWindow.getTextualView().setDeliveryPointIndex(1);//On se positionne au premier point de livraison
+			mainWindow.getTextualView().revalidate();
+	        mainWindow.getTextualView().repaint();
 		}
+		else if (keyCode == KeyEvent.VK_Q) {
+            JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getHorizontalScrollBar();
+            if (scrollBar != null) {
+                scrollBar.setValue(scrollBar.getValue()
+                        - scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
+            }
+        } else if (keyCode == KeyEvent.VK_S) {
+            JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getVerticalScrollBar();
+            if (scrollBar != null) {
+                scrollBar.setValue(scrollBar.getValue()
+                        + scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
+            }
+        } else if (keyCode == KeyEvent.VK_D) {
+            JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getHorizontalScrollBar();
+            if (scrollBar != null) {
+                scrollBar.setValue(scrollBar.getValue()
+                        + scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
+            }
+        } else if (keyCode == KeyEvent.VK_Z) {
+            JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getVerticalScrollBar();
+            if (scrollBar != null) {
+                scrollBar.setValue(scrollBar.getValue()
+                        - scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
+            }
+        }
 		mainWindow.getGraphicalView().repaint();
 		mainWindow.requestFocus();
-		mainWindow.getTextualView().revalidate();
-                mainWindow.getTextualView().repaint();
 		controler.setCurState(controler.detailState);
 	
 	}
 	
         
-        @Override
-        public void clickDeleteButton(Controler controler) {
-            controler.setCurState(controler.deleteState);
-        }
-        
-        @Override
-        public void clickAddButton(Controler controler) {
-            controler.setCurState(controler.addState);
-        }
+    @Override
+    public void clickDeleteButton(Controler controler) {
+        controler.setCurState(controler.deleteState);
+    }
+    
+    @Override
+    public void clickAddButton(Controler controler) {
+        controler.setCurState(controler.addState);
+    }
 	
 
 }
