@@ -38,16 +38,19 @@ public class DeleteState extends DefaultState {
         numberDeliveryPointDeleted--;
     }
     
-    // Faire la meme chose que pour mouseListener mais une fois qu'on est dans cet état
     @Override
     public void mouseClick(Controler controler, MainWindow mainWindow, CmdList cmdList, int x,int y) {
-            x/=mainWindow.getGraphicalView().getScale();
+            x/=mainWindow.getGraphicalView().getScale(); // Allows to get the x and y corresponding when the 
+            // use has zoomed
             y/=mainWindow.getGraphicalView().getScale();
+            
             double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
             double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getMapSize()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
-            double minDistance=0.0062; // distance minimale 
+            double minDistance=0.0062; // minimal distance to get the point clicked in the map
+            // corresponding to the delivery point we want to delete in the delivery point tab
             double distance;
             Integer nearestDeliveryPoint = null;
+            
             int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
             for(int i=0;i<numberOfDeliveryPoints;i++) {
                     double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey()].getLatitude();
@@ -59,7 +62,7 @@ public class DeleteState extends DefaultState {
                             nearestDeliveryPoint=i;
                     }
             }
-            System.out.println(minDistance);
+            
             if(nearestDeliveryPoint != null) {
                 Pair<Integer,Integer> itineraryIndex = findItineraryPointCorresponding(mainWindow, nearestDeliveryPoint);
                 if (mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size() > numberDeliveryPointDeleted) {
@@ -72,7 +75,14 @@ public class DeleteState extends DefaultState {
             }
     }
     
-    //Finding the itinerary that includes this delivery point
+    /**
+     * Finds the itinerary that includes this delivery point and the index of this
+     * delivery point in the itinerary list
+     * @param mainWindow
+     * @param nearestDeliveryPoint the index of the delivery point clicked by the user
+     * @return a pair representing the index of the itinerary in the list of itinerary
+     * (first) and the index of the delivery point in the itinerary (second)
+     */
     public Pair<Integer,Integer> findItineraryPointCorresponding(MainWindow mainWindow, int nearestDeliveryPoint) {
 			boolean globalFound = false;
 			boolean localFound = false;

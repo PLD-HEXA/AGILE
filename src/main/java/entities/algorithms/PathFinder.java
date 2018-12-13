@@ -326,8 +326,15 @@ public class PathFinder {
         return itineraries;
     }
     
-    //Liste d'itinéraires !!!
-    public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints) {
+//Liste d'itinÃ©raires !!!
+    public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints, boolean undo) {    
+        if (nbNewPoints == 0) {
+            itineraries.remove(itineraries.size() -1);
+            return true;
+        }
+        else if ((undo && nbNewPoints >= 1) || (!undo && nbNewPoints > 1)) {
+            itineraries.remove(itineraries.size() -1);
+        } 
         
         Date tempArrivalTime;
         Date earlierArrivalTime = itineraries.get(0).getGeneralPath().get(itineraries.get(0).getGeneralPath().size() -1).getDepartureTime();
@@ -374,7 +381,7 @@ public class PathFinder {
             itineraries.add(additionalItinerary);
             return true;
         }
-    }
+}
     
     public List<Itinerary> findPath(Map map, int nbDeliveryMen){
         

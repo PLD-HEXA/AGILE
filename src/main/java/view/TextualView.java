@@ -80,7 +80,9 @@ public class TextualView extends JPanel {
 	public void displayListOfRounds() {
 		DefaultMutableTreeNode rounds = new DefaultMutableTreeNode("Rounds");
 		if (itineraries != null) {
+                    
 			int numberOfRounds = itineraries.size();
+                        System.out.println("size iti : " + numberOfRounds);
 			DefaultMutableTreeNode curRound;
 			DefaultMutableTreeNode curStop;
 			DefaultMutableTreeNode arrival;
@@ -148,12 +150,11 @@ public class TextualView extends JPanel {
 			listOfRounds.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 			listOfRounds.addTreeSelectionListener(new TreeSelectionListener() {
 				public void valueChanged(TreeSelectionEvent e) {
+                                    System.out.println("value changed : " );
 					DefaultMutableTreeNode node = (DefaultMutableTreeNode) listOfRounds.getLastSelectedPathComponent();
 					if (node != null) {
-						System.out.println(node);
 						TreeNode parentNode = node.getParent();
 						if (parentNode != null) {
-							System.out.println(parentNode);
 							String parent = parentNode.toString();
 							String child = node.toString();
 							int deliveryPoint = 1;
@@ -166,11 +167,9 @@ public class TextualView extends JPanel {
 							} else if (parent.contains("Round n")) {
                                                             if (!child.contains("DELETED")) {
 								itinerary = Integer.parseInt(parent.substring(8)) - 1;
-								System.out.print("parsing child " + child.substring(11));
 								deliveryPoint = Integer.parseInt(child.substring(11));
                                                             } else {
                                                                 itinerary = Integer.parseInt(parent.substring(8)) - 1;
-								System.out.print("parsing child " + child.substring(21));
 								deliveryPoint = Integer.parseInt(child.substring(21));
                                                             }
 								mainWindow.getGraphicalView().setItineraryIndex(itinerary);
