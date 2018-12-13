@@ -200,7 +200,7 @@ public class PathFinder {
         return convertedList;
     }
 
-    //Liste d'itinéraires !!!
+    //Liste d'itinÃ©raires !!!
     public List<Itinerary> findPathTSP(Map map, int nbDeliveryMen, boolean optimalRes) {
 
         //Check that all the parameters are well set to find the itineraries
@@ -326,8 +326,15 @@ public class PathFinder {
         return itineraries;
     }
     
-    //Liste d'itinéraires !!!
-    public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints) {
+// Itineraries list !!!
+    public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints, boolean undo) {    
+        if (nbNewPoints == 0) {
+            itineraries.remove(itineraries.size() -1);
+            return true;
+        }
+        else if ((undo && nbNewPoints >= 1) || (!undo && nbNewPoints > 1)) {
+            itineraries.remove(itineraries.size() -1);
+        } 
         
         Date tempArrivalTime;
         Date earlierArrivalTime = itineraries.get(0).getGeneralPath().get(itineraries.get(0).getGeneralPath().size() -1).getDepartureTime();
@@ -374,7 +381,7 @@ public class PathFinder {
             itineraries.add(additionalItinerary);
             return true;
         }
-    }
+}
     
     public List<Itinerary> findPath(Map map, int nbDeliveryMen){
         
@@ -385,5 +392,23 @@ public class PathFinder {
         else{
             return findPathClustering(map,nbDeliveryMen,false);
         }
+        
+        /*
+        long startTime = System.currentTimeMillis();
+        List<Itinerary> res =  findPathClustering(map,nbDeliveryMen,false);
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println("Temps d'exécution : "+ elapsedTime/1000.0);
+        long totalDuration = 0;
+        int size;
+        for(Itinerary itinerary: res){
+            size = itinerary.getGeneralPath().size();
+            totalDuration += (itinerary.getGeneralPath().get(size-1).getDepartureTime().getTime() - itinerary.getGeneralPath().get(0).getArrivalTime().getTime());
+        }
+        Date duration = new Date(totalDuration);
+        System.out.println("Total time of all the itineraries: " + duration.toGMTString()); 
+        
+        return res;
+*/
     }
 }

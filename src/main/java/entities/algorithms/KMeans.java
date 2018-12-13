@@ -63,11 +63,11 @@ public class KMeans {
         for (int i = 0; i < 100; i++) {
             findClusterDistance();
             if (previousClusterNodes.equals(clusterNodes))
-                break;
+                return clusterNodes;
             copyClusters();
             updateCluster();
         }
-        return clusterNodes;
+        return previousClusterNodes;
     }
 
     public void copyClusters() {

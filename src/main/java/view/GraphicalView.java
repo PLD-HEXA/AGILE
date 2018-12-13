@@ -35,6 +35,7 @@ import entities.Map;
 import entities.Segment;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.util.Pair;
 
 public class GraphicalView extends JPanel {
 
@@ -43,6 +44,9 @@ public class GraphicalView extends JPanel {
     private double widthScale;
     private static final int pointRadius = 5;
     private Graphics g;
+    /**
+     * indexToDelete contains the index in the deliveryPointTab 
+     */
     private List<Integer> indexToDelete;
     private double longMax;
     private double latMax;
@@ -201,6 +205,7 @@ public class GraphicalView extends JPanel {
                         e.printStackTrace();
                     }
                 }
+            }
         }
         latitude = (latMax - map.getCoordinates()[map.getWareHouse().getKey()].getLatitude()) * widthScale;
         longitude = (longMax - map.getCoordinates()[map.getWareHouse().getKey()].getLongitude()) * heightScale;
@@ -219,216 +224,215 @@ public class GraphicalView extends JPanel {
         try {
             BufferedImage image = ImageIO.read(new File("images/warehouse.png"));
             g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 20, null);
-        } catch (IOException e
-    
-        ) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-}
 
-public void setMap(Map map) {
-		this.map = map;
-	}
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
-	public Map getMap() {
-		return map;
-	}
+    public Map getMap() {
+        return map;
+    }
 
-	private void drawRounds(Graphics g) {
-		double latitude1;
-		double longitude1;
-		double latitude2;
-		double longitude2;
-		int numberOfRounds = itineraries.size();
-		if(previousNumberOfRounds==null || previousNumberOfRounds!=numberOfRounds) {
-			colors = new ArrayList<Color>();
-			for (int i = 0; i < numberOfRounds; i++) {
-				double red = Math.random()*255+1;
-				double green = Math.random()*255+1;
-				double blue = Math.random()*255+1;
-				Color color = new Color((int)red,(int)green,(int)blue);
-				colors.add(color);
-				g.setColor(color);
-				int numberOfStops = itineraries.get(i).getDetailedPath().size();
-				for (int j = 0; j < numberOfStops - 1; j++) {
-					latitude1 = (latMax - itineraries.get(i).getDetailedPath().get(j).getLatitude()) * widthScale;
-					longitude1 = (longMax - itineraries.get(i).getDetailedPath().get(j).getLongitude()) * heightScale;
-					latitude2 = (latMax - itineraries.get(i).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
-					longitude2 = (longMax - itineraries.get(i).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
-					Graphics2D g2 = (Graphics2D) g;
-                                        g2.setStroke(new BasicStroke(3));
-					g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1),
-							(int) (mapSize - longitude2), (int) (latitude2)));
-				}
-			}
-		}
-		else {
-			for (int i = 0; i < numberOfRounds; i++) {
-				g.setColor(colors.get(i));
-				int numberOfStops = itineraries.get(i).getDetailedPath().size();
-				for (int j = 0; j < numberOfStops - 1; j++) {
-					latitude1 = (latMax - itineraries.get(i).getDetailedPath().get(j).getLatitude()) * widthScale;
-					longitude1 = (longMax - itineraries.get(i).getDetailedPath().get(j).getLongitude()) * heightScale;
-					latitude2 = (latMax - itineraries.get(i).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
-					longitude2 = (longMax - itineraries.get(i).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
-					Graphics2D g2 = (Graphics2D) g;
-                                        g2.setStroke(new BasicStroke(3));
-					g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1),
-							(int) (mapSize - longitude2), (int) (latitude2)));
-				}
-			}
-		}
-		previousNumberOfRounds=numberOfRounds;
-		
-
-	}
-
-	public void displaySpecificRound(Graphics g){
-		//Display the specific detailed path
-		double latitude1;
-		double longitude1;
-		double latitude2;
-		double longitude2;
-		int numberOfDetailedStops = itineraries.get(itineraryIndex).getDetailedPath().size();
-		for (int j = 0; j < numberOfDetailedStops - 1; j++) {
-			latitude1 = (latMax - itineraries.get(itineraryIndex).getDetailedPath().get(j).getLatitude()) * widthScale;
-			longitude1 = (longMax - itineraries.get(itineraryIndex).getDetailedPath().get(j).getLongitude()) * heightScale;
-			latitude2 = (latMax - itineraries.get(itineraryIndex).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
-			longitude2 = (longMax - itineraries.get(itineraryIndex).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
-			g.setColor(Color.black);
-			Graphics2D g2 = (Graphics2D) g;
-                        g2.setStroke(new BasicStroke(6));
-			g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1),
-					(int) (mapSize - longitude2), (int) (latitude2)));
-		}   
-		//Display the specific general path
-		double delivLatitude;
-		double delivLongitude;
-		int numberOfGeneralStops = itineraries.get(itineraryIndex).getGeneralPath().size();		
-		for (int i = 0; i < numberOfGeneralStops ; i++) {
-			delivLatitude = (latMax - itineraries.get(itineraryIndex).getGeneralPath().get(i).getCoordinate().getLatitude()) * widthScale;
-			delivLongitude = (longMax - itineraries.get(itineraryIndex).getGeneralPath().get(i).getCoordinate().getLongitude()) * heightScale;
-			if(i>deliveryPointIndex ) {
-				g.setColor(Color.red);
-				g.drawOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
-				g.fillOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
-				 try {
-						BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
-						g.drawImage(image, (int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius-13, null);
-				    } catch (IOException e) {
-						e.printStackTrace();
-					} 
-			}
-			else if(i==deliveryPointIndex) {
-				g.setColor(Color.orange);
-				g.drawOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
-				g.fillOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
-				 try {
-						BufferedImage image = ImageIO.read(new File("images/deliveryMan.png"));
-						g.drawImage(image, (int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius-13, null);
-				    } catch (IOException e) {
-						e.printStackTrace();
-					} 
-			}
-			else{
-				g.setColor(Color.green);
-				g.drawOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
-				g.fillOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
-				 try {
-						BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
-
-						g.drawImage(image, (int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius-13, null);
-				    } catch (IOException e) {
-						e.printStackTrace();
-					} 
-			}
-		}	
-		if(deliveryPointIndex==0 ) {
-			delivLatitude = (latMax - itineraries.get(itineraryIndex).getGeneralPath().get(deliveryPointIndex).getCoordinate().getLatitude()) * widthScale;
-			delivLongitude = (longMax - itineraries.get(itineraryIndex).getGeneralPath().get(deliveryPointIndex).getCoordinate().getLongitude()) * heightScale;
-			g.setColor(Color.orange);
-			g.drawOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
-			g.fillOval((int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius, pointRadius*2, pointRadius*2);
-			 try {
-					BufferedImage image = ImageIO.read(new File("images/deliveryMan.png"));
-					g.drawImage(image, (int) (mapSize - delivLongitude)-pointRadius, (int) delivLatitude-pointRadius-13, null);
-			    } catch (IOException e) {
-					e.printStackTrace();
-				} 
-		}
-		
-	}
-	
-	
-
-	public void setItineraries(List<Itinerary> itineraries) {
-		this.itineraries = itineraries;
-	}
-
-
-	public double getLongMax() {
-		return longMax;
-	}
-
-	public double getLatMax() {
-		return latMax;
-	}
-
-	public double getHeightScale() {
-		return heightScale;
-	}
-
-	public double getWidthScale() {
-		return widthScale;
-	}
-
-	public static int getPointradius() {
-		return pointRadius;
-	}
-
-	public Integer getItineraryIndex() {
-		return itineraryIndex;
-	}
-
-	public void setItineraryIndex(Integer itineraryIndex) {
-		this.itineraryIndex = itineraryIndex;
-	}
-
-	public Integer getDeliveryPointIndex() {
-		return deliveryPointIndex;
-	}
-
-	public void setDeliveryPointIndex(Integer deliveryPointIndex) {
-		this.deliveryPointIndex = deliveryPointIndex;
-	}
-
-	public List<Itinerary> getItineraries() {
-		return itineraries;
-	}
-	public void setScrollPane(JScrollPane scrollPane) {
-		this.scrollPane = scrollPane;
-	}
-	public void setMapSize(int mapSize) {
-		this.mapSize = mapSize;
-	}
-
-        public List<Integer> getIndexToDelete() {
-            return indexToDelete;
+    private void drawRounds(Graphics g) {
+        double latitude1;
+        double longitude1;
+        double latitude2;
+        double longitude2;
+        int numberOfRounds = itineraries.size();
+        if (previousNumberOfRounds == null || previousNumberOfRounds != numberOfRounds) {
+            colors = new ArrayList<Color>();
+            for (int i = 0; i < numberOfRounds; i++) {
+                double red = Math.random() * 255 + 1;
+                double green = Math.random() * 255 + 1;
+                double blue = Math.random() * 255 + 1;
+                Color color = new Color((int) red, (int) green, (int) blue);
+                colors.add(color);
+                g.setColor(color);
+                int numberOfStops = itineraries.get(i).getDetailedPath().size();
+                for (int j = 0; j < numberOfStops - 1; j++) {
+                    latitude1 = (latMax - itineraries.get(i).getDetailedPath().get(j).getLatitude()) * widthScale;
+                    longitude1 = (longMax - itineraries.get(i).getDetailedPath().get(j).getLongitude()) * heightScale;
+                    latitude2 = (latMax - itineraries.get(i).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
+                    longitude2 = (longMax - itineraries.get(i).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
+                    Graphics2D g2 = (Graphics2D) g;
+                    g2.setStroke(new BasicStroke(3));
+                    g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1),
+                            (int) (mapSize - longitude2), (int) (latitude2)));
+                }
+            }
+        } else {
+            for (int i = 0; i < numberOfRounds; i++) {
+                g.setColor(colors.get(i));
+                int numberOfStops = itineraries.get(i).getDetailedPath().size();
+                for (int j = 0; j < numberOfStops - 1; j++) {
+                    latitude1 = (latMax - itineraries.get(i).getDetailedPath().get(j).getLatitude()) * widthScale;
+                    longitude1 = (longMax - itineraries.get(i).getDetailedPath().get(j).getLongitude()) * heightScale;
+                    latitude2 = (latMax - itineraries.get(i).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
+                    longitude2 = (longMax - itineraries.get(i).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
+                    Graphics2D g2 = (Graphics2D) g;
+                    g2.setStroke(new BasicStroke(3));
+                    g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1),
+                            (int) (mapSize - longitude2), (int) (latitude2)));
+                }
+            }
         }
+        previousNumberOfRounds = numberOfRounds;
 
-        public void setIndexToDelete(List<Integer> indexToDelete) {
-            this.indexToDelete = indexToDelete;
+    }
+
+    public void displaySpecificRound(Graphics g) {
+        //Display the specific detailed path
+        double latitude1;
+        double longitude1;
+        double latitude2;
+        double longitude2;
+        int numberOfDetailedStops = itineraries.get(itineraryIndex).getDetailedPath().size();
+        for (int j = 0; j < numberOfDetailedStops - 1; j++) {
+            latitude1 = (latMax - itineraries.get(itineraryIndex).getDetailedPath().get(j).getLatitude()) * widthScale;
+            longitude1 = (longMax - itineraries.get(itineraryIndex).getDetailedPath().get(j).getLongitude()) * heightScale;
+            latitude2 = (latMax - itineraries.get(itineraryIndex).getDetailedPath().get(j + 1).getLatitude()) * widthScale;
+            longitude2 = (longMax - itineraries.get(itineraryIndex).getDetailedPath().get(j + 1).getLongitude()) * heightScale;
+            g.setColor(Color.black);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(6));
+            g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1),
+                    (int) (mapSize - longitude2), (int) (latitude2)));
         }
+        //Display the specific general path
+        double delivLatitude;
+        double delivLongitude;
+        int numberOfGeneralStops = itineraries.get(itineraryIndex).getGeneralPath().size();
+        for (int i = 0; i < numberOfGeneralStops; i++) {
+            delivLatitude = (latMax - itineraries.get(itineraryIndex).getGeneralPath().get(i).getCoordinate().getLatitude()) * widthScale;
+            delivLongitude = (longMax - itineraries.get(itineraryIndex).getGeneralPath().get(i).getCoordinate().getLongitude()) * heightScale;
+            if (i > deliveryPointIndex) {
+                g.setColor(Color.red);
+                g.drawOval((int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                g.fillOval((int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                try {
+                    BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
+                    g.drawImage(image, (int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius - 13, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (i == deliveryPointIndex) {
+                g.setColor(Color.orange);
+                g.drawOval((int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                g.fillOval((int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                try {
+                    BufferedImage image = ImageIO.read(new File("images/deliveryMan.png"));
+                    g.drawImage(image, (int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius - 13, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                g.setColor(Color.green);
+                g.drawOval((int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                g.fillOval((int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius, pointRadius * 2, pointRadius * 2);
+                try {
+                    BufferedImage image = ImageIO.read(new File("images/delivPoint.png"));
 
-		public double getScale() {
-			return scale;
-		}
+                    g.drawImage(image, (int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius - 13, null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (deliveryPointIndex == 0) {
+            delivLatitude = (latMax - itineraries.get(itineraryIndex).getGeneralPath().get(deliveryPointIndex).getCoordinate().getLatitude()) * widthScale;
+            delivLongitude = (longMax - itineraries.get(itineraryIndex).getGeneralPath().get(deliveryPointIndex).getCoordinate().getLongitude()) * heightScale;
+            g.setColor(Color.orange);
+            g.drawOval((int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius, pointRadius * 2, pointRadius * 2);
+            g.fillOval((int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius, pointRadius * 2, pointRadius * 2);
+            try {
+                BufferedImage image = ImageIO.read(new File("images/deliveryMan.png"));
+                g.drawImage(image, (int) (mapSize - delivLongitude) - pointRadius, (int) delivLatitude - pointRadius - 13, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-		public int getMapSize() {
-			return mapSize;
-		}
-        
-        
-        
+    public double getScale() {
+        return scale;
+    }
+    public int getMapSize() {
+        return mapSize;
+    }
+
+    public double[] getCoordinatePosition(Coordinate coordinate) {
+        double x = mapSize - ((longMax - coordinate.getLongitude()) * heightScale + pointRadius);
+        double y = ((latMax - coordinate.getLatitude()) * widthScale - pointRadius);
+        return new double[]{x, y};
+    }
+
+    public void setItineraries(List<Itinerary> itineraries) {
+        this.itineraries = itineraries;
+    }
+
+    public double getLongMax() {
+        return longMax;
+    }
+
+    public double getLatMax() {
+        return latMax;
+    }
+
+    public double getHeightScale() {
+        return heightScale;
+    }
+
+    public double getWidthScale() {
+        return widthScale;
+    }
+
+    public static int getPointradius() {
+        return pointRadius;
+    }
+
+    public Integer getItineraryIndex() {
+        return itineraryIndex;
+    }
+
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public void setItineraryIndex(Integer itineraryIndex) {
+        this.itineraryIndex = itineraryIndex;
+    }
+
+    public Integer getDeliveryPointIndex() {
+        return deliveryPointIndex;
+    }
+
+    public void setDeliveryPointIndex(Integer deliveryPointIndex) {
+        this.deliveryPointIndex = deliveryPointIndex;
+    }
+
+    public List<Itinerary> getItineraries() {
+        return itineraries;
+    }
+
+    public void setScrollPane(JScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
+    }
+
+    public void setMapSize(int mapSize) {
+        this.mapSize = mapSize;
+    }
+
+    public List<Integer> getIndexToDelete() {
+        return indexToDelete;
+    }
+
+    public void setIndexToDelete(List<Integer> indexToDelete) {
+        this.indexToDelete = indexToDelete;
+    }
+
 }
