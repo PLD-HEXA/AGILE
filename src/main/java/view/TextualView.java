@@ -165,7 +165,7 @@ public class TextualView extends JPanel {
 								mainWindow.getGraphicalView().setDeliveryPointIndex(deliveryPoint);
 								mainWindow.getGraphicalView().repaint();
 							} else if (parent.contains("Round n")) {
-                                                            if (!child.contains("DELETED")) {
+                if (!child.contains("DELETED")) {
 								itinerary = Integer.parseInt(parent.substring(8)) - 1;
 								deliveryPoint = Integer.parseInt(child.substring(11));
                                                             } else {
@@ -243,9 +243,4 @@ public class TextualView extends JPanel {
     public void setIndexItineraryToDelete(List<Pair<Integer, Integer>> indexItineraryToDelete) {
         this.indexItineraryToDelete = indexItineraryToDelete;
     }
-
-        
-        
-        
-
 }
