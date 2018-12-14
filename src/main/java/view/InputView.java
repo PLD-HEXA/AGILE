@@ -98,7 +98,7 @@ public class InputView extends JPanel {
         this.setLayout(new GridLayout(2,4));
         for (String buttonName : buttonNames) {
             if (buttonName.equals("Compute")) {
-                JLabel label = new JLabel("Number of delivery men :");
+                JLabel label = new JLabel("Nb of delivery men :");
                 add(label);
                 SpinnerModel spinner = new SpinnerNumberModel(1, 1, 100, 1);
                 numOfRounds = new JSpinner(spinner);
