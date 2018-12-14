@@ -1,7 +1,9 @@
 package entities;
 
 import entities.algorithms.Dijkstra;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javafx.util.Pair;
@@ -247,26 +249,37 @@ public class Map {
      */
     public void fillMapIdAndCoordinate(Reseau res) {
         // Cas ou les balises noeuds ou troncons etaient manquantes
-        if (res.getNoeud() != null && res.getNoeud().length != 0 &&
-            res.getTroncon() != null && res.getTroncon().length != 0) {
+        if (res.getNoeud() != null && res.getNoeud().length >= 0 &&
+            res.getTroncon() != null && res.getTroncon().length >= 0) {
             
             int coordinatesLength = res.getNoeud().length;
             coordinates = new Coordinate[coordinatesLength];
             int j = 0;
             for(int i = 0; i < coordinatesLength; i++) {
                 // Ici, qu'est-ce qu'on en fait de la coordinate
-                    Coordinate coord = res.getNoeud()[i].getCoordinate();
+                Coordinate coord = res.getNoeud()[i].getCoordinate();
+                try {
                     Long id = Long.valueOf(res.getNoeud()[i].getId());
                     if(validCoordinate(coord) && id>0) {
-                            checkMinMaxCoord(coord);
-                            mapId.put(id, j);
-                            coordinates[j] = res.getNoeud()[i].getCoordinate();
+                        checkMinMaxCoord(coord);
+                        mapId.put(id, j);
+                        coordinates[j] = res.getNoeud()[i].getCoordinate();
 
-                            // initialisation des list dans graph
-                            List<Segment> listSegment = new ArrayList<>();
-                            graph.add(j,listSegment);
-                            j++;
+                        // initialisation des list dans graph
+                        List<Segment> listSegment = new ArrayList<>();
+                        graph.add(j,listSegment);
+                        j++;
+                    } else {
+                        mapId = null;
+                        coordinates = null;
+                        break;
                     }
+                }
+                catch (NumberFormatException ex) {
+                    mapId = null;
+                    coordinates = null;
+                    break;
+                }
             }
             if (coordinates.length == 0) {
                 mapId = null;
@@ -294,26 +307,54 @@ public class Map {
             Troncon[] troncon = res.getTroncon();
             int compteurObjet = 0;
             for (int i=0; i<troncon.length; i++) {
-                Long idOrigine = Long.valueOf(troncon[i].getOrigine());
-                if (idOrigine > 0 && mapId.get(idOrigine) != null) {
-                    int indexOrigine = mapId.get(idOrigine);
-                    Long idDestination = Long.valueOf(troncon[i].getDestination());
-                    // We verify that the id of the destination exists in the mapId, 
-                    // otherwise, we do not take into account the segment
-                    if (idDestination > 0 && mapId.get(idDestination) != null) {
-                        int indexDestination = mapId.get(idDestination);
-                        if (troncon[i].getLongueur() != null) {
-                            double length = Double.valueOf(troncon[i].getLongueur()); 
-                            if (length >= 0) {
-                                // On ajoute que si la longueur est supérieure à 0
-                                // et que l'id est un id connu
-                                Segment segment = new Segment (indexDestination, troncon[i].getNomRue(), length);
-                                graph.get(indexOrigine).add(segment);
-                                compteurObjet++;
+                try {
+                    Long idOrigine = Long.valueOf(troncon[i].getOrigine());
+                    if (idOrigine > 0 && mapId.get(idOrigine) != null) {
+                        int indexOrigine = mapId.get(idOrigine);
+                        
+                        try {
+                            Long idDestination = Long.valueOf(troncon[i].getDestination());
+                            // We verify that the id of the destination exists in the mapId, 
+                            // otherwise, we do not take into account the segment
+                            if (idDestination > 0 && mapId.get(idDestination) != null) {
+                                int indexDestination = mapId.get(idDestination);
+                                if (troncon[i].getLongueur() != null) {
+                                    if (Double.valueOf(troncon[i].getLongueur()) != null) {
+                                        double length = Double.valueOf(troncon[i].getLongueur()); 
+                                        if (length >= 0) {
+                                            // On ajoute que si la longueur est supérieure à 0
+                                            // et que l'id est un id connu
+                                            Segment segment = new Segment (indexDestination, troncon[i].getNomRue(), length);
+                                            graph.get(indexOrigine).add(segment);
+                                            compteurObjet++;
+                                        } else {
+                                            graph = null;
+                                            break;
+                                        }
+                                    } else {
+                                        graph = null;
+                                        break;
+                                    }
+                                } else {
+                                    graph = null;
+                                    break;
+                                }
+                            } else {
+                                graph = null;
+                                break;
                             }
+                        } catch (NumberFormatException e) {
+                            graph = null;
+                            break;
                         }
+                    } else {
+                        graph = null;
+                        break;
                     }
-                } 
+                } catch (NumberFormatException e) {
+                    graph = null;
+                    break;
+                }
             }
             if (compteurObjet == 0) {
                 graph = null;
@@ -377,40 +418,62 @@ public class Map {
     public void fillTabDeliveryPoint(DemandeDeLivraisons ddl) {
         // On remplit d'abord l'objet wareHouse
         if (ddl.getEntrepot() != null && ddl.getLivraison() != null &&
-                ddl.getLivraison().length != 0 && ddl.getEntrepot().getAdresse() != null) {
-            
-            Long idEntrepot = Long.valueOf(ddl.getEntrepot().getAdresse());
-            if (idEntrepot > 0) {
-                int indexEntrepot = mapId.get(idEntrepot);
-                // Verifier que l'heure de depart est valide
-                verifyHour(ddl.getEntrepot().getHeureDepart());
+                ddl.getLivraison().length >= 0 && ddl.getEntrepot().getAdresse() != null) {
+            try {
+                Long idEntrepot = Long.valueOf(ddl.getEntrepot().getAdresse());
+                if (idEntrepot != null && idEntrepot > 0 && mapId.get(idEntrepot) != null) {
+                    int indexEntrepot = mapId.get(idEntrepot);
+                    // Verifier que l'heure de depart est valide
+                    verifyHour(ddl.getEntrepot().getHeureDepart());
 
-                wareHouse = new Pair<>(indexEntrepot,ddl.getEntrepot().getHeureDepart());
+                    wareHouse = new Pair<>(indexEntrepot,ddl.getEntrepot().getHeureDepart());
 
-                // On remplit maintenant les deliveryPoint
-                Livraison[] livraison = ddl.getLivraison();
-                for (int i = 0; i < livraison.length; i++) {
-                    // On r�cup�re l'index de la livraison
-                    Long idLivraison = Long.valueOf(livraison[i].getId());
-                    if (idLivraison > 0 && mapId.get(idLivraison) != null) {
-                        int indexLivraison = mapId.get(idLivraison);
+                    // On remplit maintenant les deliveryPoint
+                    Livraison[] livraison = ddl.getLivraison();
+                    for (int i = 0; i < livraison.length; i++) {
+                        // On r�cup�re l'index de la livraison
+                        try {
+                            Long idLivraison = Long.valueOf(livraison[i].getId());
+                            if (idLivraison > 0 && mapId.get(idLivraison) != null) {
+                                int indexLivraison = mapId.get(idLivraison);
 
-                        //Verifier que la duree est bien superieure � 0 si non fait dans le parser
-                        int dureeLivraison = livraison[i].getDuree();
-                        if (dureeLivraison >= 0) {
-                            tabDeliveryPoints.add(new Pair<>(indexLivraison, dureeLivraison));
+                                //Verifier que la duree est bien superieure � 0 si non fait dans le parser
+                                int dureeLivraison = livraison[i].getDuree();
+                                if (dureeLivraison >= 0) {
+                                    tabDeliveryPoints.add(new Pair<>(indexLivraison, dureeLivraison));
+                                } else {
+                                    wareHouse = null;
+                                    tabDeliveryPoints = null;
+                                    break;
+                                }
+                            } else {
+                                wareHouse = null;
+                                tabDeliveryPoints = null;
+                                break;
+                            }
+                        }
+                        catch (NumberFormatException ex) {
+                            wareHouse = null;
+                            tabDeliveryPoints = null;
+                            break;
                         }
                     }
-                }
-                if (tabDeliveryPoints.isEmpty()) {
+                    if (tabDeliveryPoints != null && tabDeliveryPoints.isEmpty()) {
+                        wareHouse = null;
+                        tabDeliveryPoints = null;
+                    }
+                } else {
+                    wareHouse = null;
                     tabDeliveryPoints = null;
                 }
             }
-            else {
+            catch (NumberFormatException e) {
+                wareHouse = null;
                 tabDeliveryPoints = null;
             }
         }
         else {
+            wareHouse = null;
             tabDeliveryPoints = null;
         }
     }
@@ -422,6 +485,19 @@ public class Map {
      * @return true if the param hourtoVerify is valid, false otherwise
      */
     private boolean verifyHour(String hourToVerify) {
+        
+        // We verify that the format is valid
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        sdf.setLenient(true); 
+        Date d = new Date(); 
+        try { 
+            d = sdf.parse(hourToVerify);
+        }
+        catch (Exception e) { 
+            System.err.println("Erreur dans une des dates : " + e);
+            return false;
+        }
+        
         String[] hourDecomposed = hourToVerify.split(":");
         int heure = Integer.valueOf(hourDecomposed[0]);
         int minute = Integer.valueOf(hourDecomposed[1]);
