@@ -10,6 +10,7 @@ import javax.swing.SpinnerNumberModel;
 import controler.Controler;
 import entities.Map;
 import java.awt.GridLayout;
+import javax.swing.JSpinner.DefaultEditor;
 
 /**
  * this class represents the input view of our project it allows to create all
@@ -102,6 +103,7 @@ public class InputView extends JPanel {
                 add(label);
                 SpinnerModel spinner = new SpinnerNumberModel(1, 1, 100, 1);
                 numOfRounds = new JSpinner(spinner);
+                ((DefaultEditor) numOfRounds.getEditor()).getTextField().setEditable(false);
                 numOfRounds.setName("Number of delivery men");
                 add(numOfRounds);
             }
