@@ -169,8 +169,14 @@ public class Map {
     public Coordinate getCoordinate(int index) {
         return this.coordinates[index];
     }
+    
+    
 
-    /**
+    public List<Integer> getUnreachablePoints() {
+		return unreachablePoints;
+	}
+
+	/**
      * Gets coordinates
      * 
      * @return an array with the coordinates
@@ -214,8 +220,13 @@ public class Map {
     public List<Pair<Integer, Integer>> getTabDeliveryPoints() {
         return tabDeliveryPoints;
     }
+    
+    
+    public List<Integer> getNonReturnPoints() {
+		return nonReturnPoints;
+	}
 
-    /**
+	/**
      * Sets tabDeliveryPoints
      * 
      * @param tabDeliveryPoints 
@@ -318,7 +329,7 @@ public class Map {
         
         //Find the unreachable points in the graph
         Dijkstra dijkstra = new Dijkstra(this.graph);
-        dijkstra.executeDijkstra(this.wareHouse.getKey(), new ArrayList<Integer>());
+        dijkstra.executeDijkstra(this.wareHouse.getKey(), null);
         double[] distance = dijkstra.getDistance();
         for(int i = 0; i< distance.length;i++){
             if(distance[i] == Double.MAX_VALUE){
@@ -463,4 +474,8 @@ public class Map {
             coordinateMin.setLongitude(coord.getLongitude());
         }
     }
+    
+    
+    
+    
 }

@@ -6,6 +6,8 @@
 package entities.algorithms;
 
 import entities.Segment;
+
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -55,7 +57,15 @@ public class Dijkstra {
         distance = new double[graph.size()];
         predecessor = new Integer[graph.size()];
         
-        int nbPointsToReach = targets.size();
+        int nbPointsToReach;
+        if(targets == null) {
+        	targets = new ArrayList<Integer>();
+        	nbPointsToReach = 1;
+        }  
+        else {
+        	nbPointsToReach = targets.size();
+        }
+        
         int length = graph.size();
         boolean[] black = new boolean[length];
         PriorityQueue<Integer> grey = new PriorityQueue(11, new Comparator<Integer>(){

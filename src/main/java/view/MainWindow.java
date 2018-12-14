@@ -158,12 +158,24 @@ public class MainWindow extends JFrame {
         return inputView;
     }
 
-    public int showInformationAddState(String text) {
+    public Integer showInformationAddState(String text) {
         String duration = JOptionPane.showInputDialog(null, text, "Duration", JOptionPane.DEFAULT_OPTION);
-
-        return Integer.valueOf(duration);
+        System.out.println("duration : "+duration);
+        Integer durationInt = null;
+        if(duration != null ) {
+        	try {
+        		durationInt = -1;
+            	durationInt = Integer.valueOf(duration);
+            }
+            catch(Exception e) {
+            	System.out.println(e);
+            }
+        }
+        return durationInt;
+         
     }
 
+    
     public void showInformationConfirmationCommand(String text) {
         JOptionPane.showConfirmDialog(null, text, "Confirmation of the action", JOptionPane.DEFAULT_OPTION);
     }

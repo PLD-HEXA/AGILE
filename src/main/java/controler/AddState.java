@@ -66,17 +66,29 @@ public class AddState extends DefaultState {
         // To retrieve the index of the new delivery point added
         int numberOfCoordinates = mainWindow.getGraphicalView().getMap().getCoordinates().length;
         for (int i = 0; i < numberOfCoordinates; i++) {
-            double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLatitude();
-            double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLongitude();
-            distance = Math.sqrt(Math.pow(latitude - curLatitude, 2) + Math.pow(longitude - curLongitude, 2));
-            if (distance < minDistance) {
-                minDistance = distance;
-                indexNewDeliveryPoint = i;
-            }
+        	if(!mainWindow.getGraphicalView().getMap().getUnreachablePoints().contains(i)
+        			&& !mainWindow.getGraphicalView().getMap().getNonReturnPoints().contains(i)) {
+        		double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLatitude();
+                double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[i].getLongitude();
+                distance = Math.sqrt(Math.pow(latitude - curLatitude, 2) + Math.pow(longitude - curLongitude, 2));
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    indexNewDeliveryPoint = i;
+                }
+        	}
+            
         }
         if (indexNewDeliveryPoint != null) {
             cmdList.add(new CmdAddDeliveryPoint(mainWindow, indexNewDeliveryPoint, duration, numberPointOriginal, controler));
             controler.setCurState(controler.computeState);
         }
+        else {
+        	mainWindow.showError("The point you have chosen is invalid");
+        }
+    }
+    
+    @Override
+    public void loadPlan(Controler controler, MainWindow mainWindow) {
+    	
     }
 }
