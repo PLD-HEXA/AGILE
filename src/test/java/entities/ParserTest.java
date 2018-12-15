@@ -51,9 +51,11 @@ public class ParserTest {
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanMissingAttribute.xml";
         
         // When
+        
         Reseau res = parser.parseCityPlan(pathnameXml);
         
         // Then
+        
         assertNotNull(res);
         assertEquals(null, res.getNoeud()[0].getCoordinate().getLatitude());
         
@@ -67,9 +69,11 @@ public class ParserTest {
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanWrongExtension.txt";
         
         // When
+        
         Reseau res = parser.parseCityPlan(pathnameXml);
         
         // Then
+        
         assertNull(res);
     }
     
@@ -84,11 +88,12 @@ public class ParserTest {
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanWrongBalise.xml";
         
         // When
+        
         Reseau res = parser.parseCityPlan(pathnameXml);
         
         // Then
-        assertNull(res);
         
+        assertNull(res);
     }
     
     /**
@@ -103,9 +108,11 @@ public class ParserTest {
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanMissingBalise.xml";
         
         // When
+        
         Reseau res = parser.parseCityPlan(pathnameXml);
         
         // Then
+        
         assertNotNull(res);
         assertNull(res.getNoeud());
     }
@@ -122,9 +129,11 @@ public class ParserTest {
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanValueIncorrect.xml";
         
         // When
+        
         Reseau res = parser.parseCityPlan(pathnameXml);
         
         // Then
+        
         assertNotNull(res);
     }
     
@@ -139,9 +148,11 @@ public class ParserTest {
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanAttributeAdd.xml";
         
         // When
+        
         Reseau res = parser.parseCityPlan(pathnameXml);
         
         // Then
+        
         assertNull(res);
     }
     
@@ -195,7 +206,6 @@ public class ParserTest {
         
         DemandeDeLivraisons ddl = parser.parseDelivery(pathnameXml);
          
-        
         // Then
         
         assertNull(ddl);
@@ -219,7 +229,6 @@ public class ParserTest {
         // Then
         
         assertNull(ddl);
-        
     }
     
     /**
@@ -244,7 +253,7 @@ public class ParserTest {
     
     /**
      * No change when parsing the document, the error will be
-     * detect when we fill the map
+     * detected when we fill the map
      */
     @Test
     public void testParseDeliveryWithValueIncorrect() {
