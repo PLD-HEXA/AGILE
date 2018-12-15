@@ -384,31 +384,6 @@ public class PathFinder {
 }
     
     public List<Itinerary> findPath(Map map, int nbDeliveryMen){
-        
-        if(nbDeliveryMen < 16){
-            return findPathTSP(map,nbDeliveryMen,false);    
-        }
-       
-        else{
-            return findPathClustering(map,nbDeliveryMen,false);
-        }
-        
-        /*
-        long startTime = System.currentTimeMillis();
-        List<Itinerary> res =  findPathClustering(map,nbDeliveryMen,false);
-        long stopTime = System.currentTimeMillis();
-        long elapsedTime = stopTime - startTime;
-        System.out.println("Temps d'exécution : "+ elapsedTime/1000.0);
-        long totalDuration = 0;
-        int size;
-        for(Itinerary itinerary: res){
-            size = itinerary.getGeneralPath().size();
-            totalDuration += (itinerary.getGeneralPath().get(size-1).getDepartureTime().getTime() - itinerary.getGeneralPath().get(0).getArrivalTime().getTime());
-        }
-        Date duration = new Date(totalDuration);
-        System.out.println("Total time of all the itineraries: " + duration.toGMTString()); 
-        
-        return res;
-*/
+        return findPathClustering(map,nbDeliveryMen,false);
     }
 }
