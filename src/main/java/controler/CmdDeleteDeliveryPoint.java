@@ -9,16 +9,37 @@ import javafx.util.Pair;
 import view.MainWindow;
 
 /**
- *
- * @author Chris
+ * Represents the command of deleting a delivery point.
+ * @author PLD-HEXA-301
  */
 public class CmdDeleteDeliveryPoint implements Command  {
 
+	 /**
+     * The controler.
+     */
+    Controler controler;
+    /**
+     * The main window.
+     */
     private MainWindow mainWindow;
-    private int indexDeliveryPoint;
+	/**
+	 * The index of the delivery point to delete.
+	 */
+	private int indexDeliveryPoint;
+    /**
+     * A pair representing the delivery point to delete.
+     * The key represents the index of the itinerary containing the delivery point.
+     * The value represents the index of the delivery point inside the itinerary.
+     */
     private Pair<Integer,Integer> itineraryIndex;
-    private Controler controler;
     
+    /**
+     * Constructor
+     * @param mainWindow
+     * @param indexDeliveryPoint
+     * @param controler
+     * @param itineraryIndex
+     */
     public CmdDeleteDeliveryPoint(MainWindow mainWindow, int indexDeliveryPoint, Controler controler, Pair<Integer,Integer> itineraryIndex) {
         this.mainWindow = mainWindow;
         this.indexDeliveryPoint = indexDeliveryPoint;

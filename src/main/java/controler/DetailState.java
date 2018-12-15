@@ -109,8 +109,6 @@ public class DetailState extends DefaultState{
                     }
                     else {
                         mainWindow.showError("The input xml file is invalid.");
-                        // TODO : Afficher mesg d'erreur à l'écran (cas ou le fichier
-                        // est invalide : extension, balise et/ou attribut en trop ...)
                     }
 		}
 	}
@@ -120,7 +118,6 @@ public class DetailState extends DefaultState{
 		x/=mainWindow.getGraphicalView().getScale(); // Allows to get the x and y corresponding when the 
         // use has zoomed
         y/=mainWindow.getGraphicalView().getScale();
-        
         double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
         double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getMapSize()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
         double minDistance=minimalDistance; // minimal distance to get the point clicked in the map
@@ -273,7 +270,6 @@ public class DetailState extends DefaultState{
 		mainWindow.getGraphicalView().repaint();
 		mainWindow.requestFocus();
 		controler.setCurState(controler.detailState);
-	
 	}
 	
         

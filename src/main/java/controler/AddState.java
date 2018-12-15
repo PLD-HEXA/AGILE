@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controler;
 
 import view.MainWindow;
 
 /**
- *
- * @author Chris
+ *	Represents the State after the add button has been pressed in order to add a delivery point.
+ * @author PLD-HEXA-301
  */
 public class AddState extends DefaultState {
 
@@ -25,30 +20,55 @@ public class AddState extends DefaultState {
      */
     private int numberPointOriginal;
 
+    /**
+     * Constructor
+     */
     public AddState() {
         numberPointOriginal = 0;
     }
 
+    /**
+     * Returns numberPointOriginal
+     * @return numberPointOriginal
+     */
     public int getNumberPointOriginal() {
         return numberPointOriginal;
     }
 
+    /**
+     * Sets numberPointOriginal to the given value.
+     * @param numberPointOriginal
+     */
     public void setNumberPointOriginal(int numberPointOriginal) {
         this.numberPointOriginal = numberPointOriginal;
     }
 
+    /**
+     * Increments numberPointOriginal.
+     */
     public void addNumberPoint() {
         numberPointOriginal++;
     }
 
+    /**
+     * Decrements numberPointOriginal.
+     */
     public void soustractNumberPoint() {
         numberPointOriginal--;
     }
 
+    /**
+     * Returns duration.
+     * @return duration
+     */
     public int getDuration() {
         return duration;
     }
 
+    /**
+     * Sets duration to the given value.
+     * @param duration
+     */
     public void setDuration(int duration) {
         this.duration = duration;
     }
@@ -62,7 +82,6 @@ public class AddState extends DefaultState {
         double minDistance = 0.0025; // minimal distance to get the point corresponding to x and y on the map
         double distance;
         Integer indexNewDeliveryPoint = null;
-
         // To retrieve the index of the new delivery point added
         int numberOfCoordinates = mainWindow.getGraphicalView().getMap().getCoordinates().length;
         for (int i = 0; i < numberOfCoordinates; i++) {
@@ -76,7 +95,6 @@ public class AddState extends DefaultState {
                     indexNewDeliveryPoint = i;
                 }
         	}
-            
         }
         if (indexNewDeliveryPoint != null) {
             cmdList.add(new CmdAddDeliveryPoint(mainWindow, indexNewDeliveryPoint, duration, numberPointOriginal, controler));
