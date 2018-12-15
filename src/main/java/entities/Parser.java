@@ -16,37 +16,37 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Parser for the document xml which contains the city plan or the document
- * xml which contains the delivery points
- * 
- * @author Chris
+ * Parser for the xml document which contains the city plan or the document xml
+ * which contains the delivery points
+ *
+ * @author PLD-HEXA-301
  */
 public class Parser {
 
     /**
      * Default constructor of the class Parser
      */
-    public Parser( ) {
+    public Parser() {
     }
 
     /**
      * Parses the xml document located in the path given in parameter. Parses
      * the xml document which represents a city plan only.
-     * 
-     * @param xmlFileName the path of the xml file to parse
+     *
+     * @param xmlFileName the path of the xml file (.xml) to parse
      * @return the object Reseau which is the name of the root element of the
      * document xml. The object contains all the data of the xml document.
      */
-    public Reseau parseCityPlan(String xmlFileName){
-        if (xmlFileName.endsWith(".xml")){
+    public Reseau parseCityPlan(String xmlFileName) {
+        if (xmlFileName.endsWith(".xml")) {
             ObjectMapper objectMapper = new XmlMapper();
-            // To modify if necessary for checking
+
             objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             objectMapper.enable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
-            // Reads from XML and converts to POJO
+
             Reseau res = null;
             try {
-                res = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8),Reseau.class);
+                res = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8), Reseau.class);
             } catch (JsonParseException ex) {
                 Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
@@ -57,32 +57,31 @@ public class Parser {
                 Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
             }
-            return res;      
-        }
-        else {
+            return res;
+        } else {
             return null;
         }
     }
-    
+
     /**
      * Parses the xml document located in the path given in parameter. Parses
-     * the xml document which represents a delivery request only
-     * 
-     * @param xmlFileName the path of the xml file to parse
+     * the xml document which represents delivery requests only
+     *
+     * @param xmlFileName the path of the xml (.xml) file to parse
      * @return the object DemandeDeLivraisons which is the name of the root
-     * element of the document xml. The object contains all the data 
-     * of the xml document.
+     * element of the document xml. The object contains all the data of the xml
+     * document.
      */
-    public DemandeDeLivraisons parseDelivery(String xmlFileName){
-        if (xmlFileName.endsWith(".xml")){  
+    public DemandeDeLivraisons parseDelivery(String xmlFileName) {
+        if (xmlFileName.endsWith(".xml")) {
             ObjectMapper objectMapper = new XmlMapper();
             objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             objectMapper.enable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
-            // Reads from XML and converts to POJO
+
             DemandeDeLivraisons ddl = null;
             try {
-                ddl = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8),DemandeDeLivraisons.class);
-            }catch (JsonParseException ex) {
+                ddl = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8), DemandeDeLivraisons.class);
+            } catch (JsonParseException ex) {
                 Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
             } catch (JsonMappingException ex) {
@@ -93,10 +92,9 @@ public class Parser {
                 return null;
             }
             return ddl;
-        }
-        else {
+        } else {
             return null;
         }
     }
-     
+
 }

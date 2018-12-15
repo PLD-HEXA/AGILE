@@ -37,17 +37,20 @@ public class DetailState extends DefaultState{
                 List<Itinerary> itineraries = controler.getPathFinder().findPath(mainWindow.getGraphicalView().getMap(),
                                 Integer.min(numberOfDeliveries, numberOfDeliveryMen));
                 if(itineraries != null) {
-                        mainWindow.getGraphicalView().setItineraries(itineraries);
-                        mainWindow.getGraphicalView().setDeliveryPointIndex(null);
-                        mainWindow.getGraphicalView().setItineraryIndex(null);
-                        mainWindow.getGraphicalView().repaint();
-                        mainWindow.getTextualView().setItineraries(itineraries);
-                        mainWindow.getTextualView().setDeliveryPointIndex(null);
-                        mainWindow.getTextualView().setItineraryIndex(null);
-                        mainWindow.getTextualView().displayListOfRounds();
-                        mainWindow.getTextualView().revalidate();
-                        mainWindow.getTextualView().repaint();
-                        controler.setCurState(controler.computeState);
+                	controler.getCmdList().reset();
+                	controler.addState.setNumberPointOriginal(0);
+                    mainWindow.getGraphicalView().setItineraries(itineraries);
+                    mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                    mainWindow.getGraphicalView().setItineraryIndex(null);
+                    mainWindow.getGraphicalView().repaint();
+                    mainWindow.getTextualView().setItineraries(itineraries);
+                    mainWindow.getTextualView().setDeliveryPointIndex(null);
+                    mainWindow.getTextualView().setItineraryIndex(null);
+                    mainWindow.getTextualView().displayListOfRounds();
+                    mainWindow.getTextualView().revalidate();
+                    mainWindow.getTextualView().repaint();
+                    mainWindow.requestFocus();
+                    controler.setCurState(controler.computeState);
                 }
                 else {
                         mainWindow.showError("Error when calculating"
@@ -67,13 +70,30 @@ public class DetailState extends DefaultState{
 		mainWindow.add(chooser);
 		int returnValue = chooser.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = chooser.getSelectedFile();
-			//controler.setCurState(controler.planState);
-			DemandeDeLivraisons ddl = controler.getParser().parseDelivery(selectedFile.toString());
-                        if (ddl != null) {
-                            mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
-                            mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-                            mainWindow.getGraphicalView().setItineraries(null);
+                    File selectedFile = chooser.getSelectedFile();
+                    DemandeDeLivraisons ddl = controler.getParser().parseDelivery(selectedFile.toString());
+                    if (ddl != null) {
+                        mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
+                    	mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
+                        mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
+                        mainWindow.getGraphicalView().getMap().fillUnreachablePoints();
+                        boolean invalidFile=false;
+                        int i=0;
+                        int numberOfDeliveryPoints=mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
+                        while(!invalidFile && i<numberOfDeliveryPoints) {
+                        	if(mainWindow.getGraphicalView().getMap().getUnreachablePoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())
+                        			|| mainWindow.getGraphicalView().getMap().getNonReturnPoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())) {
+                        		invalidFile=true;
+                        	}
+                        	i++;
+                        }
+                        if(invalidFile) {
+                        	mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
+                        	mainWindow.getGraphicalView().getMap().setWareHouse(null);
+                        	mainWindow.showError("The input xml file is invalid.");
+                        }
+                        else {
+                        	mainWindow.getGraphicalView().setItineraries(null);
                             mainWindow.getGraphicalView().setDeliveryPointIndex(null);
                             mainWindow.getGraphicalView().setItineraryIndex(null);
                             mainWindow.getGraphicalView().repaint();
@@ -84,12 +104,14 @@ public class DetailState extends DefaultState{
                             mainWindow.getTextualView().revalidate();
                             mainWindow.getTextualView().repaint();
                             controler.setCurState(controler.deliveriesState);
-                        } else {
-                            mainWindow.showError("The input xml file"
-                                    + " is invalid");
-                            // TODO : Prendre en compte que le parsing du fichier xml ddl
-                            // n'est pas bien formé
-                        } 
+                        }
+                        
+                    }
+                    else {
+                        mainWindow.showError("The input xml file is invalid.");
+                        // TODO : Afficher mesg d'erreur à l'écran (cas ou le fichier
+                        // est invalide : extension, balise et/ou attribut en trop ...)
+                    }
 		}
 	}
 	

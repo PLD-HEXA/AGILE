@@ -1,6 +1,8 @@
 package controler;
 
 import java.io.File;
+import java.util.ArrayList;
+
 import javax.swing.JFileChooser;
 import entities.Map;
 import entities.Reseau;
@@ -36,14 +38,18 @@ public class DefaultState implements State {
                 if (map.getMapId() != null && map.getCoordinates() != null) {
                     map.fillGraph(reseau);
                     if (map.getGraph() != null) {
+                    	map.fillNonReturnPoints();
                         mainWindow.getTextualView().setItineraries(null);
                         mainWindow.getTextualView().setDeliveryPointIndex(null);
                         mainWindow.getTextualView().setItineraryIndex(null);
+                        mainWindow.getTextualView().displayListOfRounds();
+                        mainWindow.getTextualView().revalidate();
                         mainWindow.getTextualView().repaint();
                         mainWindow.getGraphicalView().setItineraries(null);
                         mainWindow.getGraphicalView().setMap(map);
                         mainWindow.getGraphicalView().setDeliveryPointIndex(null);
                         mainWindow.getGraphicalView().setItineraryIndex(null);
+                        mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
                         mainWindow.getGraphicalView().repaint();
                         controler.setCurState(controler.planState);
                     } else {
@@ -141,11 +147,14 @@ public class DefaultState implements State {
     }
      
      public void reset(Controler controler, MainWindow mainWindow) {
+    	 controler.addState.setNumberPointOriginal(0);
     	 mainWindow.getTextualView().setItineraries(null);
          mainWindow.getTextualView().setDeliveryPointIndex(null);
          mainWindow.getTextualView().setItineraryIndex(null);
+         mainWindow.getTextualView().displayListOfRounds();
          mainWindow.getTextualView().revalidate();
          mainWindow.getTextualView().repaint();
+         mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
          mainWindow.getGraphicalView().setItineraries(null);
          mainWindow.getGraphicalView().setMap(null);
          mainWindow.getGraphicalView().setDeliveryPointIndex(null);

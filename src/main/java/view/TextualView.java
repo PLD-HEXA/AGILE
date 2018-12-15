@@ -107,7 +107,13 @@ public class TextualView extends JPanel {
 				for (int j = 0; j < numberOfStops; j++) {
 					departureDate = itineraries.get(i).getGeneralPath().get(j).getDepartureTime();
 					arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();
-					curStop = new DefaultMutableTreeNode("Delivery n " + Integer.toString(j));
+					if(j == 0 || j == (numberOfStops-1)){
+						curStop = new DefaultMutableTreeNode("Warehouse - Delivery n " + Integer.toString(j));
+					}
+					else {
+						curStop = new DefaultMutableTreeNode("Delivery n " + Integer.toString(j));
+					}
+
 					arrival = new DefaultMutableTreeNode("Departure  " + departureDate.toString().substring(11, 19));
 					departure = new DefaultMutableTreeNode(
 							"Arrival        " + arrivalDate.toString().substring(11, 19));
@@ -165,17 +171,23 @@ public class TextualView extends JPanel {
 								mainWindow.getGraphicalView().setDeliveryPointIndex(deliveryPoint);
 								mainWindow.getGraphicalView().repaint();
 							} else if (parent.contains("Round n")) {
-                if (!child.contains("DELETED")) {
-								itinerary = Integer.parseInt(parent.substring(8)) - 1;
-								deliveryPoint = Integer.parseInt(child.substring(11));
-                                                            } else {
-                                                                itinerary = Integer.parseInt(parent.substring(8)) - 1;
-								deliveryPoint = Integer.parseInt(child.substring(21));
+                if (child.contains("DELETED")) {
+					itinerary = Integer.parseInt(parent.substring(8)) - 1;
+					deliveryPoint = Integer.parseInt(child.substring(21));
+
+                                                            }
+                else if (child.contains("Warehouse")){
+					itinerary = Integer.parseInt(parent.substring(8)) - 1;
+					deliveryPoint = Integer.parseInt(child.substring(23));
+				}
+                else {
+					itinerary = Integer.parseInt(parent.substring(8)) - 1;
+					deliveryPoint = Integer.parseInt(child.substring(11));
                                                             }
 								mainWindow.getGraphicalView().setItineraryIndex(itinerary);
 								mainWindow.getGraphicalView().setDeliveryPointIndex(deliveryPoint);
 								mainWindow.getGraphicalView().repaint();
-                                                            
+
 							}
 
 						}

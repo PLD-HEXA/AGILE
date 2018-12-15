@@ -19,8 +19,8 @@ public class Controler {
 	protected final PlanState planState = new PlanState();
 	protected final DeliveriesState deliveriesState = new DeliveriesState();
 	protected final ComputeState computeState = new ComputeState();
-        protected final DeleteState deleteState = new DeleteState();
-        protected final AddState addState = new AddState();
+    protected final DeleteState deleteState = new DeleteState();
+    protected final AddState addState = new AddState();
 	protected final DetailState detailState = new DetailState();
 	
 	/**
@@ -78,15 +78,18 @@ public class Controler {
 	}
         
         public void buttonAddClick() {
-        	if (curState.equals(computeState)) {
-	            int duration = mainWindow.showInformationAddState("You can click on the locate of the delivery point"
+        	if (curState.equals(computeState) || curState.equals(detailState)) {
+	            Integer duration = mainWindow.showInformationAddState("You can click on the locate of the delivery point"
 	                    + " you want to add. \nPlease, Enter the duration of the new delivery point.");
-	            if (duration >= 0) {
-	                addState.setDuration(duration);
-	                curState.clickAddButton(this);
-	            } else {
-	                mainWindow.showError("The duration entered is not valid.");
+	            if(duration != null) {
+	            	if (duration >= 0) {
+		                addState.setDuration(duration);
+		                curState.clickAddButton(this);
+		            } else {
+		                mainWindow.showError("The duration entered is not valid.");
+		            }
 	            }
+	            
         	}
         }
         
@@ -152,6 +155,14 @@ public class Controler {
 	public void reset() {
 		curState.reset(this, mainWindow);
 	}
+
+
+
+	public CmdList getCmdList() {
+		return cmdList;
+	}
+	
+	
         
         
 }
