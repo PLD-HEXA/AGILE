@@ -92,10 +92,6 @@ public class MapTest {
         
         //Then
         
-        int indexDestSeg1 = map.getMapId().get(idDestinationSeg1);
-        int indexDestSeg2 = map.getMapId().get(idDestinationSeg2);
-        
-        
         List<List<Segment>> graphResult = map.getGraph();
         List<Segment> listResultFirst = graphResult.get(0);
         
@@ -119,6 +115,7 @@ public class MapTest {
         Reseau resNoTroncon = parser.parseCityPlan(pathnameCityPlanXml);
         
         // When
+        
         map.fillMapIdAndCoordinate(resNoTroncon);
         map.fillGraph(resNoTroncon);
         
@@ -128,7 +125,7 @@ public class MapTest {
         
     }
     
-    /*@Test
+    @Test
     public void fillGraphTestWithIdOrigineDoesntExist() {
         
         // Given 
@@ -136,7 +133,6 @@ public class MapTest {
         Map map = new Map();
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanIdOrigineNotExists.xml";
         Reseau resIdONotExist = parser.parseCityPlan(pathnameCityPlanXml);
-        Troncon tronconExpected = new Troncon("25175778", "69.979805", "Rue Danton", "1");
         
         // When
         map.fillMapIdAndCoordinate(resIdONotExist);
@@ -144,20 +140,16 @@ public class MapTest {
         
         // Then
         
-        assertNotNull(map.getGraph());
-        assertEquals(-1,map.getGraph().indexOf(0));
-        assertNotEquals(tronconExpected.getDestination(), map.getGraph().get(174).get(0).getDestIndex());
-        assertEquals(67.72544, map.getGraph().get(174).get(0).getLength(), 0.1);
-    }*/
+        assertNull(map.getGraph());
+    }
     
-    /*@Test
+    @Test
     public void fillGraphTestWithIdDestinationDoesntExist() {
         // Given 
         
         Map map = new Map();
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanIdDestNotExist.xml";
         Reseau resIdDestNotExist = parser.parseCityPlan(pathnameCityPlanXml);
-        Troncon tronconExpected = new Troncon("25175778", "69.979805", "Rue Danton", "25175791");
         
         // When
         
@@ -166,31 +158,17 @@ public class MapTest {
         
         // Then
         
-        assertNotNull(map.getGraph());
-        Long idOrigExpected = Long.valueOf(tronconExpected.getOrigine());
-        Long idDestExpected = Long.valueOf(tronconExpected.getDestination());
+        assertNull(map.getGraph());
         
-        assertNull(map.getMapId().get(idDestExpected));
-        assertNotNull(map.getMapId().get(idOrigExpected));
-        int indexOrigAssociated = map.getMapId().get(idOrigExpected);
-        
-        double lengthExpected = Double.valueOf(tronconExpected.getLongueur());
-        double lengthReal = Double.valueOf("136.00636");
-        // The section have not been taken into consideration so the first
-        // index of the list<Segment> is the second one in the document xml
-        assertNotEquals(lengthExpected, map.getGraph().get(indexOrigAssociated).get(0).getLength(), 0.1);
-        assertEquals(lengthReal, map.getGraph().get(indexOrigAssociated).get(0).getLength(), 0.1);
-        
-    }*/
+    }
     
-   /* @Test
+    @Test
     public void fillGraphTestWithLengthInvalid() {
         // Given 
         
         Map map = new Map();
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanLengthNotValid.xml";
         Reseau resLengthNotValid = parser.parseCityPlan(pathnameCityPlanXml);
-        Troncon tronconExpected = new Troncon("25175778", "-69.979805", "Rue Danton", "25175791");
         
         // When
         
@@ -199,14 +177,9 @@ public class MapTest {
         
         // Then
         
-        assertNotNull(map.getGraph());
-        Long idExpected = Long.valueOf(tronconExpected.getOrigine());
-        int indexAssociated = map.getMapId().get(idExpected);
-        double lengthExpected = Double.valueOf(tronconExpected.getLongueur());
-        // The section have not been taken into consideration
-        assertNotEquals(lengthExpected, map.getGraph().get(indexAssociated).get(0).getLength(), 0.1);
+        assertNull(map.getGraph());
         
-    }*/
+    }
     
     @Test
     public void fillGraphTestWithZeroTronconValid() {
@@ -249,7 +222,7 @@ public class MapTest {
         Pair<Integer,Integer> delPointExpected3 = new Pair<>(indexDelPointExpected3,60);
         
         // When
-        
+       
         map.fillTabDeliveryPoint(ddl);
         
         // Then
@@ -270,34 +243,25 @@ public class MapTest {
      * Should not take into account the node, therefore
      * when we search the index in the mapId, it should return null
      */
-    /*@Test
+    @Test
     public void fillMapIdAndCoordinateWithAttributeNull() {
         //Given
         
+        String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanMissingAttribute.xml";
+        Reseau resNoTronconValid = parser.parseCityPlan(pathnameCityPlanXml);
         Map map = new Map();
-        Coordinate coordExpected = new Coordinate(4.857418,45.75406);
-        Noeud noeudExpected = new Noeud("25175791", coordExpected);
-        // On change à null la valeur de la latitude
-        res.getNoeud()[0].getCoordinate().setLatitude(null);
-        assertEquals("25175791", res.getNoeud()[0].getId());
-        assertNull(res.getNoeud()[0].getCoordinate().getLatitude());
         
         // When
         
-        map.fillMapIdAndCoordinate(res);
+        map.fillMapIdAndCoordinate(resNoTronconValid);
         
         // Then
         
         assertNotNull(map);
-        assertNotNull(map.getCoordinateMax());
-        assertNotNull(map.getCoordinateMin());
-        assertNotNull(map.getMapId());
+        assertNull(map.getMapId());
+        assertNull(map.getCoordinates());
         
-        Long idNodeExpected = Long.valueOf(noeudExpected.getId());
-        
-        assertNull(map.getMapId().get(idNodeExpected));
-        assertNotEquals(noeudExpected, map.getCoordinate(0));
-    }*/
+    }
     
     /**
      * The objects mapId and Coordinates should not be fill, their
@@ -322,8 +286,9 @@ public class MapTest {
         assertNull(map.getMapId());
         assertNull(map.getCoordinates());
     }
-    /*
-    @Test public void fillMapIdAndCoordinateWithIdIncorrect() {
+    
+    @Test 
+    public void fillMapIdAndCoordinateWithIdIncorrect() {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanValueIncorrect.xml";
@@ -339,9 +304,9 @@ public class MapTest {
         
         // Then
         
-        Long idIncorrect = Long.valueOf("-25175791");
-        assertNull(map.getMapId().get(idIncorrect));
-    }*/
+        assertNull(map.getMapId());
+        assertNull(map.getCoordinates());
+    }
            
     /**
      * When two nodes have the same id, it is the last one which is registered
@@ -412,6 +377,7 @@ public class MapTest {
         Map map = new Map();
         
         // When
+        
         map.fillMapIdAndCoordinate(res);
         map.fillTabDeliveryPoint(ddlIdWareHouseInvalid);
         
@@ -440,7 +406,6 @@ public class MapTest {
         assertNull(map.getTabDeliveryPoints());
     }
 
-    /*
     @Test 
     public void fillTabDeliveryPointsWareHouse() {
         // Given
@@ -448,5 +413,71 @@ public class MapTest {
         String pathnameXml = "./ressources/fichiersTestXml/dl-missingBalise.xml";
         DemandeDeLivraisons ddlNoWH = parser.parseDelivery(pathnameXml);
         assertNotNull(ddlNoWH);
-    }*/
+        
+        Map map = new Map();
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(res);
+        map.fillTabDeliveryPoint(ddlNoWH);
+        
+        // Then
+        
+        assertNull(map.getTabDeliveryPoints());
+    }
+    
+    @Test 
+    public void fillTabDeliveryPointsWareHouseHeureDepartureInvalid() {
+        // Given
+        
+        String pathnameXml = "./ressources/fichiersTestXml/dl-incorrectFormatDeparture.xml";
+        
+        // When
+        
+        DemandeDeLivraisons ddlNoWH = parser.parseDelivery(pathnameXml);
+        
+        //Then 
+        
+        assertNull(ddlNoWH);
+    }
+    
+    @Test
+    public void fillMapIdAndCoordinateTestWithIdNotANumber() {
+        // Given
+        
+        String pathnameXml = "./ressources/fichiersTestXml/petitPlanIdNotANumber.xml";
+        Reseau resIdNotANumber = parser.parseCityPlan(pathnameXml);
+        assertNotNull(resIdNotANumber);
+        
+        Map map = new Map();
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(resIdNotANumber);
+        
+        // Then
+        
+        assertNull(map.getMapId());
+        assertNull(map.getCoordinates());
+    }
+    
+    @Test
+    public void fillDeliveryPointsTestWithIdNotANumber() {
+        // Given
+        
+        String pathnameXml = "./ressources/fichiersTestXml/dl-IdNotANumber.xml";
+        DemandeDeLivraisons ddlNoWH = parser.parseDelivery(pathnameXml);
+        assertNotNull(ddlNoWH);
+        
+        Map map = new Map();
+        
+        // When
+        
+        map.fillMapIdAndCoordinate(res);
+        map.fillTabDeliveryPoint(ddlNoWH);
+        
+        // Then
+        
+        assertNull(map.getTabDeliveryPoints());
+    }
 }

@@ -7,8 +7,6 @@ public class DeliveryPoint {
     private Date arrivalTime;
     private Date departureTime;
     
-    
-
     public DeliveryPoint(Coordinate coordinate, Date arrivalTime, Date departureTime) {
 		this.coordinate = coordinate;
 		this.arrivalTime = arrivalTime;
