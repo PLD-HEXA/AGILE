@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities.algorithms;
 
 import entities.Segment;
@@ -13,28 +8,49 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 /**
- *
+ * Implementation of the dijkstra algorithm
+ * @author PLD-HEXA-301
  */
 public class Dijkstra {
+    //Tab of the shortest distances from the starting point
     private double[] distance;
+    //Tab of predecessors representing the shortest path for the starting point to all the other points
     private Integer[] predecessor;
+    //Data structure representing the graph to explore
     private List<List<Segment>> graph;
 
+    /**
+     * Constructor
+     * @param graph Graph to explore
+     */
     public Dijkstra(List<List<Segment>> graph) {
         this.graph = graph;
         distance = new double[graph.size()];
         predecessor = new Integer[graph.size()];       
     }
 
+    /**
+     * Getter for the distance tab.
+     * @return The distance tab
+     */
     public double[] getDistance() {
         return distance;
     }
 
+    /**
+     * Getter for the predecessors tab
+     * @return The prodecessors tab
+     */
     public Integer[] getPredecessor() {
         return predecessor;
     }
-    
-    
+     
+    /**
+     * Get the distance between two vertices in the graph
+     * @param s1 First vertice
+     * @param s2 Second vertice
+     * @return The distance between the two specified vertices in the graph
+     */
     public double getDistance(Integer s1, Integer s2){
         List<Segment> segments = graph.get(s1);
         for(Segment segment: segments){
@@ -45,6 +61,11 @@ public class Dijkstra {
         return Double.MAX_VALUE;
     }
     
+    /**
+     * Release procedure of the Dijkstra algorithm
+     * @param s1 First vertice of the edge to release
+     * @param s2 Second vertice of the edge to release
+     */
     public void release (Integer s1, Integer s2){
         if(distance[s2]> distance[s1]+ getDistance(s1,s2) ){
             distance[s2] = distance[s1]+ getDistance(s1,s2);
@@ -52,22 +73,32 @@ public class Dijkstra {
         }
     }
     
+    /**
+     * Implementation of the Dijkstra algorithm
+     * @param s0 Strating point from which starts the exploraton of the graph
+     * @param targets Targets for which we need to get the shortest distance and path from the starting point.
+     *                When parameter is set to null, the Dijkstra algorithm explore the whole graph.
+     */
     public void executeDijkstra(Integer s0, List<Integer> targets){
         //Reinitialize distance and predecessors arrow to empty arrays
         distance = new double[graph.size()];
         predecessor = new Integer[graph.size()];
         
         int nbPointsToReach;
+        //If targets is null, all the points of the graph have to be reached
         if(targets == null) {
         	targets = new ArrayList<Integer>();
-        	nbPointsToReach = 1;
+        	nbPointsToReach = -1;
         }  
         else {
         	nbPointsToReach = targets.size();
         }
         
         int length = graph.size();
+        //Tab representing the black vertices
         boolean[] black = new boolean[length];
+        
+        //Priority queue containing the grey vertices
         PriorityQueue<Integer> grey = new PriorityQueue(11, new Comparator<Integer>(){
             @Override
             public int compare(Integer s1, Integer s2) {
@@ -82,6 +113,8 @@ public class Dijkstra {
                 }     
             }
         });
+        
+        //Tab representing the white vertices
         boolean[] white = new boolean[length];
         for(int i = 0; i< length; i++){
             distance[i] = Double.MAX_VALUE;
@@ -113,14 +146,10 @@ public class Dijkstra {
                 nbPointsToReach--; 
             }
             
-            
+            //If all the points to reach have been reached, break
             if(nbPointsToReach == 0){
                 break;
             }
         }
-    }
-    
-    
-   
-    
+    }    
 }

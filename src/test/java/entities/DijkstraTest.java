@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import entities.algorithms.Dijkstra;
@@ -12,17 +7,17 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- *
- * @author youss
+ * Test for the Dijkstra class
+ * @author PLD-HEXA-301
  */
 public class DijkstraTest {
     
     /**
-     * Test the executeDijkstra method that finds the shortest path from a starting point to all the targets specified (including the
-     * starting point).
+     * Test the executeDijkstra method that finds the shortest path from a starting point to all the specified targets
      */
     @Test
     public void testExecuteDijkstra() {
+        //Construct the segments of the graph
         Segment s01 = new Segment(1, "rue du Levant", 3);
         Segment s02 = new Segment(2, "nom de rue", 5 );
         
@@ -38,7 +33,7 @@ public class DijkstraTest {
         Segment s43 = new Segment(3, "nom de rue", 7);
         
         
-        
+        //Construct the graph
         List<List<Segment>> graph = new ArrayList<>();
         for(int i = 0; i< 5; i++){
             graph.add(new ArrayList<Segment>());
@@ -65,22 +60,12 @@ public class DijkstraTest {
         deliveryPoints.add(3);
         deliveryPoints.add(4);
         
+        //Execute Dijkstra algorithm on the graph
         Dijkstra dijkstra = new Dijkstra(graph);
         dijkstra.executeDijkstra(0, deliveryPoints);
         
         double[] distance = dijkstra.getDistance();
         Integer[] predecessor = dijkstra.getPredecessor();
-        
-        /*
-        for(int i = 0; i< distance.length; i++){
-            System.out.print(distance[i] + "   ");
-            System.out.println();
-        }
-        
-        for(int i = 0; i< distance.length; i++){
-            System.out.print(predecessor[i] + "   ");
-            System.out.println();
-        }*/
         
         double[] expResDistance = {0.0, 3.0, 4.0, 7.0, 9.0};
         Integer [] expResPredecessor = {null, 0, 1, 2, 3};
@@ -88,6 +73,5 @@ public class DijkstraTest {
             assertEquals(expResDistance[i], distance[i], 0);
             assertEquals(expResPredecessor[i], predecessor[i]);
         }
-        //assertEquals(expResult, result);
     }
 }
