@@ -4,14 +4,15 @@ import java.util.Arrays;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 import java.util.Objects;
 
 /**
- * @author PLD-HEXA-301
- *
  * The class {@code DemandeDeLivraisons} represents an object that has the same
  * structure as the analyzed XML DeliveryPoints file. The parsed XML file has a
  * root tag {@code DemandeDeLivraisons}
+ *
+ * @author PLD-HEXA-301
  */
 @JacksonXmlRootElement(localName = "demandeDeLivraisons")
 public class DemandeDeLivraisons {
@@ -29,6 +30,7 @@ public class DemandeDeLivraisons {
     private Livraison[] livraison;
 
     /**
+     * TODO never used
      * Default constructor of {
      *
      * @DemandeDeLivraisons}.
@@ -37,10 +39,11 @@ public class DemandeDeLivraisons {
     }
 
     /**
+     * TODO never used
      * Creates an object {@code DemandeDeLivraisons} with the {@code entrepot}
      * and {@code livraison} attributes initialized.
      *
-     * @param entrepot The {@code entrepot} attribute
+     * @param entrepot  The {@code entrepot} attribute
      * @param livraison The {@code livraison} attribute
      */
     public DemandeDeLivraisons(Entrepot entrepot, Livraison[] livraison) {
@@ -117,9 +120,6 @@ public class DemandeDeLivraisons {
         if (!Objects.equals(this.entrepot, other.entrepot)) {
             return false;
         }
-        if (!Arrays.deepEquals(this.livraison, other.livraison)) {
-            return false;
-        }
-        return true;
+        return Arrays.deepEquals(this.livraison, other.livraison);
     }
 }

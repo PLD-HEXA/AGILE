@@ -1,14 +1,15 @@
 package entities;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.util.Objects;
 
 /**
- * @author PLD-HEXA-301
- *
  * The {@code Entrepot} class represents an object that has the same structure
  * as the element represented by the tag {@code entrepot} in the parsed
  * DeliveryPoints XML file.
+ *
+ * @author PLD-HEXA-301
  */
 public class Entrepot {
 
@@ -27,6 +28,7 @@ public class Entrepot {
     private String heureDepart;
 
     /**
+     * TODO never used
      * Default constructor of {@code Entrepot}
      */
     public Entrepot() {
@@ -36,7 +38,7 @@ public class Entrepot {
      * Constructor of {@code Entrepot} with the attributes {@code address} and
      * {@code heureDepart} initialized.
      *
-     * @param adresse The {@code address} attribute
+     * @param adresse     The {@code address} attribute
      * @param heureDepart the attribute {@code heureDepart}
      */
     public Entrepot(String adresse, String heureDepart) {
@@ -94,7 +96,6 @@ public class Entrepot {
      * Overrides of the {@code equals} method
      *
      * @param obj
-     * 
      * @return true if obj is equal, false otherwise
      */
     @Override
@@ -112,9 +113,6 @@ public class Entrepot {
         if (!Objects.equals(this.adresse, other.adresse)) {
             return false;
         }
-        if (!Objects.equals(this.heureDepart, other.heureDepart)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.heureDepart, other.heureDepart);
     }
 }

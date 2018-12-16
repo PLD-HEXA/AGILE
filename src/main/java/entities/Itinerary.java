@@ -3,22 +3,21 @@ package entities;
 import java.util.List;
 
 /**
+ * The class itinerary contains the data of a delivery tour
  *
  * @author PLD-HEXA-301
- *
- * The class itinerary contains the data of a delivery tour
  */
 public class Itinerary {
 
     /**
      * The list of the delivery point which make up the delivery tour
      */
-    List<DeliveryPoint> generalPath;
+    private List<DeliveryPoint> generalPath;
 
     /**
      * The list of the coordinate which make up the delivery tour
      */
-    List<Coordinate> detailedPath;
+    private List<Coordinate> detailedPath;
 
     /**
      * Creates an itinerary with the attributes generalPath and detailedPath
@@ -37,7 +36,6 @@ public class Itinerary {
      * Default constructor of Itinerary
      */
     public Itinerary() {
-
     }
 
     /**
@@ -59,20 +57,20 @@ public class Itinerary {
     }
 
     /**
+     * TODO never used
      * Sets the generalPath
      *
-     * @param generalPath the list of DeliveryPoint which make up the general
-     * path of the itinerary
+     * @param generalPath the list of DeliveryPoint which make up the general path of the itinerary
      */
     public void setGeneralPath(List<DeliveryPoint> generalPath) {
         this.generalPath = generalPath;
     }
 
     /**
+     * TODO never used
      * Sets the detailedPath
      *
-     * @param detailedPath the list of Coordinate which make up the detailed
-     * path of the itinerary
+     * @param detailedPath the list of Coordinate which make up the detailed path of the itinerary
      */
     public void setDetailedPath(List<Coordinate> detailedPath) {
         this.detailedPath = detailedPath;
@@ -87,5 +85,4 @@ public class Itinerary {
     public String toString() {
         return "Itinerary [generalPath=" + generalPath + ", detailedPath=" + detailedPath + "]";
     }
-
 }

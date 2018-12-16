@@ -2,14 +2,15 @@ package entities;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.util.Objects;
 
 /**
- * @author PLD-HEXA-301
- *
  * The {@code Noeud} class represents an object that has the same structure as
  * the element represented by the tag {@code Noeud} in the parsed City plan XML
  * file.
+ *
+ * @author PLD-HEXA-301
  */
 public class Noeud {
 
@@ -29,6 +30,7 @@ public class Noeud {
     private Coordinate coordinate;
 
     /**
+     * TODO never used
      * Default constructor of {@code Noeud}
      */
     public Noeud() {
@@ -38,7 +40,7 @@ public class Noeud {
      * Constructor of {@Code Noeud} that represents an object with the
      * attributes {@code id} and {@code coordinate}
      *
-     * @param id The {@code id} attribute
+     * @param id         The {@code id} attribute
      * @param coordinate The {@code coordinate} attribute
      */
     public Noeud(String id, Coordinate coordinate) {
@@ -97,7 +99,6 @@ public class Noeud {
      * Overrides of the {@code equals} method
      *
      * @param obj
-     * 
      * @return true if obj is equal, false otherwise
      */
     @Override
@@ -115,9 +116,6 @@ public class Noeud {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.coordinate, other.coordinate)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.coordinate, other.coordinate);
     }
 }

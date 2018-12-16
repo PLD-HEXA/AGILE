@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-import controler.Controler;
+import controler.Controller;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,7 +18,6 @@ import javax.swing.ScrollPaneConstants;
  * @author PLD-HEXA-301
  */
 public class MainWindow extends JFrame {
-
     /**
      * The graphical view
      */
@@ -27,50 +26,56 @@ public class MainWindow extends JFrame {
      * The textual view
      */
     private TextualView textualView;
+
     /**
      * The input view
      */
     private InputView inputView;
+
     /**
-     * The Jpanel that contains the input and textual view
+     * The JPanel that contains the input and textual view
      */
     private JPanel container;
+
     /**
      * The button listener
      */
     private ButtonListener buttonListener;
+
     /**
      * The mouse listener
      */
-    private MouseMovementListener mouseMouvementListener;
+    private MouseMovementListener mouseMovementListener;
+
     /**
      * The keyboard listener
      */
     private KeyBoardListener keyBoardListener;
+
     /**
      * The JScrollPane that contains the graphical view
      */
-    private JScrollPane jScroolPane;
+    private JScrollPane jScrollPane;
 
     /**
      * The constructor.It creates the window with all components ( graphical ,
      * textual and input)
      *
-     * @param controler
+     * @param controller
      */
-    public MainWindow(Controler controler) {
+    public MainWindow(Controller controller) {
         super();
         graphicalView = new GraphicalView(this);
         textualView = new TextualView(this);
         inputView = new InputView(this);
-        jScroolPane = new JScrollPane(graphicalView);
-        graphicalView.setScrollPane(jScroolPane);
-        jScroolPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScroolPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        createButtons(controler);
-        mouseMouvementListener = new MouseMovementListener(controler, graphicalView, this);
-        this.getGraphicalView().addMouseListener(mouseMouvementListener);
-        keyBoardListener = new KeyBoardListener(controler, graphicalView, this);
+        jScrollPane = new JScrollPane(graphicalView);
+        graphicalView.setScrollPane(jScrollPane);
+        jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        createButtons(controller);
+        mouseMovementListener = new MouseMovementListener(controller, graphicalView, this);
+        this.getGraphicalView().addMouseListener(mouseMovementListener);
+        keyBoardListener = new KeyBoardListener(controller, graphicalView, this);
         addKeyListener(keyBoardListener);
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,6 +91,7 @@ public class MainWindow extends JFrame {
             size.height -= insets.top + insets.bottom;
             size.width -= insets.left + insets.right;
         }
+        // TODO new Dimension(size.width, size.height)?
         graphicalView.setPreferredSize(new Dimension(size.height, size.height));
         graphicalView.setMapSize(size.height - 30);
         graphicalView.setLocation(0, 0);
@@ -96,7 +102,7 @@ public class MainWindow extends JFrame {
         container.add(inputView, BorderLayout.NORTH);
         container.add(textualView, BorderLayout.CENTER);
         this.getContentPane().add(container, BorderLayout.EAST);
-        this.getContentPane().add(jScroolPane, BorderLayout.CENTER);
+        this.getContentPane().add(jScrollPane, BorderLayout.CENTER);
     }
 
     /**
@@ -109,20 +115,21 @@ public class MainWindow extends JFrame {
     }
 
     /**
+     * TODO deprecated javadoc
      * It allows to create all the buttons
      *
      * @param s The string to show
      */
-    private void createButtons(Controler controler) {
-        buttonListener = new ButtonListener(controler);
-        inputView.createButtons(controler, buttonListener);
+    private void createButtons(Controller controller) {
+        buttonListener = new ButtonListener(controller);
+        inputView.createButtons(controller, buttonListener);
 
     }
 
     /**
      * It allows to set the size of the window
      */
-    public void setWindowSize() {
+    private void setWindowSize() {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();
         Insets insets = tk.getScreenInsets(getGraphicsConfiguration());
@@ -134,13 +141,14 @@ public class MainWindow extends JFrame {
 
     /**
      * Shows a dialog to indicate the user that there is an error during a
-     * proces. It can be the input xml file which is invalid, its content or an
+     * process. It can be the input xml file which is invalid, its content or an
      * error when calculating routes. is invalid.
      *
      * @param text The text to show in the pop up
      */
     public void showError(String text) {
-        JOptionPane.showConfirmDialog(null, text, "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showConfirmDialog(null, text, "Error",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
     }
 
     /**
@@ -186,8 +194,9 @@ public class MainWindow extends JFrame {
         return inputView;
     }
 
+    // TODO no javadoc
     public Integer showInformationAddState(String text) {
-        String duration = JOptionPane.showInputDialog(null, text, "Duration", JOptionPane.DEFAULT_OPTION);
+        String duration = JOptionPane.showInputDialog(null, text, "Duration", JOptionPane.PLAIN_MESSAGE);
         System.out.println("duration : " + duration);
         Integer durationInt = null;
         if (duration != null) {
@@ -195,11 +204,10 @@ public class MainWindow extends JFrame {
                 durationInt = -1;
                 durationInt = Integer.valueOf(duration);
             } catch (Exception e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
         }
         return durationInt;
-
     }
 
     public void showInformationConfirmationCommand(String text) {

@@ -1,7 +1,6 @@
 package utils;
 
-import controler.Controler;
-import entities.Coordinate;
+import controler.Controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,15 +11,15 @@ import static org.junit.Assert.assertNotNull;
 
 
 public class Utils {
-    private Controler controler;
+    private Controller controller;
     private Point inputViewOrigin;
     private Point graphicalViewOrigin;
     private Robot robot;
     public String XML_FOLDER =
             "C:\\Users\\laure\\Documents\\INSA\\4IF\\PLD\\AGILE\\Code\\ressources\\fichiersXML2018\\";
 
-    public Utils(Controler controler) throws AWTException {
-        this.controler = controler;
+    public Utils(Controller controller) throws AWTException {
+        this.controller = controller;
         this.robot = new Robot();
     }
 
@@ -35,7 +34,7 @@ public class Utils {
     }
 
     public Component getButton(String buttonName) {
-        for (Component cpt : controler.getMainWindow().getInputView().getComponents()) {
+        for (Component cpt : controller.getMainWindow().getInputView().getComponents()) {
             if (buttonName.equals(cpt.getName()))
                 return cpt;
         }
@@ -43,7 +42,7 @@ public class Utils {
     }
 
     public void seeButton() {
-        for (Component cpt : controler.getMainWindow().getInputView().getComponents()) {
+        for (Component cpt : controller.getMainWindow().getInputView().getComponents()) {
             System.out.println(cpt.getName() + ": " + cpt);
         }
     }
