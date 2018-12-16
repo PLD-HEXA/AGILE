@@ -5,21 +5,18 @@
  */
 package entities;
 
-import entities.algorithms.Dijkstra;
 import entities.algorithms.TSP;
-import java.util.ArrayList;
-import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- *
- * @author youss
+ * Test for the TSP class
+ * @author PLD-HEXA-301
  */
 public class TSPTest {
     
      /**
-     * Test the get order methiod of the class TSP. 
+     * Test the getOrder method of the class TSP. 
      */
     @Test
     public void testGetOrder() {      
@@ -32,13 +29,12 @@ public class TSPTest {
         
         
 
-        int[] optimalOrder = tsp.getOrder(adjMatrix, false);
+        int[] optimalOrder = tsp.getOrder(adjMatrix);
         
-        int[] resExpOptimalOrder = {0, 2, 4, 3, 1, 0};
+        int[] resExpectedOptimalOrder = {0, 2, 4, 3, 1, 0};
         
         for(int i = 0; i< optimalOrder.length; i++){
-            //System.out.println(optimalOrder[i] + "    ");
-            assertEquals(resExpOptimalOrder[i], optimalOrder[i]);
+            assertEquals(resExpectedOptimalOrder[i], optimalOrder[i]);
         }
         
     }
