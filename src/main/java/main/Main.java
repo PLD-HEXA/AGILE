@@ -2,7 +2,7 @@ package main;
 
 import javax.swing.UIManager;
 
-import controler.Controler;
+import controler.Controller;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,6 +10,6 @@ public class Main {
     		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
     	}catch(Exception ignored) { }
 
-    	new Controler();
+    	new Controller();
     }
 }

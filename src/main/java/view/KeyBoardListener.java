@@ -3,7 +3,7 @@ package view;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
-import controler.Controler;
+import controler.Controller;
 
 /**
  * This class represents the keyboard listener
@@ -13,9 +13,9 @@ import controler.Controler;
 public class KeyBoardListener implements KeyListener {
 
     /**
-     * The controler
+     * The controller
      */
-    private Controler controler;
+    private Controller controller;
     /**
      * The graphical view
      */
@@ -28,12 +28,12 @@ public class KeyBoardListener implements KeyListener {
     /**
      * The constructor
      *
-     * @param controler
+     * @param controller
      * @param graphicalView
      * @param mainWindow
      */
-    public KeyBoardListener(Controler controler, GraphicalView graphicalView, MainWindow mainWindow) {
-        this.controler = controler;
+    public KeyBoardListener(Controller controller, GraphicalView graphicalView, MainWindow mainWindow) {
+        this.controller = controller;
         this.graphicalView = graphicalView;
         this.mainWindow = mainWindow;
     }
@@ -43,7 +43,7 @@ public class KeyBoardListener implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        controler.keyPressed(e.getKeyCode());
+        controller.keyPressed(e.getKeyCode());
     }
 
     /**

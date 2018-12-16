@@ -5,35 +5,62 @@ import entities.Coordinate;
 import java.util.*;
 import java.util.Map;
 
+/**
+ * KMeans is a class use to create clusters from a list of coordinates and a number of clusters
+ * @author PLD-HEXA-301
+ */
 public class KMeans {
+    /**
+     * array that contains the coordinates of all the delivery points
+     */
     private Coordinate[] coordinates;
 
+    /**
+     * array that contains the coordinates of cluster centers
+     */
     private Coordinate[] clusterCenterCoordinates;
 
+    /**
+     * contains the number of clusters
+     */
     private int clusterNb;
 
+    /**
+     * array that contains all the center of clusters
+     */
     private int[] clusterCenters;
 
     /**
-     * clusterNodes: contains all the nodes belonging to a cluster
+     * contains all the nodes belonging to a cluster
      */
     private ArrayList<ArrayList<Integer>> clusterNodes;
 
+    /**
+     * contains the previous version of clusterNodes
+     */
     private ArrayList<ArrayList<Integer>> previousClusterNodes;
 
-    private ArrayList<Map<Double, Integer>> clusters;
-
+    /**
+     * contains the distance between each delivery point and each cluster
+     */
     private ArrayList<LinkedHashMap<Integer, Double>> distances;
 
+    /**
+     * Construct KMeans using the coordinates of the delivery points and the number of clusters
+     * @param coordinates: array of the coordinates of the delivery points
+     * @param clusterNb the number of clusters
+     */
     public KMeans(Coordinate[] coordinates, int clusterNb) {
         this.coordinates = coordinates;
         this.clusterCenterCoordinates = new Coordinate[clusterNb];
         this.clusterNb = clusterNb;
     }
 
+    /**
+     * initialize the algorithm by choosing the first k delivery points as center of clusters
+     */
     public void init() {
         this.clusterNodes = new ArrayList<>();
-        this.clusters = new ArrayList<>();
         this.distances = new ArrayList<>();
         this.previousClusterNodes = new ArrayList<>();
         clusterCenters = new int[clusterNb];
@@ -45,6 +72,9 @@ public class KMeans {
         }
     }
 
+    /**
+     * initialize the algorithm by choosing randomly k delivery points as center of clusters
+     */
     public void randomInit() {
         int pointsNb = this.coordinates.length;
         int[] randomIntegers = new int[pointsNb];
@@ -58,6 +88,10 @@ public class KMeans {
         this.clusterCenters = Arrays.copyOfRange(randomIntegers, 0, this.clusterNb);
     }
 
+    /**
+     * create the k clusters
+     * @return clusterNodes contains the index of each nodes of each cluster
+     */
     public ArrayList<ArrayList<Integer>> findClusters() {
         init();
         for (int i = 0; i < 100; i++) {
@@ -70,13 +104,19 @@ public class KMeans {
         return previousClusterNodes;
     }
 
-    public void copyClusters() {
+    /**
+     * copy all clusters in a new structure to see if the clusters has changed
+     */
+    private void copyClusters() {
         previousClusterNodes.clear();
         for (int j = 0; j < clusterNb; j++) {
             previousClusterNodes.add(new ArrayList<>(clusterNodes.get(j)));
         }
     }
 
+    /**
+     * find the distance between each delivery point and each cluster
+     */
     public void findClusterDistance() {
         for (int i = 0; i < clusterNb; i++) {
             distances.add(new LinkedHashMap<>());
@@ -100,6 +140,10 @@ public class KMeans {
         assignNodesToClusters();
     }
 
+    /**
+     * finds for each delivery point the best cluster in order to have the same number of delivery
+     * points in each cluster (+/- 1)
+     */
     private void assignNodesToClusters() {
         while (true) {
             for (int clusterIndex = 0; clusterIndex < clusterNb; clusterIndex++) {
@@ -114,6 +158,9 @@ public class KMeans {
         }
     }
 
+    /**
+     * calculates the center of gravity of each cluster and defines it as the new center of the cluster
+     */
     public void updateCluster() {
         for (int clusterIndex = 0; clusterIndex < clusterNb; clusterIndex++) {
             int clusterSize = clusterNodes.get(clusterIndex).size();
@@ -130,77 +177,39 @@ public class KMeans {
         }
     }
 
+    /**
+     * get the euclidean distance between two coordinates
+     * @param coordinate1 first coordinate
+     * @param coordinate2 second coordinate
+     * @return distance between the two coordinates
+     */
     private double getEuclideanDistance(Coordinate coordinate1, Coordinate coordinate2) {
         return
                 Math.pow(coordinate1.getLongitude() - coordinate2.getLongitude(), 2) +
                         Math.pow(coordinate1.getLatitude() - coordinate2.getLatitude(), 2);
     }
 
-    public void setClusters(ArrayList<Map<Double, Integer>> clusters) {
-        this.clusters = clusters;
-    }
-
-    public void setCoordinates(Coordinate[] coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public Coordinate[] getCoordinates() {
-        return coordinates;
-    }
-
-    public Coordinate getCoordinate(int index) {
-        return this.coordinates[index];
-    }
-
-    public int getClusterNb() {
-        return clusterNb;
-    }
-
-    public void setClusterNb(int clusterNb) {
-        this.clusterNb = clusterNb;
-    }
-
+    /**
+     * get the centers of clusters
+     * @return an array that contains the centers of clusters
+     */
     public int[] getClusterCenters() {
         return this.clusterCenters;
     }
 
-    public Coordinate[] getClusterCenterCoordinates() {
-        return clusterCenterCoordinates;
-    }
-
-    public void setClusterCenterCoordinates(Coordinate[] clusterCenterCoordinates) {
-        this.clusterCenterCoordinates = clusterCenterCoordinates;
-    }
-
+    /**
+     * get all the nodes of all cluster
+     * @return all nodes of each cluster
+     */
     public ArrayList<ArrayList<Integer>> getClusterNodes() {
         return clusterNodes;
     }
 
-    public void setClusterNodes(ArrayList<ArrayList<Integer>> clusterNodes) {
-        this.clusterNodes = clusterNodes;
-    }
-
-    public ArrayList<ArrayList<Integer>> getPreviousClusterNodes() {
-        return previousClusterNodes;
-    }
-
-    public void setPreviousClusterNodes(ArrayList<ArrayList<Integer>> previousClusterNodes) {
-        this.previousClusterNodes = previousClusterNodes;
-    }
-
-    public ArrayList<Map<Double, Integer>> getClusters() {
-        return clusters;
-    }
-
-    public void setClusterCenters(int[] clusterCenters) {
-        this.clusterCenters = clusterCenters;
-    }
-
+    /**
+     * get the distance between each node and each cluster center
+     * @return the distance between each
+     */
     public ArrayList<LinkedHashMap<Integer, Double>> getDistances() {
         return distances;
-    }
-
-    public void setDistances(ArrayList<LinkedHashMap<Integer, Double>> distances) {
-        this.distances = distances;
     }
 }

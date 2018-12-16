@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-import controler.Controler;
+import controler.Controller;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -56,9 +56,9 @@ public class MainWindow extends JFrame {
      * The constructor.It creates the window with all components ( graphical ,
      * textual and input)
      *
-     * @param controler
+     * @param controller
      */
-    public MainWindow(Controler controler) {
+    public MainWindow(Controller controller) {
         super();
         graphicalView = new GraphicalView(this);
         textualView = new TextualView(this);
@@ -67,10 +67,10 @@ public class MainWindow extends JFrame {
         graphicalView.setScrollPane(jScroolPane);
         jScroolPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScroolPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        createButtons(controler);
-        mouseMouvementListener = new MouseMovementListener(controler, graphicalView, this);
+        createButtons(controller);
+        mouseMouvementListener = new MouseMovementListener(controller, graphicalView, this);
         this.getGraphicalView().addMouseListener(mouseMouvementListener);
-        keyBoardListener = new KeyBoardListener(controler, graphicalView, this);
+        keyBoardListener = new KeyBoardListener(controller, graphicalView, this);
         addKeyListener(keyBoardListener);
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,9 +113,9 @@ public class MainWindow extends JFrame {
      *
      * @param s The string to show
      */
-    private void createButtons(Controler controler) {
-        buttonListener = new ButtonListener(controler);
-        inputView.createButtons(controler, buttonListener);
+    private void createButtons(Controller controller) {
+        buttonListener = new ButtonListener(controller);
+        inputView.createButtons(controller, buttonListener);
 
     }
 

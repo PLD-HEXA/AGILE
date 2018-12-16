@@ -2,7 +2,7 @@ package view;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import controler.Controler;
+import controler.Controller;
 
 /**
  * This class represents the mouse movement listener
@@ -12,9 +12,9 @@ import controler.Controler;
 public class MouseMovementListener implements MouseListener {
 
     /**
-     * The controler
+     * The controller
      */
-    private Controler controler;
+    private Controller controller;
     /**
      * The graphical view
      */
@@ -26,12 +26,12 @@ public class MouseMovementListener implements MouseListener {
 
     /**
      * The constructor
-     * @param controler
+     * @param controller
      * @param graphicalView
      * @param mainWindow
      */
-    public MouseMovementListener(Controler controler, GraphicalView graphicalView, MainWindow mainWindow) {
-        this.controler = controler;
+    public MouseMovementListener(Controller controller, GraphicalView graphicalView, MainWindow mainWindow) {
+        this.controller = controller;
         this.graphicalView = graphicalView;
         this.mainWindow = mainWindow;
     }
@@ -41,7 +41,7 @@ public class MouseMovementListener implements MouseListener {
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        controler.mouseClick(e.getX(), e.getY());
+        controller.mouseClick(e.getX(), e.getY());
     }
 
     /**

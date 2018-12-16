@@ -3,7 +3,7 @@ package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import controler.Controler;
+import controler.Controller;
 
 /**
  * This class allows to call the controller whenever the user presses a button
@@ -15,15 +15,15 @@ public class ButtonListener implements ActionListener {
     /**
      * The controller
      */
-    private Controler controler;
+    private Controller controller;
 
     /**
      * The constructor
      *
-     * @param controler the controller
+     * @param controller the controller
      */
-    public ButtonListener(Controler controler) {
-        this.controler = controler;
+    public ButtonListener(Controller controller) {
+        this.controller = controller;
     }
      /**
      * {@inheritDoc}
@@ -32,31 +32,31 @@ public class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case InputView.LOAD_PLAN:
-                controler.loadPlan();
+                controller.loadPlan();
                 break;
             case InputView.LOAD_DELIVERIES:
-                controler.loadDeliveries();
+                controller.loadDeliveries();
                 break;
             case InputView.COMPUTE:
-                controler.compute();
+                controller.compute();
                 break;
             case InputView.DELETE:
-                controler.buttonDeleteClick();
+                controller.buttonDeleteClick();
                 break;
             case InputView.ADD:
-                controler.buttonAddClick();
+                controller.buttonAddClick();
                 break;
             case InputView.UNDO:
                 System.out.println("Clique sur undo");
-                controler.undo();
+                controller.undo();
                 break;
             case InputView.REDO:
                 System.out.println("Clique sur redo");
-                controler.redo();
+                controller.redo();
                 break;
             case InputView.RESET:
                 System.out.println("Clique sur reset");
-                controler.reset();
+                controller.reset();
                 break;
             
         }

@@ -10,16 +10,19 @@ import entities.DeliveryPoint;
 import entities.Itinerary;
 import entities.Map;
 import entities.Segment;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
 import javafx.util.Pair;
 
 /**
  * Class using the KMeans, Dijkstra and TSP algorithms to find the best path
+ *
  * @author PLD-HEXA-301
  */
 public class PathFinder {
@@ -27,32 +30,39 @@ public class PathFinder {
      * Graph representing the map
      */
     private List<List<Segment>> graph;
+
     /**
      * Array for the mapping between an index and his corresponding coordinate
      */
     private Coordinate[] coordinates;
+
     /**
-     * List of delivery points the deliverers have to pass by. The key of the pair represents the index of the 
+     * List of delivery points the deliverers have to pass by. The key of the pair represents the index of the
      * delivery point and the value represents the duration of the delivery.
      */
     private List<Pair<Integer, Integer>> deliveryPoints;
+
     /**
      * Represents the warehouse. The key of the pair represents the index of the warehouse and the value represents
      * the time where the warehouse is leaved.
      */
     private Pair<Integer, String> warehouse;
+
     /**
      * Represents the graph formed by all the deliveryPoints and the warehouse.
      */
     private double[][] graphMatrix;
+
     /**
      * List of delivery points + warehouse
      */
     private List<Integer> targets;
+
     /**
      * List of durations of each delivery point and the warehouse
      */
     private List<Integer> times;
+
     /**
      * speed of the deliverers (km/h)
      */
@@ -105,7 +115,8 @@ public class PathFinder {
     }
 
     /**
-     * Getter for the departureTime of the warhouse
+     * Getter for the departureTime of the warehouse
+     *
      * @return departure time of the warehouse
      */
     private Date getDepartureTime() {
@@ -122,6 +133,7 @@ public class PathFinder {
 
     /**
      * Retrieve the shortest path from a vertice to another using the Dijkstra algorithm
+     *
      * @param s0 First vertice
      * @param s1 Second vertice
      * @return List of coordinates representing the shortest path
@@ -146,6 +158,7 @@ public class PathFinder {
 
     /**
      * Create a tab of coordinates corresponding to the list of deliveryPoints
+     *
      * @return Tab of coordinates
      */
     private Coordinate[] buildCoordinates() {
@@ -158,9 +171,10 @@ public class PathFinder {
     }
 
     /**
-     * Extract the "graphMatrix" ofthe specified cluster
+     * Extract the "graphMatrix" of the specified cluster
+     *
      * @param clusterPoints Cluster of points
-     * @return The extractes "graphMatrix"
+     * @return The extracted "graphMatrix"
      */
     private double[][] extractGraphMatrix(ArrayList<Integer> clusterPoints) {
         int matSize = clusterPoints.size();
@@ -176,9 +190,10 @@ public class PathFinder {
     }
 
     /**
-     * Contruct an itinerary from a list of delivery points and a warehouse departure time.
+     * constructs an itinerary from a list of delivery points and a warehouse departure time.
+     *
      * @param wareHouseDepartureTime Departure time of the warehouse
-     * @param deliveryIndexes Indexes of the deliveryPoints 
+     * @param deliveryIndexes        Indexes of the deliveryPoints
      * @return The itinerary.
      */
     private Itinerary constructItinerary(Date wareHouseDepartureTime, ArrayList<Integer> deliveryIndexes) {
@@ -219,10 +234,10 @@ public class PathFinder {
     }
 
     /**
-     * 
+     * Convert the data of the TSP inorder to be used to create itineraries for the cluster method
      * @param converter
      * @param listToConvert
-     * @return 
+     * @return
      */
     private ArrayList<Integer> convertTSP(ArrayList<Integer> converter, int[] listToConvert) {
         ArrayList<Integer> convertedList = new ArrayList<>();
@@ -235,7 +250,8 @@ public class PathFinder {
 
     /**
      * Find the list of itineraries for the specified map using KMeans and TSP algorithms
-     * @param map Map in which the itineraries have to be retrieved
+     *
+     * @param map           Map in which the itineraries have to be retrieved
      * @param nbDeliveryMen Number of delivery men
      * @return List of itineraries
      */
@@ -282,69 +298,69 @@ public class PathFinder {
 
         return itineraries;
     }
-    
+
     /**
-     * Calculate an additional itineray with new points. 
-     * @param map Map where the new itinerary have to be retrieved
+     * Calculate an additional itinerary with new points.
+     *
+     * @param map         Map where the new itinerary have to be retrieved
      * @param itineraries List of itineraries to which add the new itinerary
      * @param nbNewPoints Number of new points in the new itinerary
-     * @param undo State of the undo
+     * @param undo        State of the undo
      * @return True when the addition of a new itinerary is possible (the itinerary ends before 18:00pm); false otherwise
      */
-    public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints, boolean undo) {    
+    public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints, boolean undo) {
         if (nbNewPoints == 0) {
-            itineraries.remove(itineraries.size() -1);
+            itineraries.remove(itineraries.size() - 1);
             return true;
+        } else if ((undo && nbNewPoints >= 1) || (!undo && nbNewPoints > 1)) {
+            itineraries.remove(itineraries.size() - 1);
         }
-        else if ((undo && nbNewPoints >= 1) || (!undo && nbNewPoints > 1)) {
-            itineraries.remove(itineraries.size() -1);
-        } 
-        
+
         //Find the earliest arrival time
         Date tempArrivalTime;
-        Date earlierArrivalTime = itineraries.get(0).getGeneralPath().get(itineraries.get(0).getGeneralPath().size() -1).getDepartureTime();
-        for(Itinerary itinerary: itineraries){
-            tempArrivalTime = itinerary.getGeneralPath().get(itinerary.getGeneralPath().size()-1).getDepartureTime(); 
-            if(tempArrivalTime.getHours() >=18){
+        Date earlierArrivalTime = itineraries.get(0).getGeneralPath().get(itineraries.get(0).getGeneralPath().size() - 1).getDepartureTime();
+        for (Itinerary itinerary : itineraries) {
+            tempArrivalTime = itinerary.getGeneralPath().get(itinerary.getGeneralPath().size() - 1).getDepartureTime();
+            if (tempArrivalTime.getHours() >= 18) {
                 return false;
             }
-            if(earlierArrivalTime.getTime() > tempArrivalTime.getTime()){
+            if (earlierArrivalTime.getTime() > tempArrivalTime.getTime()) {
                 earlierArrivalTime = tempArrivalTime;
             }
         }
-        
+
         //Calculate the new itinerary
-        List<Pair<Integer,Integer>> tabDeliveryPointsTemp= new ArrayList<>();
-        List<Pair<Integer,Integer>> tabDeliveryPoints= map.getTabDeliveryPoints();
+        List<Pair<Integer, Integer>> tabDeliveryPointsTemp = new ArrayList<>();
+        List<Pair<Integer, Integer>> tabDeliveryPoints = map.getTabDeliveryPoints();
         int sizeTabDeliveryPoints = tabDeliveryPoints.size();
-        for(int i = 0; i< nbNewPoints; i++){
-            tabDeliveryPointsTemp.add(new Pair(tabDeliveryPoints.get(sizeTabDeliveryPoints- 1 -i).getKey() , tabDeliveryPoints.get(sizeTabDeliveryPoints- 1 -i).getValue()));
+        for (int i = 0; i < nbNewPoints; i++) {
+            tabDeliveryPointsTemp.add(new Pair(tabDeliveryPoints.get(sizeTabDeliveryPoints - 1 - i).getKey(), tabDeliveryPoints.get(sizeTabDeliveryPoints - 1 - i).getValue()));
         }
         map.setTabDeliveryPoints(tabDeliveryPointsTemp);
-        
-       
+
         Pair<Integer, String> warehouse = map.getWareHouse();
+        // TODO the variable seems to never be used
         String startingTime = map.getWareHouse().getValue();
-        
-        long startingTimeTempNanoSeconds = earlierArrivalTime.getTime()+1000*5*60;
+
+        long startingTimeTempNanoSeconds = earlierArrivalTime.getTime() + 1000 * 5 * 60;
         DateFormat df = new SimpleDateFormat("hh:mm:ss");
         String startingTimeTemp = df.format(startingTimeTempNanoSeconds);
-        
+
         map.setWareHouse(new Pair(map.getWareHouse().getKey(), startingTimeTemp));
-        
+
         Itinerary additionalItinerary = this.findPath(map, 1).get(0);
-        
+
         //Set the map as it was before
         map.setTabDeliveryPoints(tabDeliveryPoints);
         map.setWareHouse(warehouse);
-        
+
         //Check that the new itinerary do not go past 18:00pm
-        if(additionalItinerary.getGeneralPath().get(nbNewPoints+1).getDepartureTime().getHours()>=18 || 
-           additionalItinerary.getGeneralPath().get(nbNewPoints+1).getDepartureTime().getDate() != earlierArrivalTime.getDate()){
-            return false;          
+        if (additionalItinerary.getGeneralPath().get(nbNewPoints + 1).getDepartureTime().getHours() >= 18 ||
+                additionalItinerary.getGeneralPath().get(nbNewPoints + 1).getDepartureTime().getDate() != earlierArrivalTime.getDate()) {
+            return false;
         }
         //Add the new itinerary to the list of itineraries
-        else{
+        else {
             additionalItinerary.getGeneralPath().get(0).setArrivalTime(new Date(earlierArrivalTime.getTime()));
             itineraries.add(additionalItinerary);
             return true;

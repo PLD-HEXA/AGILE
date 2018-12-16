@@ -14,12 +14,12 @@ public class TSP {
     /**
      * Tab containing the solution of the salesman problem
      */
-    int[] optimalOrder;
+    private int[] optimalOrder;
     
     /**
      * Last vertice seen in the recursive "permut" algorithm
      */
-    int lastSeen;
+    private int lastSeen;
 
     /**
      * Comparator to sort the branches to explore first (start with the closest vertices)

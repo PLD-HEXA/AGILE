@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import controler.Controler;
+import controler.Controller;
 import entities.Map;
 import java.awt.GridLayout;
 import javax.swing.JSpinner.DefaultEditor;
@@ -92,10 +92,10 @@ public class InputView extends JPanel {
     /**
      * This method allows to create the buttons
      *
-     * @param controler The controller
+     * @param controller The controller
      * @param buttonListener The buttonListener
      */
-    public void createButtons(Controler controler, ButtonListener buttonListener) {
+    public void createButtons(Controller controller, ButtonListener buttonListener) {
         this.setLayout(new GridLayout(2,4));
         for (String buttonName : buttonNames) {
             if (buttonName.equals("Compute")) {
