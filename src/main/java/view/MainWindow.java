@@ -2,13 +2,10 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import controler.Controler;
-import java.awt.GridLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,39 +18,60 @@ import javax.swing.ScrollPaneConstants;
  * @author PLD-HEXA-301
  */
 public class MainWindow extends JFrame {
-    //Components
 
+    /**
+     * The graphical view
+     */
     private GraphicalView graphicalView;
+    /**
+     * The textual view
+     */
     private TextualView textualView;
+    /**
+     * The input view
+     */
     private InputView inputView;
+    /**
+     * The Jpanel that contains the input and textual view
+     */
     private JPanel container;
-    //Listeners
+    /**
+     * The button listener
+     */
     private ButtonListener buttonListener;
+    /**
+     * The mouse listener
+     */
     private MouseMovementListener mouseMouvementListener;
+    /**
+     * The keyboard listener
+     */
     private KeyBoardListener keyBoardListener;
+    /**
+     * The JScrollPane that contains the graphical view
+     */
     private JScrollPane jScroolPane;
-    //Display charasteristics
 
+    /**
+     * The constructor.It creates the window with all components ( graphical ,
+     * textual and input)
+     *
+     * @param controler
+     */
     public MainWindow(Controler controler) {
         super();
-        //Components initialisation
         graphicalView = new GraphicalView(this);
         textualView = new TextualView(this);
         inputView = new InputView(this);
         jScroolPane = new JScrollPane(graphicalView);
         graphicalView.setScrollPane(jScroolPane);
-
         jScroolPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScroolPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        //Buttons
         createButtons(controler);
-        //Listeners
         mouseMouvementListener = new MouseMovementListener(controler, graphicalView, this);
         this.getGraphicalView().addMouseListener(mouseMouvementListener);
         keyBoardListener = new KeyBoardListener(controler, graphicalView, this);
         addKeyListener(keyBoardListener);
-        //Display characteristics
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setWindowSize();
@@ -79,22 +97,32 @@ public class MainWindow extends JFrame {
         container.add(textualView, BorderLayout.CENTER);
         this.getContentPane().add(container, BorderLayout.EAST);
         this.getContentPane().add(jScroolPane, BorderLayout.CENTER);
-
     }
 
+    /**
+     * It allows to display a message
+     *
+     * @param s The string to show
+     */
     public void displayMessage(String s) {
         System.out.println(s);
     }
 
+    /**
+     * It allows to create all the buttons
+     *
+     * @param s The string to show
+     */
     private void createButtons(Controler controler) {
         buttonListener = new ButtonListener(controler);
         inputView.createButtons(controler, buttonListener);
 
     }
 
+    /**
+     * It allows to set the size of the window
+     */
     public void setWindowSize() {
-//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//		setSize((int)screenSize.getHeight()-50+inputView.getWidth(),(int)screenSize.getHeight()-50);
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();
         Insets insets = tk.getScreenInsets(getGraphicsConfiguration());
@@ -160,22 +188,20 @@ public class MainWindow extends JFrame {
 
     public Integer showInformationAddState(String text) {
         String duration = JOptionPane.showInputDialog(null, text, "Duration", JOptionPane.DEFAULT_OPTION);
-        System.out.println("duration : "+duration);
+        System.out.println("duration : " + duration);
         Integer durationInt = null;
-        if(duration != null ) {
-        	try {
-        		durationInt = -1;
-            	durationInt = Integer.valueOf(duration);
-            }
-            catch(Exception e) {
-            	System.out.println(e);
+        if (duration != null) {
+            try {
+                durationInt = -1;
+                durationInt = Integer.valueOf(duration);
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
         return durationInt;
-         
+
     }
 
-    
     public void showInformationConfirmationCommand(String text) {
         JOptionPane.showConfirmDialog(null, text, "Confirmation of the action", JOptionPane.DEFAULT_OPTION);
     }

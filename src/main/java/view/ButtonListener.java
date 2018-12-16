@@ -25,7 +25,9 @@ public class ButtonListener implements ActionListener {
     public ButtonListener(Controler controler) {
         this.controler = controler;
     }
-
+     /**
+     * {@inheritDoc}
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
