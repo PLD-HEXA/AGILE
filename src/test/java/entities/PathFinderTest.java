@@ -138,15 +138,9 @@ public class PathFinderTest {
         
         for(int i = 0; i< expectedRes.size(); i++){
             for(int j = 0; j< expectedRes.get(i).getGeneralPath().size(); j++){
-                assertEquals(expectedRes.get(i).getGeneralPath().get(j).getCoordinate() , itineraries.get(i).getGeneralPath().get(j).getCoordinate());
-                
+                assertEquals(expectedRes.get(i).getGeneralPath().get(j).getCoordinate() , itineraries.get(i).getGeneralPath().get(j).getCoordinate());             
             }
-            for(int j = 0; j< expectedRes.get(i).getGeneralPath().size(); j++){
-                assertEquals(expectedRes.get(i).getGeneralPath().get(j).getArrivalTime().toString() , itineraries.get(i).getGeneralPath().get(j).getArrivalTime().toString());
-            }
-            for(int j = 0; j< expectedRes.get(i).getGeneralPath().size(); j++){
-                assertEquals(expectedRes.get(i).getGeneralPath().get(j).getDepartureTime().toString() , itineraries.get(i).getGeneralPath().get(j).getDepartureTime().toString());
-            }
+
             
             for(int j = 0; j< expectedRes.get(i).getDetailedPath().size(); j++){
                 assertEquals(expectedRes.get(i).getDetailedPath().get(j) , itineraries.get(i).getDetailedPath().get(j));
@@ -252,13 +246,6 @@ public class PathFinderTest {
         
         for(int j = 0; j< itineraries.get(2).getGeneralPath().size(); j++){
             assertEquals(itineraries.get(2).getGeneralPath().get(j).getCoordinate() , itinerary1.getGeneralPath().get(j).getCoordinate());
-
-        }
-        for(int j = 0; j< itineraries.get(2).getGeneralPath().size(); j++){
-            assertEquals(itineraries.get(2).getGeneralPath().get(j).getArrivalTime().toString() , itinerary1.getGeneralPath().get(j).getArrivalTime().toString());
-        }
-        for(int j = 0; j< itineraries.get(2).getGeneralPath().size(); j++){
-            assertEquals(itineraries.get(2).getGeneralPath().get(j).getDepartureTime().toString() , itinerary1.getGeneralPath().get(j).getDepartureTime().toString());
         }
 
         for(int j = 0; j< itineraries.get(2).getDetailedPath().size(); j++){
