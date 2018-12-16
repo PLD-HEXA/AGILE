@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,19 +34,19 @@ public class Parser {
      * the xml document which represents a city plan only.
      *
      * @param xmlFileName the path of the xml file (.xml) to parse
-     * @return the object Network which is the name of the root element of the
+     * @return the object Reseau which is the name of the root element of the
      * document xml. The object contains all the data of the xml document.
      */
-    public Network parseCityPlan(String xmlFileName) {
+    public Reseau parseCityPlan(String xmlFileName) {
         if (xmlFileName.endsWith(".xml")) {
             ObjectMapper objectMapper = new XmlMapper();
 
             objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             objectMapper.enable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
 
-            Network res = null;
+            Reseau res = null;
             try {
-                res = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8), Network.class);
+                res = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8), Reseau.class);
             } catch (JsonParseException ex) {
                 Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
@@ -69,19 +68,19 @@ public class Parser {
      * the xml document which represents delivery requests only
      *
      * @param xmlFileName the path of the xml (.xml) file to parse
-     * @return the object DeliveryRequest which is the name of the root
+     * @return the object DemandeDeLivraisons which is the name of the root
      * element of the document xml. The object contains all the data of the xml
      * document.
      */
-    public DeliveryRequest parseDelivery(String xmlFileName) {
+    public DemandeDeLivraisons parseDelivery(String xmlFileName) {
         if (xmlFileName.endsWith(".xml")) {
             ObjectMapper objectMapper = new XmlMapper();
             objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             objectMapper.enable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
 
-            DeliveryRequest ddl = null;
+            DemandeDeLivraisons ddl = null;
             try {
-                ddl = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8), DeliveryRequest.class);
+                ddl = objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8), DemandeDeLivraisons.class);
             } catch (JsonParseException ex) {
                 Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
                 return null;
@@ -97,4 +96,5 @@ public class Parser {
             return null;
         }
     }
+
 }

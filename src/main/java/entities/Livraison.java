@@ -6,40 +6,40 @@ import java.util.Objects;
 /**
  * @author PLD-HEXA-301
  *
- * The {@code Delivery} class represents an object that has the same structure
- * as the element represented by the {@code Delivery} tag in the parsed
+ * The {@code Livraison} class represents an object that has the same structure
+ * as the element represented by the {@code Livraison} tag in the parsed
  * DeliveryPoints XML file.
  */
-public class Delivery {
+public class Livraison {
 
     /**
      * Contains the delivery address represented by the {@code adresse}
-     * attribute of the tag {@code Delivery}
+     * attribute of the tag {@code Livraison}
      */
     @JacksonXmlProperty(localName = "adresse", isAttribute = true)
     private String adresse;
 
     /**
      * Contains the delivery time represented by the {@code duree} attribute of
-     * the {@code Delivery} tag
+     * the {@code Livraison} tag
      */
     @JacksonXmlProperty(localName = "duree", isAttribute = true)
     private Integer duree;
 
     /**
-     * Default constructor of {@code Delivery}
+     * Default constructor of {@code Livraison}
      */
-    public Delivery() {
+    public Livraison() {
     }
 
     /**
-     * Constructor of {@code Delivery} object that represents an object with
+     * Constructor of {@code Livraison} object that represents an object with
      * the attributes {@code addresse} and {@code duree} initialized.
      *
      * @param adresse The {@code adresse} attribute
      * @param duree The {@code duree} attribute
      */
-    public Delivery(String adresse, Integer duree) {
+    public Livraison(String adresse, Integer duree) {
         this.adresse = adresse;
         this.duree = duree;
     }
@@ -88,7 +88,7 @@ public class Delivery {
      */
     @Override
     public String toString() {
-        return "Node [adresse=" + adresse + ", duree=" + duree + "]";
+        return "Noeud [adresse=" + adresse + ", duree=" + duree + "]";
     }
 
     /**
@@ -109,7 +109,7 @@ public class Delivery {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Delivery other = (Delivery) obj;
+        final Livraison other = (Livraison) obj;
         if (!Objects.equals(this.adresse, other.adresse)) {
             return false;
         }

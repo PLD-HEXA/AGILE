@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
-import entities.DeliveryRequest;
+import entities.DemandeDeLivraisons;
 import view.MainWindow;
 
 /**
@@ -24,7 +24,7 @@ public class PlanState extends DefaultState {
         int returnValue = chooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            DeliveryRequest ddl = controller.getParser().parseDelivery(selectedFile.toString());
+            DemandeDeLivraisons ddl = controller.getParser().parseDelivery(selectedFile.toString());
             if (ddl != null) {
                 mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
                 mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());

@@ -3,10 +3,11 @@ package entities;
 import java.util.Date;
 
 /**
- * The class DeliveryPoint contains all the data necessary to identify a
- * delivery point and the time spent in order to deliver the object
  *
  * @author PLD-HEXA-301
+ *
+ * The class DeliveryPoint contains all the data necessary to identify a
+ * delivery point and the time spent in order to deliver the object
  */
 public class DeliveryPoint {
 
@@ -40,7 +41,7 @@ public class DeliveryPoint {
     }
 
     /**
-     * Gets the coordinate of the delivery point
+     * Gets the coodinate of the delivery point
      *
      * @return the coordinate of the delivery point
      */
@@ -85,7 +86,6 @@ public class DeliveryPoint {
     }
 
     /**
-     * TODO Function never used
      * Sets the departure time at the delivery point
      *
      * @param departureTime a Date in format hh:mm:ss
@@ -104,4 +104,5 @@ public class DeliveryPoint {
         return "DeliveryPoint [coordinate=" + coordinate + ", arrivalTime=" + arrivalTime + ", departureTime="
                 + departureTime + "]";
     }
+
 }

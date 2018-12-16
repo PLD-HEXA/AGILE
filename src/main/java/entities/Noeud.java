@@ -2,47 +2,46 @@ package entities;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import java.util.Objects;
 
 /**
- * The {@code Node} class represents an object that has the same structure as
- * the element represented by the tag {@code Node} in the parsed City plan XML
- * file.
- *
  * @author PLD-HEXA-301
+ *
+ * The {@code Noeud} class represents an object that has the same structure as
+ * the element represented by the tag {@code Noeud} in the parsed City plan XML
+ * file.
  */
-public class Node {
+public class Noeud {
 
     /**
      * Contains the id of the node represented by the attribute {@code id} of
-     * the tag {@code Node}
+     * the tag {@code Noeud}
      */
     @JacksonXmlProperty(localName = "id", isAttribute = true)
     private String id;
 
     /**
      * Contains the coordinate of the node. The {@code latitude} and
-     * {@code longitude} attributes of the tag{@code Node} are encapsulated in
+     * {@code longitude} attributes of the tag{@code Noeud} are encapsulated in
      * a {@code Coordinate} object
      */
     @JsonUnwrapped
     private Coordinate coordinate;
 
     /**
-     * Default constructor of {@code Node}
+     * Default constructor of {@code Noeud}
      */
-    public Node() {
+    public Noeud() {
     }
 
     /**
-     * Constructor of {@Code Node} that represents an object with the
+     * Constructor of {@Code Noeud} that represents an object with the
      * attributes {@code id} and {@code coordinate}
      *
-     * @param id         The {@code id} attribute
+     * @param id The {@code id} attribute
      * @param coordinate The {@code coordinate} attribute
      */
-    public Node(String id, Coordinate coordinate) {
+    public Noeud(String id, Coordinate coordinate) {
         this.id = id;
         this.coordinate = coordinate;
     }
@@ -91,13 +90,14 @@ public class Node {
      */
     @Override
     public String toString() {
-        return "Node [id=" + id + ", coordinate=" + coordinate + "]";
+        return "Noeud [id=" + id + ", coordinate=" + coordinate + "]";
     }
 
     /**
      * Overrides of the {@code equals} method
      *
      * @param obj
+     * 
      * @return true if obj is equal, false otherwise
      */
     @Override
@@ -111,10 +111,13 @@ public class Node {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Node other = (Node) obj;
+        final Noeud other = (Noeud) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        return Objects.equals(this.coordinate, other.coordinate);
+        if (!Objects.equals(this.coordinate, other.coordinate)) {
+            return false;
+        }
+        return true;
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollBar;
 
-import entities.DeliveryRequest;
+import entities.DemandeDeLivraisons;
 import entities.Itinerary;
 import view.GraphicalView;
 import view.MainWindow;
@@ -68,7 +68,7 @@ public class DetailState extends DefaultState {
         int returnValue = chooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            DeliveryRequest ddl = controller.getParser().parseDelivery(selectedFile.toString());
+            DemandeDeLivraisons ddl = controller.getParser().parseDelivery(selectedFile.toString());
             if (ddl != null) {
                 mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
                 mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());

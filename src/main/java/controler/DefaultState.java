@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
 import entities.Map;
-import entities.Network;
+import entities.Reseau;
 
 import java.awt.event.KeyEvent;
 import javax.swing.JScrollBar;
@@ -32,12 +32,12 @@ public class DefaultState implements State {
         int returnValue = chooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            Network network = controller.getParser().parseCityPlan(selectedFile.toString());
-            if (network != null) {
+            Reseau reseau = controller.getParser().parseCityPlan(selectedFile.toString());
+            if (reseau != null) {
                 Map map = new Map();
-                map.fillMapIdAndCoordinate(network);
+                map.fillMapIdAndCoordinate(reseau);
                 if (map.getMapId() != null && map.getCoordinates() != null) {
-                    map.fillGraph(network);
+                    map.fillGraph(reseau);
                     if (map.getGraph() != null) {
                         map.fillNonReturnPoints();
                         mainWindow.getTextualView().setItineraries(null);

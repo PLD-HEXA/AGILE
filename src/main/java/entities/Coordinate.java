@@ -7,7 +7,7 @@ import java.util.Objects;
  * @author PLD-HEXA-301
  *
  * The {@code Coordinate} class represents an object that encapsulates the
- * {@code latitude} and {@code longitude} attributes of the {@code Node} tag in
+ * {@code latitude} and {@code longitude} attributes of the {@code Noeud} tag in
  * the parsed XML file.
  *
  */
@@ -15,13 +15,13 @@ public class Coordinate {
 
     /**
      * Contains the longitude of the node represented by the {@code longitude}
-     * attribute of the tag {@code Node}
+     * attribute of the tag {@code Noeud}
      */
     private Double longitude;
 
     /**
      * Contains the latitude of the node represented by the {@code longitude}
-     * attribute of the tag {@code Node}
+     * attribute of the tag {@code Noeud}
      */
     private Double latitude;
 
