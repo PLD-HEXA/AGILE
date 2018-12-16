@@ -44,7 +44,7 @@ public class PathFinder {
     /**
      * Represents the graph formed by all the deliveryPoints and the warehouse.
      */
-    private double[][] adjMatrix;
+    private double[][] graphMatrix;
     /**
      * List of delivery points + warehouse
      */
@@ -87,10 +87,10 @@ public class PathFinder {
     }
 
     /**
-     * Build the graph adjMatrix using the Dijkstra algorithm
+     * Build the graph graphMatrix using the Dijkstra algorithm
      */
-    private void buildAdjMatrix() {
-        this.adjMatrix = new double[deliveryPoints.size() + 1][deliveryPoints.size() + 1];
+    private void buildGraphMatrix() {
+        this.graphMatrix = new double[deliveryPoints.size() + 1][deliveryPoints.size() + 1];
 
         //Fill the adjacency matrix with dijkstra algorithm
         Dijkstra dijkstra = new Dijkstra(this.graph);
@@ -99,7 +99,7 @@ public class PathFinder {
             dijkstra.executeDijkstra(this.targets.get(i), this.targets);
             distance = dijkstra.getDistance();
             for (int j = 0; j < this.targets.size(); j++) {
-                this.adjMatrix[i][j] = distance[this.targets.get(j)] * (3.6 / speed) + times.get(j);
+                this.graphMatrix[i][j] = distance[this.targets.get(j)] * (3.6 / speed) + times.get(j);
             }
         }
     }
@@ -158,17 +158,17 @@ public class PathFinder {
     }
 
     /**
-     * Extract the "adjMatrix" ofthe specified cluster
+     * Extract the "graphMatrix" ofthe specified cluster
      * @param clusterPoints Cluster of points
-     * @return The extractes "adjMatrix"
+     * @return The extractes "graphMatrix"
      */
-    private double[][] extractAdjMatrix(ArrayList<Integer> clusterPoints) {
+    private double[][] extractGraphMatrix(ArrayList<Integer> clusterPoints) {
         int matSize = clusterPoints.size();
         double[][] smallMatrix = new double[matSize][matSize];
 
         for (int i = 0; i < matSize; i++) {
             for (int j = 0; j < matSize; j++) {
-                smallMatrix[i][j] = adjMatrix[clusterPoints.get(i)][clusterPoints.get(j)];
+                smallMatrix[i][j] = graphMatrix[clusterPoints.get(i)][clusterPoints.get(j)];
             }
         }
 
@@ -203,7 +203,7 @@ public class PathFinder {
                 int nextDeliveryIndex = deliveryIndexes.get(i + 1);
                 int delivery = targets.get(deliveryIndex);
                 int nextDelivery = targets.get(nextDeliveryIndex);
-                interDuration = (int) (1000 * adjMatrix[deliveryIndex][nextDeliveryIndex] - times.get(nextDeliveryIndex));
+                interDuration = (int) (1000 * graphMatrix[deliveryIndex][nextDeliveryIndex] - times.get(nextDeliveryIndex));
 
                 if (i == 0)
                     detailedPath.addAll(getDetailedPath(delivery, nextDelivery));
@@ -250,7 +250,7 @@ public class PathFinder {
 
         buildTargets();
         buildTimes();
-        buildAdjMatrix();
+        buildGraphMatrix();
 
         Coordinate[] deliveryCoordinates = buildCoordinates();
 
@@ -271,7 +271,7 @@ public class PathFinder {
             }
             Collections.sort(tempItineraries.get(i));
 
-            double[][] smallMatrix = extractAdjMatrix(tempItineraries.get(i));
+            double[][] smallMatrix = extractGraphMatrix(tempItineraries.get(i));
             int[] path = new TSP().getOrder(smallMatrix);
             ArrayList<Integer> coordinatesItinerary = convertTSP(tempItineraries.get(i), path);
             itineraries.add(constructItinerary(departureTime, coordinatesItinerary));
