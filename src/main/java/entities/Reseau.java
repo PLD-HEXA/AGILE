@@ -1,15 +1,16 @@
 package entities;
 
 import java.util.Arrays;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
- * @author PLD-HEXA-301
- *
  * The class {@Code Reseau} represents an object that has the same structure as
  * the analyzed XML City plan file. The parsed XML file has a root tag:
  * {@Code Reseau}
+ *
+ * @author PLD-HEXA-301
  */
 @JacksonXmlRootElement(localName = "reseau")
 public class Reseau {
@@ -27,16 +28,18 @@ public class Reseau {
     private Troncon[] troncon;
 
     /**
+     * TODO never used
      * Defaults constructor of {@Code Reseau}
      */
     public Reseau() {
     }
 
     /**
+     * TODO never used
      * Constructor of {@Code Reseau} with the attributes {@code node} and
      * {@code troncon}initialized.
      *
-     * @param noeud The {@code node} attribute
+     * @param noeud   The {@code node} attribute
      * @param troncon The {@code troncon} attribute      
      */
     public Reseau(Noeud[] noeud, Troncon[] troncon) {

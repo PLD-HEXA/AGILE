@@ -2,40 +2,78 @@ package view;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import controler.Controller;
 
-import controler.Controler;
+/**
+ * This class represents the mouse movement listener
+ *
+ * @author PLD-HEXA-301
+ */
+public class MouseMovementListener implements MouseListener {
 
-public class MouseMovementListener implements MouseListener{
-	
-	private Controler controler;
-	private GraphicalView graphicalView;
-	private MainWindow mainWindow;
+    /**
+     * The controller
+     */
+    private Controller controller;
 
-	public MouseMovementListener(Controler controler, GraphicalView graphicalView, MainWindow mainWindow){
-		this.controler = controler;
-		this.graphicalView = graphicalView;
-		this.mainWindow = mainWindow;
-	}
+    /**
+     * TODO never used
+     * The graphical view
+     */
+    private GraphicalView graphicalView;
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		controler.mouseClick(e.getX(),e.getY());
-	}
+    /**
+     * TODO never used
+     * The main window
+     */
+    private MainWindow mainWindow;
 
-	@Override
-	public void mouseEntered(MouseEvent e) {		
-	}
+    /**
+     * The constructor
+     * @param controller
+     * @param graphicalView
+     * @param mainWindow
+     */
+    public MouseMovementListener(Controller controller, GraphicalView graphicalView, MainWindow mainWindow) {
+        this.controller = controller;
+        this.graphicalView = graphicalView;
+        this.mainWindow = mainWindow;
+    }
 
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        controller.mouseClick(e.getX(), e.getY());
+    }
 
-	@Override
-	public void mousePressed(MouseEvent e) {		
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseReleased(MouseEvent e) {		
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
 
 }

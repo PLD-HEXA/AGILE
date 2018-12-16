@@ -14,10 +14,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author Chris
- */
+
 public class MapTest {
     
     Reseau res;
@@ -30,7 +27,6 @@ public class MapTest {
     public void initialize() {
         parser = new Parser();
         res = parser.parseCityPlan(pathnameCityPlanXml);
-        
         ddl = parser.parseDelivery(pathnameDeliveryXml);
         assertNotNull(res);
         assertNotNull(ddl);
@@ -59,14 +55,13 @@ public class MapTest {
         assertNotNull(map.getMapId());
         
         Long idOrigine = Long.valueOf(tronconExpected.getOrigine());
-        Long idNodeExpected = Long.valueOf(noeudExpected.getId());
+        Long idNoeudExpected = Long.valueOf(noeudExpected.getId());
         int indexFirstTronconCalculate = map.getMapId().get(idOrigine);
-        int indexFirstNodeCalculate = map.getMapId().get(idNodeExpected);
+        int indexFirstNoeudCalculate = map.getMapId().get(idNoeudExpected);
         
-        assertEquals(0, indexFirstNodeCalculate);
+        assertEquals(0, indexFirstNoeudCalculate);
         assertNotEquals(0, indexFirstTronconCalculate);
         assertNotEquals(25175778, indexFirstTronconCalculate);
-        
     }
     
     @Test
@@ -240,7 +235,7 @@ public class MapTest {
     }
     
     /**
-     * Should not take into account the node, therefore
+     * Should not take into account the noeud, therefore
      * when we search the index in the mapId, it should return null
      */
     @Test
@@ -309,7 +304,7 @@ public class MapTest {
     }
            
     /**
-     * When two nodes have the same id, it is the last one which is registered
+     * When two noeuds have the same id, it is the last one which is registered
      * for the same key in the mapId and therefore in coordinates, it is also 
      * the last one
      */
@@ -333,7 +328,7 @@ public class MapTest {
         Long lastId = Long.valueOf("2129259178");
         int lastIndex = map.getMapId().get(lastId);
         // We compare the longitude to be sure
-        // that it is the last node which is 
+        // that it is the last noeud which is 
         // registered in the mapId for the same key
         double longitude = map.getCoordinate(lastIndex).getLongitude();
         assertEquals(4.8, longitude, 0.1);

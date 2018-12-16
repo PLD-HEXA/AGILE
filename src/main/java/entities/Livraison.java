@@ -1,14 +1,15 @@
 package entities;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 import java.util.Objects;
 
 /**
- * @author PLD-HEXA-301
- *
  * The {@code Livraison} class represents an object that has the same structure
  * as the element represented by the {@code Livraison} tag in the parsed
  * DeliveryPoints XML file.
+ *
+ * @author PLD-HEXA-301
  */
 public class Livraison {
 
@@ -37,7 +38,7 @@ public class Livraison {
      * the attributes {@code addresse} and {@code duree} initialized.
      *
      * @param adresse The {@code adresse} attribute
-     * @param duree The {@code duree} attribute
+     * @param duree   The {@code duree} attribute
      */
     public Livraison(String adresse, Integer duree) {
         this.adresse = adresse;
@@ -95,7 +96,6 @@ public class Livraison {
      * Overrides of the {@code equals} method
      *
      * @param obj
-     * 
      * @return true if obj is equal, false otherwise
      */
     @Override

@@ -4,24 +4,26 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
+
 import entities.Map;
 import entities.Reseau;
+
 import java.awt.event.KeyEvent;
 import javax.swing.JScrollBar;
+
 import view.MainWindow;
 
 /**
  * The default state of the window.
  *
  * @author PLD-HEXA-301
- *
  */
 public class DefaultState implements State {
 
-    public static final double minimalDistance = 0.0062;
+    static final double minimalDistance = 0.0062;
 
     @Override
-    public void loadPlan(Controler controler, MainWindow mainWindow) {
+    public void loadPlan(Controller controller, MainWindow mainWindow) {
         mainWindow.displayMessage("Load plan");
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File("/"));
@@ -30,15 +32,14 @@ public class DefaultState implements State {
         int returnValue = chooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            // Ici rajouter l'appel a la methode qui traite l'xml
-            Reseau reseau = controler.getParser().parseCityPlan(selectedFile.toString());
+            Reseau reseau = controller.getParser().parseCityPlan(selectedFile.toString());
             if (reseau != null) {
                 Map map = new Map();
                 map.fillMapIdAndCoordinate(reseau);
                 if (map.getMapId() != null && map.getCoordinates() != null) {
                     map.fillGraph(reseau);
                     if (map.getGraph() != null) {
-                    	map.fillNonReturnPoints();
+                        map.fillNonReturnPoints();
                         mainWindow.getTextualView().setItineraries(null);
                         mainWindow.getTextualView().setDeliveryPointIndex(null);
                         mainWindow.getTextualView().setItineraryIndex(null);
@@ -51,35 +52,25 @@ public class DefaultState implements State {
                         mainWindow.getGraphicalView().setItineraryIndex(null);
                         mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
                         mainWindow.getGraphicalView().repaint();
-                        controler.setCurState(controler.planState);
+                        controller.setCurState(controller.planState);
                     } else {
-                        mainWindow.showError("The content"
-                                + " of the input xml file is invalid.");
-                        // Le contenu du xml est incorrect
-                        // Ici, due à un tronçon dont l'un des attributs à une valeur incorrecte
+                        mainWindow.showError("The content of the input xml file is invalid.");
                     }
                 } else {
-                    mainWindow.showError("The content of"
-                            + " the input xml file is invalid.");
-                    // Le plan n'est pas valide (Ici, 
-                    // car un attribut est incorrect ou bien aucune infos n'est valable)
+                    mainWindow.showError("The content of the input xml file is invalid.");
                 }
             } else {
-                mainWindow.showError("The input xml file"
-                        + " is invalid");
-                // Le plan n'est pas valide (Ici, cas
-                // ou l'extension est incorrecte, une balise non connue est ajoutée,
-                // un attribut est rajoutée)
+                mainWindow.showError("The input xml file is invalid");
             }
         }
     }
 
     @Override
-    public void loadDeliveries(Controler controler, MainWindow mainWindow) {
+    public void loadDeliveries(Controller controller, MainWindow mainWindow) {
     }
 
     @Override
-    public void compute(Controler controler, MainWindow mainWindow) {
+    public void compute(Controller controller, MainWindow mainWindow) {
 
     }
 
@@ -94,30 +85,27 @@ public class DefaultState implements State {
     }
 
     @Override
-    public void mouseClick(Controler controler, MainWindow mainWindow, int x, int y) {
+    public void mouseClick(Controller controller, MainWindow mainWindow, int x, int y) {
     }
 
     @Override
-    public void mouseClick(Controler controler, MainWindow mainWindow, CmdList cmdList, int x, int y) {
+    public void mouseClick(Controller controller, MainWindow mainWindow, CmdList cmdList, int x, int y) {
     }
 
     @Override
-    public void iconeClick(Controler controler, MainWindow mainWindow, int x, int y) {
+    public void iconClick(Controller controller, MainWindow mainWindow, int x, int y) {
     }
 
     @Override
-    public void clickDeleteButton(Controler controler) {
+    public void clickDeleteButton(Controller controller) {
     }
 
     @Override
-    public void clickAddButton(Controler controler) {
-
+    public void clickAddButton(Controller controller) {
     }
 
-   
-     @Override
-    public void keyPressed(Controler controler, MainWindow mainWindow, int keyCode) {
-
+    @Override
+    public void keyPressed(Controller controller, MainWindow mainWindow, int keyCode) {
         if (keyCode == KeyEvent.VK_Q) {
             JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getHorizontalScrollBar();
             if (scrollBar != null) {
@@ -145,21 +133,21 @@ public class DefaultState implements State {
         }
         mainWindow.getGraphicalView().repaint();
     }
-     
-     public void reset(Controler controler, MainWindow mainWindow) {
-    	 controler.addState.setNumberPointOriginal(0);
-    	 mainWindow.getTextualView().setItineraries(null);
-         mainWindow.getTextualView().setDeliveryPointIndex(null);
-         mainWindow.getTextualView().setItineraryIndex(null);
-         mainWindow.getTextualView().displayListOfRounds();
-         mainWindow.getTextualView().revalidate();
-         mainWindow.getTextualView().repaint();
-         mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
-         mainWindow.getGraphicalView().setItineraries(null);
-         mainWindow.getGraphicalView().setMap(null);
-         mainWindow.getGraphicalView().setDeliveryPointIndex(null);
-         mainWindow.getGraphicalView().setItineraryIndex(null);
-         mainWindow.getGraphicalView().repaint();
-         controler.setCurState(controler.initState);
-     }
+
+    public void reset(Controller controller, MainWindow mainWindow) {
+        controller.addState.setOriginalPointNumber(0);
+        mainWindow.getTextualView().setItineraries(null);
+        mainWindow.getTextualView().setDeliveryPointIndex(null);
+        mainWindow.getTextualView().setItineraryIndex(null);
+        mainWindow.getTextualView().displayListOfRounds();
+        mainWindow.getTextualView().revalidate();
+        mainWindow.getTextualView().repaint();
+        mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
+        mainWindow.getGraphicalView().setItineraries(null);
+        mainWindow.getGraphicalView().setMap(null);
+        mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+        mainWindow.getGraphicalView().setItineraryIndex(null);
+        mainWindow.getGraphicalView().repaint();
+        controller.setCurState(controller.initState);
+    }
 }
