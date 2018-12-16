@@ -49,7 +49,6 @@ public class DeliveriesState extends DefaultState{
                         controler.setCurState(controler.computeState);
                 }
                 else {
-                        //TODO : pop up erreur de calcul
                         mainWindow.showError("Error when calculating"
                                 + " routes");
                 }
@@ -74,7 +73,6 @@ public class DeliveriesState extends DefaultState{
                         mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
                         if (mainWindow.getGraphicalView().getMap().getTabDeliveryPoints() != null) {
                             mainWindow.getGraphicalView().getMap().fillUnreachablePoints();
-
                             boolean invalidFile=false;
                             int i=0;
                             int numberOfDeliveryPoints=mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
@@ -109,8 +107,6 @@ public class DeliveriesState extends DefaultState{
                     }
                     else {
                         mainWindow.showError("The input xml file is invalid.");
-                        // TODO : Afficher mesg d'erreur à l'écran (cas ou le fichier
-                        // est invalide : extension, balise et/ou attribut en trop ...)
                     }
 		}
 	}

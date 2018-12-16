@@ -50,11 +50,8 @@ public class ComputeState extends DefaultState {
                         mainWindow.getTextualView().revalidate();
                         mainWindow.getTextualView().repaint();
                         mainWindow.requestFocus();
-                        // On est deja dans ce etat
-                        // controler.setCurState(controler.computeState);
                 }
                 else {
-                        //TODO : pop up erreur de calcul
                         mainWindow.showError("Error when calculating"
                                 + " routes");
                 }
@@ -111,8 +108,6 @@ public class ComputeState extends DefaultState {
                     }
                     else {
                         mainWindow.showError("The input xml file is invalid.");
-                        // TODO : Afficher mesg d'erreur à l'écran (cas ou le fichier
-                        // est invalide : extension, balise et/ou attribut en trop ...)
                     }
 		}
 	}
@@ -122,7 +117,6 @@ public class ComputeState extends DefaultState {
 		x/=mainWindow.getGraphicalView().getScale(); // Allows to get the x and y corresponding when the 
         // use has zoomed
         y/=mainWindow.getGraphicalView().getScale();
-        
         double latitude = mainWindow.getGraphicalView().getLatMax()-(y+mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getWidthScale();
         double longitude =mainWindow.getGraphicalView().getLongMax()-(mainWindow.getGraphicalView().getMapSize()-x-mainWindow.getGraphicalView().getPointradius())/mainWindow.getGraphicalView().getHeightScale();
         double minDistance=minimalDistance; // minimal distance to get the point clicked in the map

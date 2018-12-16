@@ -30,7 +30,6 @@ public class DefaultState implements State {
         int returnValue = chooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();
-            // Ici rajouter l'appel a la methode qui traite l'xml
             Reseau reseau = controler.getParser().parseCityPlan(selectedFile.toString());
             if (reseau != null) {
                 Map map = new Map();
@@ -55,21 +54,14 @@ public class DefaultState implements State {
                     } else {
                         mainWindow.showError("The content"
                                 + " of the input xml file is invalid.");
-                        // Le contenu du xml est incorrect
-                        // Ici, due à un tronçon dont l'un des attributs à une valeur incorrecte
                     }
                 } else {
                     mainWindow.showError("The content of"
                             + " the input xml file is invalid.");
-                    // Le plan n'est pas valide (Ici, 
-                    // car un attribut est incorrect ou bien aucune infos n'est valable)
                 }
             } else {
                 mainWindow.showError("The input xml file"
                         + " is invalid");
-                // Le plan n'est pas valide (Ici, cas
-                // ou l'extension est incorrecte, une balise non connue est ajoutée,
-                // un attribut est rajoutée)
             }
         }
     }

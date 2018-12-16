@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controler;
 
 import entities.Itinerary;
@@ -12,16 +7,37 @@ import javafx.util.Pair;
 import view.MainWindow;
 
 /**
- *
- * @author Chris
+ * Represents the command of adding a delivery point.
+ * @author PLD-HEXA-301
  */
 public class CmdAddDeliveryPoint implements Command {
 
+    /**
+     * The controler.
+     */
     Controler controler;
+    /**
+     * The main window.
+     */
     private MainWindow mainWindow;
+    /**
+     * The number of points added.
+     */
     private int numberPointAdd;
+    /**
+     * Pair representing the new delivery point.
+     * The key represents the index of the number to add, the value represents the duration of the new delivery.
+     */
     private Pair<Integer,Integer> newDeliveryPoint;
     
+    /**
+     * Constructor
+     * @param mainWindow
+     * @param indexNewDeliveryPoint
+     * @param duration
+     * @param numberPointOriginal
+     * @param controler
+     */
     public CmdAddDeliveryPoint(MainWindow mainWindow, int indexNewDeliveryPoint, int duration, int numberPointOriginal, Controler controler) {
         this.mainWindow = mainWindow;
         this.newDeliveryPoint = newDeliveryPoint = new Pair<>(indexNewDeliveryPoint, duration);
@@ -66,7 +82,6 @@ public class CmdAddDeliveryPoint implements Command {
         // We compute the new itinerary added without the del point deleted
         List<Itinerary> itineraries = mainWindow.getGraphicalView().getItineraries();
         boolean addItinerary = controler.getPathFinder().findAdditionalPath(mainWindow.getGraphicalView().getMap(), itineraries,numberPointAdd-1, true);
-        
         if(addItinerary == true) {
                 mainWindow.getGraphicalView().setItineraryIndex(null);
                 mainWindow.getGraphicalView().repaint();
