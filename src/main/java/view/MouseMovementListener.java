@@ -15,11 +15,15 @@ public class MouseMovementListener implements MouseListener {
      * The controller
      */
     private Controller controller;
+
     /**
+     * TODO never used
      * The graphical view
      */
     private GraphicalView graphicalView;
+
     /**
+     * TODO never used
      * The main window
      */
     private MainWindow mainWindow;

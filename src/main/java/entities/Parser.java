@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +39,17 @@ public class Parser {
      * document xml. The object contains all the data of the xml document.
      */
     public Reseau parseCityPlan(String xmlFileName) {
+        // TODO can be simplify:
+        //  if (xmlFileName.endsWith(".xml")) {
+        //  ...
+        //      try {
+        //          return objectMapper.readValue(StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlFileName)), StandardCharsets.UTF_8), Reseau.class);
+        //      } catch (IOException ex) {
+        //          Logger.getLogger(Parser.class.getName()).log(Level.FINE, null, ex);
+        //          return null;
+        //      }
+        //  }
+        //  return null;
         if (xmlFileName.endsWith(".xml")) {
             ObjectMapper objectMapper = new XmlMapper();
 
@@ -73,6 +85,7 @@ public class Parser {
      * document.
      */
     public DemandeDeLivraisons parseDelivery(String xmlFileName) {
+        // TODO can be simplify in the same way
         if (xmlFileName.endsWith(".xml")) {
             ObjectMapper objectMapper = new XmlMapper();
             objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -96,5 +109,4 @@ public class Parser {
             return null;
         }
     }
-
 }

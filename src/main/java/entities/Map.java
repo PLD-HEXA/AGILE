@@ -1,12 +1,11 @@
 package entities;
 
 import entities.algorithms.Dijkstra;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
 import javafx.util.Pair;
 
 
@@ -56,7 +55,7 @@ public class Map {
 
     /**
      * tabDeliveryPoints is a List of Pair with the first element representing
-     * the index (adress) of the delivery point and the second element which
+     * the index (address) of the delivery point and the second element which
      * represents the duration at the delivery point in second
      */
     private List<Pair<Integer, Integer>> tabDeliveryPoints;
@@ -94,7 +93,7 @@ public class Map {
     public String toString() {
         return "Map{" + "coordinateMin=" + coordinateMin + ", coordinateMax="
                 + coordinateMax + ", graph=" + graph + ", mapId=" + mapId
-                + ", coordinates=" + coordinates + ", wareHouse=" + wareHouse
+                + ", coordinates=" + Arrays.toString(coordinates) + ", wareHouse=" + wareHouse
                 + ", tabDeliveryPoints=" + tabDeliveryPoints + '}';
     }
 
@@ -109,10 +108,10 @@ public class Map {
     }
 
     /**
+     * TODO never used
      * Sets coordinateMin
      *
-     * @param coordinateMin which contains the minimum latitude and the minimum
-     * longitude
+     * @param coordinateMin which contains the minimum latitude and the minimum longitude
      */
     public void setCoordinateMin(Coordinate coordinateMin) {
         this.coordinateMin = coordinateMin;
@@ -129,10 +128,11 @@ public class Map {
     }
 
     /**
+     * TODO never used
      * Sets coordinateMax
      *
      * @param coordinateMax which contains the maximum latitude and the maximum
-     * longitude
+     *                      longitude
      */
     public void setCoordinateMax(Coordinate coordinateMax) {
         this.coordinateMax = coordinateMax;
@@ -166,6 +166,7 @@ public class Map {
     }
 
     /**
+     * TODO never used
      * Sets mapId
      *
      * @param mapId
@@ -177,7 +178,7 @@ public class Map {
     /**
      * Gets a coordinate in the array coordinates
      *
-     * @param index the corresponding indexof the coordinate in coordinates
+     * @param index the corresponding index of the coordinate in coordinates
      * @return the coordinate to the corresponding index
      */
     public Coordinate getCoordinate(int index) {
@@ -263,9 +264,11 @@ public class Map {
      * ...). If data in res are invalid, mapId and coordinates are null
      *
      * @param res contains the information retrieved from the xml document in
-     * order to draw the map
+     *            order to draw the map
      */
     public void fillMapIdAndCoordinate(Reseau res) {
+        // TODO can be simplify:
+        //  if (res.getNode() != null && res.getTroncon() != null) {
         if (res.getNoeud() != null && res.getNoeud().length >= 0
                 && res.getTroncon() != null && res.getTroncon().length >= 0) {
 
@@ -308,23 +311,23 @@ public class Map {
 
     /**
      * Fills the graph with the data contained in the object res. The data must
-     * be valid (e.g. id of the segment origine and segment destination are
-     * numbers and are > 0, non-null tag and id of the segment origine and
+     * be valid (e.g. id of the origin segment and destination segment are
+     * numbers and are > 0, non-null tag and id of the origin segment and
      * segment destination contained in mapId, ...) If data in res are invalid,
      * graph is null
      *
      * @param res contains the information retrieve from the xml document in
-     * order to draw the map
+     *            order to draw the map
      */
     public void fillGraph(Reseau res) {
         if (res.getTroncon() != null && res.getTroncon().length != 0) {
             Troncon[] troncon = res.getTroncon();
-            int compteurObjet = 0;
+            int objectCounter = 0;
             for (int i = 0; i < troncon.length; i++) {
                 try {
-                    Long idOrigine = Long.valueOf(troncon[i].getOrigine());
-                    if (idOrigine > 0 && mapId.get(idOrigine) != null) {
-                        int indexOrigine = mapId.get(idOrigine);
+                    Long originId = Long.valueOf(troncon[i].getOrigine());
+                    if (originId > 0 && mapId.get(originId) != null) {
+                        int originIndex = mapId.get(originId);
                         Long idDestination = Long.valueOf(troncon[i].getDestination());
                         // We verify that the id of the destination exists in the mapId, 
                         // otherwise, we do not take into account the segment
@@ -334,8 +337,8 @@ public class Map {
                                 double length = Double.valueOf(troncon[i].getLongueur());
                                 if (length >= 0) {
                                     Segment segment = new Segment(indexDestination, troncon[i].getNomRue(), length);
-                                    graph.get(indexOrigine).add(segment);
-                                    compteurObjet++;
+                                    graph.get(originIndex).add(segment);
+                                    objectCounter++;
                                 } else {
                                     graph = null;
                                     break;
@@ -357,7 +360,7 @@ public class Map {
                     break;
                 }
             }
-            if (compteurObjet == 0) {
+            if (objectCounter == 0) {
                 graph = null;
             }
         } else {
@@ -406,45 +409,43 @@ public class Map {
                     nonReturnPoints.add(i);
                 }
             }
-            tempNonReturnPoints1 = new ArrayList<>();
-            tempNonReturnPoints1.addAll(tempNonReturnPoints2);
+            tempNonReturnPoints1 = new ArrayList<>(tempNonReturnPoints2);
         }
     }
 
     /**
      * Fills tabDeliveryPoints with the data contained in param ddl. The data
-     * must be valid (e.g. attribute adress > 0, non-null tag Entrepot and
-     * livraison, non-null attribute, attribute duration > 0, attribute adress
+     * must be valid (e.g. address attribute > 0, non-null tag Warehouse and
+     * delivery, non-null attribute, attribute duration > 0, attribute address
      * which represents an id must be contained in mapId, ...). If data in res
      * are invalid, tabDeliveryPoints is null
      *
      * @param ddl contains the information retrieve from the xml document in
-     * order to draw the deliveryPoints on the city plan
+     *            order to draw the deliveryPoints on the city plan
      */
     public void fillTabDeliveryPoint(DemandeDeLivraisons ddl) {
         // We fill the object wareHouse first
-        if (ddl.getEntrepot() != null && ddl.getLivraison() != null
-                && ddl.getLivraison().length >= 0 && ddl.getEntrepot().getAdresse() != null) {
+        if (ddl.getEntrepot() != null && ddl.getLivraison() != null && ddl.getEntrepot().getAdresse() != null) {
             try {
-                Long idEntrepot = Long.valueOf(ddl.getEntrepot().getAdresse());
-                if (idEntrepot != null && idEntrepot > 0 && mapId.get(idEntrepot) != null) {
-                    int indexEntrepot = mapId.get(idEntrepot);
+                Long warehouseId = Long.valueOf(ddl.getEntrepot().getAdresse());
+                if (warehouseId > 0 && mapId.get(warehouseId) != null) {
+                    int warehouseIndex = mapId.get(warehouseId);
                     // We verify that the departure time is valid and with the
                     // right format
                     verifyHour(ddl.getEntrepot().getHeureDepart());
 
-                    wareHouse = new Pair<>(indexEntrepot, ddl.getEntrepot().getHeureDepart());
+                    wareHouse = new Pair<>(warehouseIndex, ddl.getEntrepot().getHeureDepart());
 
                     // On fills the delivery points
-                    Livraison[] livraison = ddl.getLivraison();
-                    for (int i = 0; i < livraison.length; i++) {
+                    Livraison[] delivery = ddl.getLivraison();
+                    for (int i = 0; i < delivery.length; i++) {
                         // We get back the index of the delivery
-                        Long idLivraison = Long.valueOf(livraison[i].getId());
-                        if (idLivraison > 0 && mapId.get(idLivraison) != null && livraison[i].getDuree() != null) {
-                            int indexLivraison = mapId.get(idLivraison);
-                            int dureeLivraison = livraison[i].getDuree();
-                            if (dureeLivraison >= 0) {
-                                tabDeliveryPoints.add(new Pair<>(indexLivraison, dureeLivraison));
+                        Long deliveryId = Long.valueOf(delivery[i].getId());
+                        if (deliveryId > 0 && mapId.get(deliveryId) != null && delivery[i].getDuree() != null) {
+                            int deliveryIndex = mapId.get(deliveryId);
+                            int deliveryDuration = delivery[i].getDuree();
+                            if (deliveryDuration >= 0) {
+                                tabDeliveryPoints.add(new Pair<>(deliveryIndex, deliveryDuration));
                             } else {
                                 wareHouse = null;
                                 tabDeliveryPoints = null;
@@ -475,6 +476,7 @@ public class Map {
     }
 
     /**
+     * TODO return value never used
      * Verifies if the hour given in parameter is valid and in the right format
      *
      * @param hourToVerify a String
@@ -494,10 +496,10 @@ public class Map {
         }
 
         String[] hourDecomposed = hourToVerify.split(":");
-        int heure = Integer.valueOf(hourDecomposed[0]);
+        int hour = Integer.valueOf(hourDecomposed[0]);
         int minute = Integer.valueOf(hourDecomposed[1]);
         int second = Integer.valueOf(hourDecomposed[2]);
-        if (heure < 0 || heure > 23 || minute < 0 || minute > 59
+        if (hour < 0 || hour > 23 || minute < 0 || minute > 59
                 || second < 0 || second > 59) {
             System.err.println("Error with departure time at the warehouse");
             return false;
@@ -516,12 +518,8 @@ public class Map {
             return false;
         }
 
-        if (coord.getLatitude() > 90.0 || coord.getLatitude() < -90.0 || coord.getLongitude() > 180.0
-                || coord.getLongitude() < -180.0) {
-            return false;
-        }
-
-        return true;
+        return !(coord.getLatitude() > 90.0) && !(coord.getLatitude() < -90.0) && !(coord.getLongitude() > 180.0)
+                && !(coord.getLongitude() < -180.0);
     }
 
     /**

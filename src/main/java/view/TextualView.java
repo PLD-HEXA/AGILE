@@ -20,6 +20,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
 import entities.Itinerary;
 import javafx.util.Pair;
 
@@ -47,26 +48,33 @@ public class TextualView extends JPanel {
      * The main Window
      */
     private MainWindow mainWindow;
-   /**
+
+    /**
+     * TODO never used
      * It allows to draw graphics
      */
-    Graphics g;
+    private Graphics g;
+
     /**
      * It will contains the list of rounds
      */
-    JPanel panel;
+    private JPanel panel;
+
     /**
      * The Index of the current highlighted itinerary
      */
-    private Integer itineraryIndex; 
-     /**
+    private Integer itineraryIndex;
+
+    /**
      * The Index of the current highlihghted delivery point in the itinerary
      */
-    private Integer deliveryPointIndex; // 
+    private Integer deliveryPointIndex;
+
     /**
      * The nodes Hierarchy
      */
     private List<List<DefaultMutableTreeNode>> nodesHierarchy;
+
     /**
      * Contains the index of the delivery to delete in the itinerary
      */
@@ -83,7 +91,7 @@ public class TextualView extends JPanel {
         this.indexItineraryToDelete = new ArrayList<>();
         setLayout(new BorderLayout());
         setBackground(Color.pink);
-        nodesHierarchy = new ArrayList<List<DefaultMutableTreeNode>>();
+        nodesHierarchy = new ArrayList<>();
         JLabel label = new JLabel("Delivery rounds");
         Font f = new Font("TimesRoman", Font.BOLD, 25);
         label.setFont(f);
@@ -99,9 +107,10 @@ public class TextualView extends JPanel {
         this.add(panel, BorderLayout.CENTER);
         panel.setLayout(new BorderLayout());
     }
-    /** 
-   * {@inheritDoc}
-   */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -113,7 +122,8 @@ public class TextualView extends JPanel {
         }
         this.g = g;
     }
-/**
+
+    /**
      * This method allows to show the list of rounds
      */
     public void displayListOfRounds() {
@@ -140,16 +150,16 @@ public class TextualView extends JPanel {
                     }
                 }
                 int numberOfStops = itineraries.get(i).getGeneralPath().size();
-                curRound = new DefaultMutableTreeNode("Round n " + Integer.toString(i + 1));
-                nodesHierarchy.add(i, new ArrayList<DefaultMutableTreeNode>());
+                curRound = new DefaultMutableTreeNode("Round n " + (i + 1));
+                nodesHierarchy.add(i, new ArrayList<>());
                 if (!itineraryWithDeletedPoint) {
                     for (int j = 0; j < numberOfStops; j++) {
                         departureDate = itineraries.get(i).getGeneralPath().get(j).getDepartureTime();
                         arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();
                         if (j == 0 || j == (numberOfStops - 1)) {
-                            curStop = new DefaultMutableTreeNode("Warehouse - Delivery n " + Integer.toString(j));
+                            curStop = new DefaultMutableTreeNode("Warehouse - Delivery n " + j);
                         } else {
-                            curStop = new DefaultMutableTreeNode("Delivery n " + Integer.toString(j));
+                            curStop = new DefaultMutableTreeNode("Delivery n " + j);
                         }
 
                         arrival = new DefaultMutableTreeNode("Departure  " + departureDate.toString().substring(11, 19));
@@ -171,9 +181,9 @@ public class TextualView extends JPanel {
                         arrivalDate = itineraries.get(i).getGeneralPath().get(j).getArrivalTime();
                         int ind = indexDelPointToDelete.indexOf(j);
                         if (ind != -1) {
-                            curStop = new DefaultMutableTreeNode("(DELETED) Delivery n " + Integer.toString(j));
+                            curStop = new DefaultMutableTreeNode("(DELETED) Delivery n " + j);
                         } else {
-                            curStop = new DefaultMutableTreeNode("Delivery n " + Integer.toString(j));
+                            curStop = new DefaultMutableTreeNode("Delivery n " + j);
                         }
                         arrival = new DefaultMutableTreeNode("Departure  " + departureDate.toString().substring(11, 19));
                         departure = new DefaultMutableTreeNode(
@@ -223,9 +233,7 @@ public class TextualView extends JPanel {
                                 mainWindow.getGraphicalView().setItineraryIndex(itinerary);
                                 mainWindow.getGraphicalView().setDeliveryPointIndex(deliveryPoint);
                                 mainWindow.getGraphicalView().repaint();
-
                             }
-
                         }
                     }
                 }
@@ -239,10 +247,10 @@ public class TextualView extends JPanel {
             final Font bigFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 10);
             listOfRounds.setFont(bigFont);
             listOfRounds.setCellRenderer(renderer);
-            JScrollPane conteneur = new JScrollPane(listOfRounds, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane container = new JScrollPane(listOfRounds, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             panel.removeAll();
-            panel.add(conteneur, BorderLayout.CENTER);
+            panel.add(container, BorderLayout.CENTER);
             panel.revalidate();
             panel.repaint();
         } else {
@@ -251,24 +259,24 @@ public class TextualView extends JPanel {
             final Font bigFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 10);
             listOfRounds.setFont(bigFont);
             listOfRounds.setCellRenderer(renderer);
-            JScrollPane conteneur = new JScrollPane(listOfRounds, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane container = new JScrollPane(listOfRounds, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             panel.removeAll();
-            panel.add(conteneur, BorderLayout.CENTER);
+            panel.add(container, BorderLayout.CENTER);
             panel.revalidate();
             panel.repaint();
         }
     }
-     /**
-     * This method allows to dispaly a specific path
-     *
-     */
-    public void displaySpecificPath() {
 
+    /**
+     * This method allows to display a specific path
+     */
+    private void displaySpecificPath() {
     }
 
     /**
      * This method allows to set the itineraries
+     *
      * @param itineraries
      */
     public void setItineraries(List<Itinerary> itineraries) {
@@ -277,6 +285,7 @@ public class TextualView extends JPanel {
 
     /**
      * This method allows to set the itinerary index
+     *
      * @param itineraryIndex
      */
     public void setItineraryIndex(Integer itineraryIndex) {
@@ -285,6 +294,7 @@ public class TextualView extends JPanel {
 
     /**
      * This method allows to set the delivery point index
+     *
      * @param deliveryPointIndex
      */
     public void setDeliveryPointIndex(Integer deliveryPointIndex) {
@@ -293,6 +303,7 @@ public class TextualView extends JPanel {
 
     /**
      * This method allows to get the itinerary index
+     *
      * @return an Integer
      */
     public Integer getItineraryIndex() {
@@ -300,7 +311,9 @@ public class TextualView extends JPanel {
     }
 
     /**
+     * TODO never used
      * This method allows to get the delivery point index
+     *
      * @return an integer
      */
     public Integer getDeliveryPointIndex() {
@@ -309,14 +322,17 @@ public class TextualView extends JPanel {
 
     /**
      * This method allows to get the index itenerary to delete
-     * @return  List<Pair<Integer, Integer>>
+     *
+     * @return List<Pair   <   Integer   ,       Integer>>
      */
     public List<Pair<Integer, Integer>> getIndexItineraryToDelete() {
         return indexItineraryToDelete;
     }
 
     /**
+     * TODO never used
      * This method allows to set the index itenerary to delete
+     *
      * @param indexItineraryToDelete
      */
     public void setIndexItineraryToDelete(List<Pair<Integer, Integer>> indexItineraryToDelete) {

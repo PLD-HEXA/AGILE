@@ -16,10 +16,12 @@ public class KeyBoardListener implements KeyListener {
      * The controller
      */
     private Controller controller;
+
     /**
      * The graphical view
      */
     private GraphicalView graphicalView;
+
     /**
      * The main window
      */
@@ -60,5 +62,4 @@ public class KeyBoardListener implements KeyListener {
     @Override
     public void keyTyped(KeyEvent arg0) {
     }
-
 }

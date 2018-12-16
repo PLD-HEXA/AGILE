@@ -25,7 +25,8 @@ public class ButtonListener implements ActionListener {
     public ButtonListener(Controller controller) {
         this.controller = controller;
     }
-     /**
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -58,8 +59,6 @@ public class ButtonListener implements ActionListener {
                 System.out.println("Clique sur reset");
                 controller.reset();
                 break;
-            
         }
     }
-
 }

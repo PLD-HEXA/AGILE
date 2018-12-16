@@ -3,13 +3,11 @@ package entities;
 import java.util.Objects;
 
 /**
- *
- * @author PLD-HEXA-301
- *
  * The {@code Coordinate} class represents an object that encapsulates the
  * {@code latitude} and {@code longitude} attributes of the {@code Noeud} tag in
  * the parsed XML file.
  *
+ * @author PLD-HEXA-301
  */
 public class Coordinate {
 
@@ -46,7 +44,7 @@ public class Coordinate {
     /**
      * Overrides the {@code toString} method
      *
-     * @return the data of the attribut in the form of a String
+     * @return the data of the attribute in the form of a String
      */
     @Override
     public String toString() {
@@ -114,9 +112,6 @@ public class Coordinate {
         if (!Objects.equals(this.longitude, other.longitude)) {
             return false;
         }
-        if (!Objects.equals(this.latitude, other.latitude)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.latitude, other.latitude);
     }
 }

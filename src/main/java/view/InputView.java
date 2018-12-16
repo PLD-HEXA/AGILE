@@ -7,8 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+
 import controler.Controller;
 import entities.Map;
+
 import java.awt.GridLayout;
 import javax.swing.JSpinner.DefaultEditor;
 
@@ -21,6 +23,7 @@ import javax.swing.JSpinner.DefaultEditor;
 public class InputView extends JPanel {
 
     /**
+     * TODO never used
      * The map
      */
     Map map;
@@ -59,7 +62,7 @@ public class InputView extends JPanel {
      * It represents the name of the button that allows to redoes the last command
      */
     protected final static String REDO = "Redo";
-    
+
     /**
      * It represents the name of the button that allows to reset the application
      */
@@ -76,27 +79,28 @@ public class InputView extends JPanel {
     /**
      * It represents a board that contains the name of all buttons
      */
-  
-    private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO,RESET};
+
+    private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO, RESET};
 
     /**
+     * TODO parameter mainWindow not used
      * The constructor
      *
      * @param mainWindow It represents our window
      */
     public InputView(MainWindow mainWindow) {
         super();
-        buttons = new ArrayList<JButton>();
+        buttons = new ArrayList<>();
     }
 
     /**
      * This method allows to create the buttons
      *
-     * @param controller The controller
+     * @param controller     The controller
      * @param buttonListener The buttonListener
      */
     public void createButtons(Controller controller, ButtonListener buttonListener) {
-        this.setLayout(new GridLayout(2,4));
+        this.setLayout(new GridLayout(2, 4));
         for (String buttonName : buttonNames) {
             if (buttonName.equals("Compute")) {
                 JLabel label = new JLabel("Nb of delivery men :");
