@@ -1,24 +1,25 @@
 package entities;
 
 import java.util.Arrays;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
- * @author PLD-HEXA-301
- *
- * The class {@Code Reseau} represents an object that has the same structure as
+ * The class {@Code Network} represents an object that has the same structure as
  * the analyzed XML City plan file. The parsed XML file has a root tag:
- * {@Code Reseau}
+ * {@Code Network}
+ *
+ * @author PLD-HEXA-301
  */
 @JacksonXmlRootElement(localName = "reseau")
-public class Reseau {
+public class Network {
 
     /**
      * Contains the elements represented by the tag {@code node}
      */
     @JacksonXmlElementWrapper(localName = "noeud", useWrapping = false)
-    private Noeud[] noeud;
+    private Node[] node;
 
     /**
      * Contains the elements represented by the tag {@code troncon}
@@ -27,39 +28,39 @@ public class Reseau {
     private Troncon[] troncon;
 
     /**
-     * Defaults constructor of {@Code Reseau}
+     * Defaults constructor of {@Code Network}
      */
-    public Reseau() {
+    public Network() {
     }
 
     /**
-     * Constructor of {@Code Reseau} with the attributes {@code node} and
+     * Constructor of {@Code Network} with the attributes {@code node} and
      * {@code troncon}initialized.
      *
-     * @param noeud The {@code node} attribute
+     * @param node    The {@code node} attribute
      * @param troncon The {@code troncon} attribute      
      */
-    public Reseau(Noeud[] noeud, Troncon[] troncon) {
-        this.noeud = noeud;
+    public Network(Node[] node, Troncon[] troncon) {
+        this.node = node;
         this.troncon = troncon;
     }
 
     /**
      * Gets the value of the {@code node} attribute
      *
-     * @return an array that contains all the nodes of the {@Code Reseau} object
+     * @return an array that contains all the nodes of the {@Code Network} object
      */
-    public Noeud[] getNoeud() {
-        return noeud;
+    public Node[] getNode() {
+        return node;
     }
 
     /**
-     * Sets the value of the {@code noeud} attribute
+     * Sets the value of the {@code node} attribute
      *
-     * @param noeud New value of the attribute {@code noeud}
+     * @param node New value of the attribute {@code node}
      */
-    public void setNoeud(Noeud[] noeud) {
-        this.noeud = noeud;
+    public void setNode(Node[] node) {
+        this.node = node;
     }
 
     /**
@@ -87,6 +88,6 @@ public class Reseau {
      */
     @Override
     public String toString() {
-        return "Reseau [noeud=" + Arrays.toString(noeud) + ", troncon=" + Arrays.toString(troncon) + "]";
+        return "Network [node=" + Arrays.toString(node) + ", troncon=" + Arrays.toString(troncon) + "]";
     }
 }

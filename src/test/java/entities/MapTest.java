@@ -14,15 +14,12 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- * @author Chris
- */
+
 public class MapTest {
     
-    Reseau res;
+    Network res;
     Parser parser;
-    DemandeDeLivraisons ddl;
+    DeliveryRequest ddl;
     String pathnameCityPlanXml = "./ressources/fichiersXML2018/petitPlan.xml";
     String pathnameDeliveryXml = "./ressources/fichiersXML2018/dl-petit-3.xml";
     
@@ -30,7 +27,6 @@ public class MapTest {
     public void initialize() {
         parser = new Parser();
         res = parser.parseCityPlan(pathnameCityPlanXml);
-        
         ddl = parser.parseDelivery(pathnameDeliveryXml);
         assertNotNull(res);
         assertNotNull(ddl);
@@ -43,7 +39,7 @@ public class MapTest {
         
         Map map = new Map();
         Coordinate coordExpected = new Coordinate(4.857418,45.75406);
-        Noeud noeudExpected = new Noeud("25175791", coordExpected);
+        Node nodeExpected = new Node("25175791", coordExpected);
         Troncon tronconExpected = new Troncon("25175791", "69.979805", "Rue Danton", "25175778");
         
         
@@ -59,14 +55,13 @@ public class MapTest {
         assertNotNull(map.getMapId());
         
         Long idOrigine = Long.valueOf(tronconExpected.getOrigine());
-        Long idNodeExpected = Long.valueOf(noeudExpected.getId());
+        Long idNodeExpected = Long.valueOf(nodeExpected.getId());
         int indexFirstTronconCalculate = map.getMapId().get(idOrigine);
         int indexFirstNodeCalculate = map.getMapId().get(idNodeExpected);
         
         assertEquals(0, indexFirstNodeCalculate);
         assertNotEquals(0, indexFirstTronconCalculate);
         assertNotEquals(25175778, indexFirstTronconCalculate);
-        
     }
     
     @Test
@@ -112,7 +107,7 @@ public class MapTest {
         
         Map map = new Map();
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanNoTroncon.xml";
-        Reseau resNoTroncon = parser.parseCityPlan(pathnameCityPlanXml);
+        Network resNoTroncon = parser.parseCityPlan(pathnameCityPlanXml);
         
         // When
         
@@ -132,7 +127,7 @@ public class MapTest {
         
         Map map = new Map();
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanIdOrigineNotExists.xml";
-        Reseau resIdONotExist = parser.parseCityPlan(pathnameCityPlanXml);
+        Network resIdONotExist = parser.parseCityPlan(pathnameCityPlanXml);
         
         // When
         map.fillMapIdAndCoordinate(resIdONotExist);
@@ -149,7 +144,7 @@ public class MapTest {
         
         Map map = new Map();
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanIdDestNotExist.xml";
-        Reseau resIdDestNotExist = parser.parseCityPlan(pathnameCityPlanXml);
+        Network resIdDestNotExist = parser.parseCityPlan(pathnameCityPlanXml);
         
         // When
         
@@ -168,7 +163,7 @@ public class MapTest {
         
         Map map = new Map();
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanLengthNotValid.xml";
-        Reseau resLengthNotValid = parser.parseCityPlan(pathnameCityPlanXml);
+        Network resLengthNotValid = parser.parseCityPlan(pathnameCityPlanXml);
         
         // When
         
@@ -188,7 +183,7 @@ public class MapTest {
         
         Map map = new Map();
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanZeroTronconValid.xml";
-        Reseau resNoTronconValid = parser.parseCityPlan(pathnameCityPlanXml);
+        Network resNoTronconValid = parser.parseCityPlan(pathnameCityPlanXml);
         
         // When
         map.fillMapIdAndCoordinate(resNoTronconValid);
@@ -248,7 +243,7 @@ public class MapTest {
         //Given
         
         String pathnameCityPlanXml = "./ressources/fichiersTestXml/petitPlanMissingAttribute.xml";
-        Reseau resNoTronconValid = parser.parseCityPlan(pathnameCityPlanXml);
+        Network resNoTronconValid = parser.parseCityPlan(pathnameCityPlanXml);
         Map map = new Map();
         
         // When
@@ -271,9 +266,9 @@ public class MapTest {
     public void fillMapIdAndCoordinateWithBaliseMissing() {
         //Given
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanMissingBalise.xml";
-        Reseau resAttributeNull = parser.parseCityPlan(pathnameXml);
+        Network resAttributeNull = parser.parseCityPlan(pathnameXml);
         assertNotNull(resAttributeNull);
-        assertNull(resAttributeNull.getNoeud());
+        assertNull(resAttributeNull.getNode());
         Map map = new Map();
         
         // When
@@ -292,9 +287,9 @@ public class MapTest {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanValueIncorrect.xml";
-        Reseau resIdIncorrect = parser.parseCityPlan(pathnameXml);
+        Network resIdIncorrect = parser.parseCityPlan(pathnameXml);
         assertNotNull(resIdIncorrect);
-        assertEquals("-25175791", resIdIncorrect.getNoeud()[0].getId());
+        assertEquals("-25175791", resIdIncorrect.getNode()[0].getId());
         
         Map map = new Map();
         
@@ -317,10 +312,10 @@ public class MapTest {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/fillMapIdSameId.xml";
-        Reseau resIdIncorrect = parser.parseCityPlan(pathnameXml);
+        Network resIdIncorrect = parser.parseCityPlan(pathnameXml);
         assertNotNull(resIdIncorrect);
-        assertEquals("2129259178", resIdIncorrect.getNoeud()[0].getId());
-        assertEquals("2129259178", resIdIncorrect.getNoeud()[1].getId());
+        assertEquals("2129259178", resIdIncorrect.getNode()[0].getId());
+        assertEquals("2129259178", resIdIncorrect.getNode()[1].getId());
         
         Map map = new Map();
         
@@ -344,7 +339,7 @@ public class MapTest {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/fillMapIdCoordMax.xml";
-        Reseau resTest = parser.parseCityPlan(pathnameXml);
+        Network resTest = parser.parseCityPlan(pathnameXml);
         assertNotNull(resTest);
         
         Map map = new Map();
@@ -371,7 +366,7 @@ public class MapTest {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/dl-entrepotIdInvalid.xml";
-        DemandeDeLivraisons ddlIdWareHouseInvalid = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddlIdWareHouseInvalid = parser.parseDelivery(pathnameXml);
         assertNotNull(ddlIdWareHouseInvalid);
         
         Map map = new Map();
@@ -391,7 +386,7 @@ public class MapTest {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/dl-zeroDLValid.xml";
-        DemandeDeLivraisons ddlZeroDL = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddlZeroDL = parser.parseDelivery(pathnameXml);
         assertNotNull(ddlZeroDL);
         
         Map map = new Map();
@@ -414,7 +409,7 @@ public class MapTest {
         
         // When
         
-        DemandeDeLivraisons ddlNoWH = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddlNoWH = parser.parseDelivery(pathnameXml);
         
         //Then 
         
@@ -426,7 +421,7 @@ public class MapTest {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/petitPlanIdNotANumber.xml";
-        Reseau resIdNotANumber = parser.parseCityPlan(pathnameXml);
+        Network resIdNotANumber = parser.parseCityPlan(pathnameXml);
         assertNotNull(resIdNotANumber);
         
         Map map = new Map();
@@ -446,7 +441,7 @@ public class MapTest {
         // Given
         
         String pathnameXml = "./ressources/fichiersTestXml/dl-IdNotANumber.xml";
-        DemandeDeLivraisons ddlNoWH = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddlNoWH = parser.parseDelivery(pathnameXml);
         assertNotNull(ddlNoWH);
         
         Map map = new Map();

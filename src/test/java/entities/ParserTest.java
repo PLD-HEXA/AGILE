@@ -27,16 +27,16 @@ public class ParserTest {
         Parser parser = new Parser();
         String pathnameXml = "./ressources/fichiersXML2018/petitPlan.xml";
         Coordinate coordExpected = new Coordinate(4.857418,45.75406);
-        Noeud noeudExpected = new Noeud("25175791", coordExpected);
+        Node nodeExpected = new Node("25175791", coordExpected);
         Troncon tronconExpected = new Troncon("25175778", "69.979805", "Rue Danton", "25175791");
         
         // When
-        Reseau res = parser.parseCityPlan(pathnameXml);
+        Network res = parser.parseCityPlan(pathnameXml);
         
         // Then
         assertNotNull(res);
-        assertEquals(coordExpected, res.getNoeud()[0].getCoordinate());
-        assertEquals(noeudExpected, res.getNoeud()[0]);
+        assertEquals(coordExpected, res.getNode()[0].getCoordinate());
+        assertEquals(nodeExpected, res.getNode()[0]);
         assertEquals(tronconExpected, res.getTroncon()[0]);
     }
     
@@ -52,12 +52,12 @@ public class ParserTest {
         
         // When
         
-        Reseau res = parser.parseCityPlan(pathnameXml);
+        Network res = parser.parseCityPlan(pathnameXml);
         
         // Then
         
         assertNotNull(res);
-        assertEquals(null, res.getNoeud()[0].getCoordinate().getLatitude());
+        assertEquals(null, res.getNode()[0].getCoordinate().getLatitude());
         
     }
     
@@ -70,7 +70,7 @@ public class ParserTest {
         
         // When
         
-        Reseau res = parser.parseCityPlan(pathnameXml);
+        Network res = parser.parseCityPlan(pathnameXml);
         
         // Then
         
@@ -89,7 +89,7 @@ public class ParserTest {
         
         // When
         
-        Reseau res = parser.parseCityPlan(pathnameXml);
+        Network res = parser.parseCityPlan(pathnameXml);
         
         // Then
         
@@ -109,12 +109,12 @@ public class ParserTest {
         
         // When
         
-        Reseau res = parser.parseCityPlan(pathnameXml);
+        Network res = parser.parseCityPlan(pathnameXml);
         
         // Then
         
         assertNotNull(res);
-        assertNull(res.getNoeud());
+        assertNull(res.getNode());
     }
     
     /**
@@ -130,7 +130,7 @@ public class ParserTest {
         
         // When
         
-        Reseau res = parser.parseCityPlan(pathnameXml);
+        Network res = parser.parseCityPlan(pathnameXml);
         
         // Then
         
@@ -149,7 +149,7 @@ public class ParserTest {
         
         // When
         
-        Reseau res = parser.parseCityPlan(pathnameXml);
+        Network res = parser.parseCityPlan(pathnameXml);
         
         // Then
         
@@ -162,20 +162,20 @@ public class ParserTest {
         
         Parser parser = new Parser();
         String pathnameXml = "./ressources/fichiersXML2018/dl-petit-3.xml";
-        Livraison livraisonExpected = new Livraison("26317242", 60);
-        Entrepot entrepotExpected = new Entrepot("48830472", "8:0:0");
+        Delivery deliveryExpected = new Delivery("26317242", 60);
+        Warehouse warehouseExpected = new Warehouse("48830472", "8:0:0");
         
         // When
         
-        DemandeDeLivraisons ddl = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddl = parser.parseDelivery(pathnameXml);
         
         // Then
         
         assertNotNull(ddl);
-        assertNotNull(ddl.getEntrepot());
-        assertNotNull(ddl.getLivraison()[0]);
-        assertEquals(entrepotExpected, ddl.getEntrepot());
-        assertEquals(livraisonExpected, ddl.getLivraison()[0]);
+        assertNotNull(ddl.getWarehouse());
+        assertNotNull(ddl.getDelivery()[0]);
+        assertEquals(warehouseExpected, ddl.getWarehouse());
+        assertEquals(deliveryExpected, ddl.getDelivery()[0]);
     }
     
     @Test
@@ -187,7 +187,7 @@ public class ParserTest {
         
         // When
         
-        DemandeDeLivraisons ddl = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddl = parser.parseDelivery(pathnameXml);
          
         // Then
         
@@ -204,7 +204,7 @@ public class ParserTest {
         
         // When
         
-        DemandeDeLivraisons ddl = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddl = parser.parseDelivery(pathnameXml);
          
         // Then
         
@@ -223,7 +223,7 @@ public class ParserTest {
         
         // When
         
-        DemandeDeLivraisons ddl = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddl = parser.parseDelivery(pathnameXml);
         
         
         // Then
@@ -243,12 +243,12 @@ public class ParserTest {
         
         // When
         
-        DemandeDeLivraisons ddl = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddl = parser.parseDelivery(pathnameXml);
         
         // Then
         
         assertNotNull(ddl);
-        assertNull(ddl.getEntrepot());
+        assertNull(ddl.getWarehouse());
     }
     
     /**
@@ -264,7 +264,7 @@ public class ParserTest {
         
         // When
         
-        DemandeDeLivraisons ddl = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddl = parser.parseDelivery(pathnameXml);
         
         // Then
         
@@ -283,7 +283,7 @@ public class ParserTest {
         
         // When
         
-        DemandeDeLivraisons ddl = parser.parseDelivery(pathnameXml);
+        DeliveryRequest ddl = parser.parseDelivery(pathnameXml);
             
         // Then
         
