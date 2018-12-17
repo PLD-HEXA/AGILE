@@ -124,7 +124,7 @@ public class Controller {
             Integer duration = mainWindow.showInformationAddState("You can click on the locate of the delivery point"
                     + " you want to add. \nPlease, Enter the duration of the new delivery point.");
             if (duration != null) {
-                if (duration >= 0) {
+                if (duration >= 0 && duration <= 36000) {
                     addState.setDuration(duration);
                     curState.clickAddButton(this);
                 } else {

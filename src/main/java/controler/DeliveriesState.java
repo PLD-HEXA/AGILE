@@ -35,6 +35,7 @@ public class DeliveriesState extends DefaultState {
             if (itineraries != null) {
                 controller.getCmdList().reset();
                 controller.addState.setOriginalPointNumber(0);
+                controller.deleteState.setNumberDeliveryPointDeleted(0);
                 mainWindow.getGraphicalView().setItineraries(itineraries);
                 mainWindow.getGraphicalView().setDeliveryPointIndex(null);
                 mainWindow.getGraphicalView().setItineraryIndex(null);

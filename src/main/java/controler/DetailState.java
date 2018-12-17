@@ -99,6 +99,7 @@ public class DetailState extends DefaultState {
                     mainWindow.getTextualView().displayListOfRounds();
                     mainWindow.getTextualView().revalidate();
                     mainWindow.getTextualView().repaint();
+                    controller.deleteState.setNumberDeliveryPointDeleted(0);
                     controller.setCurState(controller.deliveriesState);
                 }
 

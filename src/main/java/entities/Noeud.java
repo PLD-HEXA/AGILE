@@ -30,7 +30,6 @@ public class Noeud {
     private Coordinate coordinate;
 
     /**
-     * TODO never used
      * Default constructor of {@code Noeud}
      */
     public Noeud() {
