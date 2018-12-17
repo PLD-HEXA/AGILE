@@ -28,14 +28,12 @@ public class Reseau {
     private Troncon[] troncon;
 
     /**
-     * TODO never used
      * Defaults constructor of {@Code Reseau}
      */
     public Reseau() {
     }
 
     /**
-     * TODO never used
      * Constructor of {@Code Reseau} with the attributes {@code node} and
      * {@code troncon}initialized.
      *

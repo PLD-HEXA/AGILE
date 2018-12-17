@@ -309,7 +309,10 @@ public class PathFinder {
      * @return True when the addition of a new itinerary is possible (the itinerary ends before 18:00pm); false otherwise
      */
     public boolean findAdditionalPath(Map map, List<Itinerary> itineraries, int nbNewPoints, boolean undo) {
-        
+        if (nbNewPoints == 0) {
+            itineraries.remove(itineraries.size() - 1);
+            return true;
+        }
 
         //Find the earliest arrival time
         Date tempArrivalTime;
@@ -356,10 +359,7 @@ public class PathFinder {
         }
         //Add the new itinerary to the list of itineraries
         else {
-            if (nbNewPoints == 0) {
-                itineraries.remove(itineraries.size() - 1);
-                return true;
-            } else if ((undo && nbNewPoints >= 1) || (!undo && nbNewPoints > 1)) {
+            if ((undo && nbNewPoints >= 1) || (!undo && nbNewPoints > 1)) {
                 itineraries.remove(itineraries.size() - 1);
             }
             additionalItinerary.getGeneralPath().get(0).setArrivalTime(new Date(earlierArrivalTime.getTime()));
