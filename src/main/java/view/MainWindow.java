@@ -67,13 +67,13 @@ public class MainWindow extends JFrame {
         super();
         graphicalView = new GraphicalView(this);
         textualView = new TextualView(this);
-        inputView = new InputView(this);
+        inputView = new InputView();
         jScrollPane = new JScrollPane(graphicalView);
         graphicalView.setScrollPane(jScrollPane);
         jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         createButtons(controller);
-        mouseMovementListener = new MouseMovementListener(controller, graphicalView, this);
+        mouseMovementListener = new MouseMovementListener(controller);
         this.getGraphicalView().addMouseListener(mouseMovementListener);
         keyBoardListener = new KeyBoardListener(controller, graphicalView, this);
         addKeyListener(keyBoardListener);
@@ -91,8 +91,7 @@ public class MainWindow extends JFrame {
             size.height -= insets.top + insets.bottom;
             size.width -= insets.left + insets.right;
         }
-        // TODO new Dimension(size.width, size.height)?
-        graphicalView.setPreferredSize(new Dimension(size.height, size.height));
+        graphicalView.setPreferredSize(new Dimension(size.width, size.height));
         graphicalView.setMapSize(size.height - 30);
         graphicalView.setLocation(0, 0);
         container = new JPanel();
@@ -115,10 +114,9 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     * TODO deprecated javadoc
      * It allows to create all the buttons
      *
-     * @param s The string to show
+     * @param controller The controller
      */
     private void createButtons(Controller controller) {
         buttonListener = new ButtonListener(controller);
@@ -163,6 +161,11 @@ public class MainWindow extends JFrame {
         return JOptionPane.showConfirmDialog(null, text, "Warning", JOptionPane.YES_NO_OPTION);
     }
 
+    /**
+     * Shows a dialog to inform the user that the point will be deleted
+     * @param text
+     * @return an int : 0 if Ok, 1 if Cancel
+     */
     public int showInformationDeleteState(String text) {
         return JOptionPane.showConfirmDialog(null, text, "Delete delivery point information", JOptionPane.OK_CANCEL_OPTION);
     }
@@ -194,7 +197,13 @@ public class MainWindow extends JFrame {
         return inputView;
     }
 
-    // TODO no javadoc
+
+
+    /**
+     * Shows a dialog to inform the user that he can put the duration
+     * @param text
+     * @return an int: the duration
+     */
     public Integer showInformationAddState(String text) {
         String duration = JOptionPane.showInputDialog(null, text, "Duration", JOptionPane.PLAIN_MESSAGE);
         System.out.println("duration : " + duration);
@@ -210,6 +219,10 @@ public class MainWindow extends JFrame {
         return durationInt;
     }
 
+    /**
+     * Shows a dialog to inform the user that the command has been taken into account
+     * @param text
+     */
     public void showInformationConfirmationCommand(String text) {
         JOptionPane.showConfirmDialog(null, text, "Confirmation of the action", JOptionPane.DEFAULT_OPTION);
     }

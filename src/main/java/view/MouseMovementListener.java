@@ -17,27 +17,13 @@ public class MouseMovementListener implements MouseListener {
     private Controller controller;
 
     /**
-     * TODO never used
-     * The graphical view
-     */
-    private GraphicalView graphicalView;
-
-    /**
-     * TODO never used
-     * The main window
-     */
-    private MainWindow mainWindow;
-
-    /**
      * The constructor
+     *
      * @param controller
-     * @param graphicalView
-     * @param mainWindow
      */
-    public MouseMovementListener(Controller controller, GraphicalView graphicalView, MainWindow mainWindow) {
+    public MouseMovementListener(Controller controller) {
         this.controller = controller;
-        this.graphicalView = graphicalView;
-        this.mainWindow = mainWindow;
+
     }
 
     /**
