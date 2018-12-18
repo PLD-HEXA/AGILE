@@ -52,6 +52,7 @@ public class DefaultState implements State {
                         mainWindow.getGraphicalView().setItineraryIndex(null);
                         mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
                         mainWindow.getGraphicalView().repaint();
+                        controller.deleteState.setNumberDeliveryPointDeleted(0);
                         controller.setCurState(controller.planState);
                     } else {
                         mainWindow.showError("The content of the input xml file is invalid.");
@@ -136,6 +137,7 @@ public class DefaultState implements State {
 
     public void reset(Controller controller, MainWindow mainWindow) {
         controller.addState.setOriginalPointNumber(0);
+        controller.deleteState.setNumberDeliveryPointDeleted(0);
         mainWindow.getTextualView().setItineraries(null);
         mainWindow.getTextualView().setDeliveryPointIndex(null);
         mainWindow.getTextualView().setItineraryIndex(null);

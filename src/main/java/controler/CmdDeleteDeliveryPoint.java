@@ -67,9 +67,8 @@ public class CmdDeleteDeliveryPoint implements Command {
         int indexDeliveryPointToAdd = mainWindow.getGraphicalView().getIndexToDelete().indexOf(this.indexDeliveryPoint);
         mainWindow.getGraphicalView().getIndexToDelete().remove(indexDeliveryPointToAdd);
 
-        // TODO: the variable indexItineraryPointToAdd is never used
         int indexItineraryPointToAdd = mainWindow.getTextualView().getIndexItineraryToDelete().indexOf(this.itineraryIndex);
-        mainWindow.getTextualView().getIndexItineraryToDelete().remove(indexDeliveryPointToAdd);
+        mainWindow.getTextualView().getIndexItineraryToDelete().remove(indexItineraryPointToAdd);
 
         mainWindow.getGraphicalView().repaint();
 

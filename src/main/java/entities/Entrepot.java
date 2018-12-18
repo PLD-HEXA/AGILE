@@ -28,7 +28,6 @@ public class Entrepot {
     private String heureDepart;
 
     /**
-     * TODO never used
      * Default constructor of {@code Entrepot}
      */
     public Entrepot() {
