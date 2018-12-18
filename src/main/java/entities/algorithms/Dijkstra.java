@@ -58,7 +58,6 @@ public class Dijkstra {
     }
 
     /**
-     * TODO Vertices may be always plural?
      * Get the distance between two vertices in the graph
      *
      * @param s1 First vertice
@@ -76,7 +75,6 @@ public class Dijkstra {
     }
 
     /**
-     * TODO Vertices may be always plural?
      * Release procedure of the Dijkstra algorithm
      *
      * @param s1 First vertice of the edge to release

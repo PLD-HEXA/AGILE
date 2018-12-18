@@ -13,6 +13,7 @@ import view.MainWindow;
  * @author PLD-HEXA-301
  */
 public class PlanState extends DefaultState {
+
     @Override
     public void loadDeliveries(Controller controller, MainWindow mainWindow) {
         mainWindow.displayMessage("Load deliveries");
@@ -29,24 +30,21 @@ public class PlanState extends DefaultState {
                 mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
                 mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
                 mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-                if (mainWindow.getGraphicalView().getMap().getWareHouse() != null
-                        && mainWindow.getGraphicalView().getMap().getTabDeliveryPoints() != null) {
+                if (mainWindow.getGraphicalView().getMap().getTabDeliveryPoints() != null) {
                     mainWindow.getGraphicalView().getMap().fillUnreachablePoints();
                     boolean invalidFile = false;
                     int i = 0;
                     int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
                     while (!invalidFile && i < numberOfDeliveryPoints) {
-                        if (mainWindow.getGraphicalView().getMap().getUnreachablePoints()
-                                .contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())
-                                || mainWindow.getGraphicalView().getMap().getNonReturnPoints().contains(mainWindow
-                                .getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())) {
+                        if (mainWindow.getGraphicalView().getMap().getUnreachablePoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())
+                                || mainWindow.getGraphicalView().getMap().getNonReturnPoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())) {
                             invalidFile = true;
                         }
                         i++;
                     }
                     if (invalidFile) {
-                        mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
                         mainWindow.getGraphicalView().getMap().setWareHouse(null);
+                        controller.setCurState(controller.planState);
                         mainWindow.showError("The input xml file is invalid.");
                     } else {
                         mainWindow.getGraphicalView().setItineraries(null);
@@ -62,9 +60,31 @@ public class PlanState extends DefaultState {
                         controller.setCurState(controller.deliveriesState);
                     }
                 } else {
+                    mainWindow.getGraphicalView().setItineraries(null);
+                    mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                    mainWindow.getGraphicalView().setItineraryIndex(null);
+                    mainWindow.getGraphicalView().repaint();
+                    mainWindow.getTextualView().setItineraries(null);
+                    mainWindow.getTextualView().setDeliveryPointIndex(null);
+                    mainWindow.getTextualView().setItineraryIndex(null);
+                    mainWindow.getTextualView().displayListOfRounds();
+                    mainWindow.getTextualView().revalidate();
+                    mainWindow.getTextualView().repaint();
+                    controller.setCurState(controller.planState);
                     mainWindow.showError("The input xml file is invalid.");
                 }
             } else {
+                mainWindow.getGraphicalView().setItineraries(null);
+                mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                mainWindow.getGraphicalView().setItineraryIndex(null);
+                mainWindow.getGraphicalView().repaint();
+                mainWindow.getTextualView().setItineraries(null);
+                mainWindow.getTextualView().setDeliveryPointIndex(null);
+                mainWindow.getTextualView().setItineraryIndex(null);
+                mainWindow.getTextualView().displayListOfRounds();
+                mainWindow.getTextualView().revalidate();
+                mainWindow.getTextualView().repaint();
+                controller.setCurState(controller.planState);
                 mainWindow.showError("The input xml file is invalid.");
             }
         }

@@ -20,7 +20,7 @@ import view.MainWindow;
  */
 public class DefaultState implements State {
 
-    static final double minimalDistance = 0.0062;
+    static final double minimalDistance = 0.0040;
 
     @Override
     public void loadPlan(Controller controller, MainWindow mainWindow) {

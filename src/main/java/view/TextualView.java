@@ -166,8 +166,16 @@ public class TextualView extends JPanel {
                         departure = new DefaultMutableTreeNode(
                                 "Arrival        " + arrivalDate.toString().substring(11, 19));
                         diff = new Date(departureDate.getTime() - arrivalDate.getTime());
-                        duration = new DefaultMutableTreeNode(
-                                "Duration     " + diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        int hours=diff.getHours()-1;
+                        if(hours==0){
+                            duration = new DefaultMutableTreeNode(
+                                "Duration     " +diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        }
+                        else{
+                            duration = new DefaultMutableTreeNode(
+                                "Duration     " + hours+"h"+diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        }
+                        
                         curStop.add(departure);
                         curStop.add(arrival);
                         curStop.add(duration);
@@ -189,8 +197,16 @@ public class TextualView extends JPanel {
                         departure = new DefaultMutableTreeNode(
                                 "Arrival        " + arrivalDate.toString().substring(11, 19));
                         diff = new Date(departureDate.getTime() - arrivalDate.getTime());
-                        duration = new DefaultMutableTreeNode(
-                                "Duration     " + diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        int hours=diff.getHours()-1;
+                        if(hours==0){
+                            duration = new DefaultMutableTreeNode(
+                                "Duration     " +diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        }
+                        else{
+                            duration = new DefaultMutableTreeNode(
+                                "Duration     " + hours+"h"+diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        }
+                      
                         curStop.add(departure);
                         curStop.add(arrival);
                         curStop.add(duration);
