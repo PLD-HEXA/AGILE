@@ -220,7 +220,7 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     * Shows a dialog to inform the user that the command has been taken into account
+     * Shows a dialog to inform the user that the command has been taken into account.
      * @param text
      */
     public void showInformationConfirmationCommand(String text) {
