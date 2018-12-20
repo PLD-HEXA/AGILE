@@ -73,21 +73,35 @@ public class DetailState extends DefaultState {
                 mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
                 mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
                 mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-                mainWindow.getGraphicalView().getMap().fillUnreachablePoints();
-                boolean invalidFile = false;
-                int i = 0;
-                int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
-                while (!invalidFile && i < numberOfDeliveryPoints) {
-                    if (mainWindow.getGraphicalView().getMap().getUnreachablePoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())
-                            || mainWindow.getGraphicalView().getMap().getNonReturnPoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())) {
-                        invalidFile = true;
+                if (mainWindow.getGraphicalView().getMap().getTabDeliveryPoints() != null) {
+                    mainWindow.getGraphicalView().getMap().fillUnreachablePoints();
+                    boolean invalidFile = false;
+                    int i = 0;
+                    int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
+                    while (!invalidFile && i < numberOfDeliveryPoints) {
+                        if (mainWindow.getGraphicalView().getMap().getUnreachablePoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())
+                                || mainWindow.getGraphicalView().getMap().getNonReturnPoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())) {
+                            invalidFile = true;
+                        }
+                        i++;
                     }
-                    i++;
-                }
-                if (invalidFile) {
-                    mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
-                    mainWindow.getGraphicalView().getMap().setWareHouse(null);
-                    mainWindow.showError("The input xml file is invalid.");
+                    if (invalidFile) {
+                        mainWindow.getGraphicalView().getMap().setWareHouse(null);
+                        controller.setCurState(controller.planState);
+                        mainWindow.showError("The input xml file is invalid.");
+                    } else {
+                        mainWindow.getGraphicalView().setItineraries(null);
+                        mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                        mainWindow.getGraphicalView().setItineraryIndex(null);
+                        mainWindow.getGraphicalView().repaint();
+                        mainWindow.getTextualView().setItineraries(null);
+                        mainWindow.getTextualView().setDeliveryPointIndex(null);
+                        mainWindow.getTextualView().setItineraryIndex(null);
+                        mainWindow.getTextualView().displayListOfRounds();
+                        mainWindow.getTextualView().revalidate();
+                        mainWindow.getTextualView().repaint();
+                        controller.setCurState(controller.deliveriesState);
+                    }
                 } else {
                     mainWindow.getGraphicalView().setItineraries(null);
                     mainWindow.getGraphicalView().setDeliveryPointIndex(null);
@@ -99,10 +113,21 @@ public class DetailState extends DefaultState {
                     mainWindow.getTextualView().displayListOfRounds();
                     mainWindow.getTextualView().revalidate();
                     mainWindow.getTextualView().repaint();
-                    controller.setCurState(controller.deliveriesState);
+                    controller.setCurState(controller.planState);
+                    mainWindow.showError("The input xml file is invalid.");
                 }
-
             } else {
+                mainWindow.getGraphicalView().setItineraries(null);
+                mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                mainWindow.getGraphicalView().setItineraryIndex(null);
+                mainWindow.getGraphicalView().repaint();
+                mainWindow.getTextualView().setItineraries(null);
+                mainWindow.getTextualView().setDeliveryPointIndex(null);
+                mainWindow.getTextualView().setItineraryIndex(null);
+                mainWindow.getTextualView().displayListOfRounds();
+                mainWindow.getTextualView().revalidate();
+                mainWindow.getTextualView().repaint();
+                controller.setCurState(controller.planState);
                 mainWindow.showError("The input xml file is invalid.");
             }
         }
@@ -134,17 +159,6 @@ public class DetailState extends DefaultState {
             }
         }
         if (nearestDeliveryPoint != null) {
-            // TODO the four variables are never used
-            double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView()
-                    .getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLatitude();
-            double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView()
-                    .getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLongitude();
-            latitude = (mainWindow.getGraphicalView().getLatMax() - mainWindow.getGraphicalView().getMap()
-                    .getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint)
-                    .getKey()].getLatitude()) * mainWindow.getGraphicalView().getWidthScale();
-            longitude = (mainWindow.getGraphicalView().getLongMax() - mainWindow.getGraphicalView().getMap()
-                    .getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint)
-                    .getKey()].getLongitude()) * mainWindow.getGraphicalView().getHeightScale();
             //Finding the itinerary that includes this delivery point
             boolean globalFound = false;
             boolean localFound = false;
@@ -185,39 +199,38 @@ public class DetailState extends DefaultState {
 
     @Override
     public void keyPressed(Controller controller, MainWindow mainWindow, int keyCode) {
-        // TODO put some comments in the if or else seem a bit weird
         int numberOfDeliveryPoints;
         int numberOfItineraries;
         int currentDeliveryPoint = mainWindow.getGraphicalView().getDeliveryPointIndex();
         int currentItinerary = mainWindow.getGraphicalView().getItineraryIndex();
-        if (keyCode == KeyEvent.VK_RIGHT) {
+        if (keyCode == KeyEvent.VK_RIGHT) {//Move forward in the selected itinerary
             numberOfDeliveryPoints = mainWindow.getGraphicalView().getItineraries().get(currentItinerary)
                     .getGeneralPath().size();
-            if (currentDeliveryPoint == (numberOfDeliveryPoints - 1)) { //If it's the last delivery point
+            if (currentDeliveryPoint == (numberOfDeliveryPoints - 1)) { //If it's the last stop of the itinerary, go back to the first one
                 mainWindow.getGraphicalView().setDeliveryPointIndex(0);
                 mainWindow.getTextualView().setDeliveryPointIndex(0);
-            } else {
+            } else { // Else we increment the index
                 mainWindow.getGraphicalView().setDeliveryPointIndex(currentDeliveryPoint + 1);
                 mainWindow.getTextualView().setDeliveryPointIndex(currentDeliveryPoint + 1);
             }
             mainWindow.getTextualView().revalidate();
             mainWindow.getTextualView().repaint();
 
-        } else if (keyCode == KeyEvent.VK_LEFT) {
+        } else if (keyCode == KeyEvent.VK_LEFT) {//Move backward in the selected itinerary
             numberOfDeliveryPoints = mainWindow.getGraphicalView().getItineraries().get(currentItinerary).getGeneralPath().size();
-            if (currentDeliveryPoint == 0) {
+            if (currentDeliveryPoint == 0) { // If it's the first stop of the itinerary, go back to the last one
                 mainWindow.getGraphicalView().setDeliveryPointIndex(numberOfDeliveryPoints - 1);
                 mainWindow.getTextualView().setDeliveryPointIndex(numberOfDeliveryPoints - 1);
-            } else {
+            } else {//Else we decrement the index
                 mainWindow.getGraphicalView().setDeliveryPointIndex(currentDeliveryPoint - 1);
                 mainWindow.getTextualView().setDeliveryPointIndex(currentDeliveryPoint - 1);
 
             }
             mainWindow.getTextualView().revalidate();
             mainWindow.getTextualView().repaint();
-        } else if (keyCode == KeyEvent.VK_UP) {
+        } else if (keyCode == KeyEvent.VK_UP) {//Switch itineraries moving forward
             numberOfItineraries = mainWindow.getGraphicalView().getItineraries().size();
-            if (currentItinerary < (numberOfItineraries - 1)) {
+            if (currentItinerary < (numberOfItineraries - 1)) { 
                 mainWindow.getGraphicalView().setItineraryIndex(mainWindow.getGraphicalView().getItineraryIndex() + 1);
                 mainWindow.getTextualView().setItineraryIndex(mainWindow.getTextualView().getItineraryIndex() + 1);
             } else {    // Go back to the first round
@@ -228,7 +241,7 @@ public class DetailState extends DefaultState {
             mainWindow.getTextualView().setDeliveryPointIndex(1); // select the last delivery point
             mainWindow.getTextualView().revalidate();
             mainWindow.getTextualView().repaint();
-        } else if (keyCode == KeyEvent.VK_DOWN) {
+        } else if (keyCode == KeyEvent.VK_DOWN) {//Switch itineraries moving forward
             numberOfItineraries = mainWindow.getGraphicalView().getItineraries().size();
             if (currentItinerary > 0) { // Previous round
                 mainWindow.getGraphicalView().setItineraryIndex(mainWindow.getGraphicalView().getItineraryIndex() - 1);
@@ -241,25 +254,25 @@ public class DetailState extends DefaultState {
             mainWindow.getTextualView().setDeliveryPointIndex(1); // select the last delivery point
             mainWindow.getTextualView().revalidate();
             mainWindow.getTextualView().repaint();
-        } else if (keyCode == KeyEvent.VK_Q) {
+        } else if (keyCode == KeyEvent.VK_Q) {//Move the plan to the left
             JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getHorizontalScrollBar();
             if (scrollBar != null) {
                 scrollBar.setValue(scrollBar.getValue()
                         - scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
             }
-        } else if (keyCode == KeyEvent.VK_S) {
+        } else if (keyCode == KeyEvent.VK_S) {//Move the plan to the bottom
             JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getVerticalScrollBar();
             if (scrollBar != null) {
                 scrollBar.setValue(scrollBar.getValue()
                         + scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
             }
-        } else if (keyCode == KeyEvent.VK_D) {
+        } else if (keyCode == KeyEvent.VK_D) {//Move the plan to the right
             JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getHorizontalScrollBar();
             if (scrollBar != null) {
                 scrollBar.setValue(scrollBar.getValue()
                         + scrollBar.getBlockIncrement() * (int) mainWindow.getGraphicalView().getScale());
             }
-        } else if (keyCode == KeyEvent.VK_Z) {
+        } else if (keyCode == KeyEvent.VK_Z) {//Move the plan to the top
             JScrollBar scrollBar = mainWindow.getGraphicalView().getScrollPane().getVerticalScrollBar();
             if (scrollBar != null) {
                 scrollBar.setValue(scrollBar.getValue()

@@ -30,16 +30,12 @@ public class DemandeDeLivraisons {
     private Livraison[] livraison;
 
     /**
-     * TODO never used
-     * Default constructor of {
-     *
-     * @DemandeDeLivraisons}.
+     * Default constructor of {@DemandeDeLivraisons}.
      */
     public DemandeDeLivraisons() {
     }
 
     /**
-     * TODO never used
      * Creates an object {@code DemandeDeLivraisons} with the {@code entrepot}
      * and {@code livraison} attributes initialized.
      *

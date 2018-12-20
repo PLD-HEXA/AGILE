@@ -27,20 +27,9 @@ public class DeleteState extends DefaultState {
         this.numberDeliveryPointDeleted = 0;
     }
 
-    /**
-     * TODO Function never used
-     * Returns numberDeliveryPointDeleted.
-     *
-     * @return numberDeliveryPointDeleted
-     */
-    public int getNumberDeliveryPointDeleted() {
-        return numberDeliveryPointDeleted;
-    }
 
     /**
-     * TODO Function never used
      * Sets numberDeliveryPointDeleted to the given value.
-     *
      * @param numberDeliveryPointDeleted
      */
     public void setNumberDeliveryPointDeleted(int numberDeliveryPointDeleted) {
@@ -71,7 +60,7 @@ public class DeleteState extends DefaultState {
         double longitude = mainWindow.getGraphicalView().getLongMax()
                 - (mainWindow.getGraphicalView().getMapSize() - x - GraphicalView.getPointradius())
                 / mainWindow.getGraphicalView().getHeightScale();
-        double minDistance = 0.0062; // minimal distance to get the point clicked in the map
+        double minDistance = minimalDistance; // minimal distance to get the point clicked in the map
         // corresponding to the delivery point we want to delete in the delivery point
         // tab
         double distance;

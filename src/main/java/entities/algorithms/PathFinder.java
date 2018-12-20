@@ -312,8 +312,6 @@ public class PathFinder {
         if (nbNewPoints == 0) {
             itineraries.remove(itineraries.size() - 1);
             return true;
-        } else if ((undo && nbNewPoints >= 1) || (!undo && nbNewPoints > 1)) {
-            itineraries.remove(itineraries.size() - 1);
         }
 
         //Find the earliest arrival time
@@ -339,8 +337,6 @@ public class PathFinder {
         map.setTabDeliveryPoints(tabDeliveryPointsTemp);
 
         Pair<Integer, String> warehouse = map.getWareHouse();
-        // TODO the variable seems to never be used
-        String startingTime = map.getWareHouse().getValue();
 
         long startingTimeTempNanoSeconds = earlierArrivalTime.getTime() + 1000 * 5 * 60;
         DateFormat df = new SimpleDateFormat("hh:mm:ss");
@@ -361,6 +357,9 @@ public class PathFinder {
         }
         //Add the new itinerary to the list of itineraries
         else {
+            if ((undo && nbNewPoints >= 1) || (!undo && nbNewPoints > 1)) {
+                itineraries.remove(itineraries.size() - 1);
+            }
             additionalItinerary.getGeneralPath().get(0).setArrivalTime(new Date(earlierArrivalTime.getTime()));
             itineraries.add(additionalItinerary);
             return true;

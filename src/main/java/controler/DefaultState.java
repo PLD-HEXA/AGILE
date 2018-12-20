@@ -20,7 +20,7 @@ import view.MainWindow;
  */
 public class DefaultState implements State {
 
-    static final double minimalDistance = 0.0062;
+    static final double minimalDistance = 0.0040;
 
     @Override
     public void loadPlan(Controller controller, MainWindow mainWindow) {
@@ -52,6 +52,7 @@ public class DefaultState implements State {
                         mainWindow.getGraphicalView().setItineraryIndex(null);
                         mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
                         mainWindow.getGraphicalView().repaint();
+                        controller.deleteState.setNumberDeliveryPointDeleted(0);
                         controller.setCurState(controller.planState);
                     } else {
                         mainWindow.showError("The content of the input xml file is invalid.");
@@ -90,10 +91,6 @@ public class DefaultState implements State {
 
     @Override
     public void mouseClick(Controller controller, MainWindow mainWindow, CmdList cmdList, int x, int y) {
-    }
-
-    @Override
-    public void iconClick(Controller controller, MainWindow mainWindow, int x, int y) {
     }
 
     @Override
@@ -136,6 +133,7 @@ public class DefaultState implements State {
 
     public void reset(Controller controller, MainWindow mainWindow) {
         controller.addState.setOriginalPointNumber(0);
+        controller.deleteState.setNumberDeliveryPointDeleted(0);
         mainWindow.getTextualView().setItineraries(null);
         mainWindow.getTextualView().setDeliveryPointIndex(null);
         mainWindow.getTextualView().setItineraryIndex(null);

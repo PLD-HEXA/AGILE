@@ -57,7 +57,6 @@ public class Itinerary {
     }
 
     /**
-     * TODO never used
      * Sets the generalPath
      *
      * @param generalPath the list of DeliveryPoint which make up the general path of the itinerary
@@ -67,7 +66,6 @@ public class Itinerary {
     }
 
     /**
-     * TODO never used
      * Sets the detailedPath
      *
      * @param detailedPath the list of Coordinate which make up the detailed path of the itinerary

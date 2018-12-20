@@ -108,7 +108,6 @@ public class Map {
     }
 
     /**
-     * TODO never used
      * Sets coordinateMin
      *
      * @param coordinateMin which contains the minimum latitude and the minimum longitude
@@ -128,7 +127,6 @@ public class Map {
     }
 
     /**
-     * TODO never used
      * Sets coordinateMax
      *
      * @param coordinateMax which contains the maximum latitude and the maximum
@@ -166,7 +164,6 @@ public class Map {
     }
 
     /**
-     * TODO never used
      * Sets mapId
      *
      * @param mapId
@@ -267,8 +264,6 @@ public class Map {
      *            order to draw the map
      */
     public void fillMapIdAndCoordinate(Reseau res) {
-        // TODO can be simplify:
-        //  if (res.getNode() != null && res.getTroncon() != null) {
         if (res.getNoeud() != null && res.getNoeud().length >= 0
                 && res.getTroncon() != null && res.getTroncon().length >= 0) {
 
@@ -432,30 +427,34 @@ public class Map {
                     int warehouseIndex = mapId.get(warehouseId);
                     // We verify that the departure time is valid and with the
                     // right format
-                    verifyHour(ddl.getEntrepot().getHeureDepart());
+                    if (verifyHour(ddl.getEntrepot().getHeureDepart())) {
 
-                    wareHouse = new Pair<>(warehouseIndex, ddl.getEntrepot().getHeureDepart());
+                        wareHouse = new Pair<>(warehouseIndex, ddl.getEntrepot().getHeureDepart());
 
-                    // On fills the delivery points
-                    Livraison[] delivery = ddl.getLivraison();
-                    for (int i = 0; i < delivery.length; i++) {
-                        // We get back the index of the delivery
-                        Long deliveryId = Long.valueOf(delivery[i].getId());
-                        if (deliveryId > 0 && mapId.get(deliveryId) != null && delivery[i].getDuree() != null) {
-                            int deliveryIndex = mapId.get(deliveryId);
-                            int deliveryDuration = delivery[i].getDuree();
-                            if (deliveryDuration >= 0) {
-                                tabDeliveryPoints.add(new Pair<>(deliveryIndex, deliveryDuration));
+                        // On fills the delivery points
+                        Livraison[] delivery = ddl.getLivraison();
+                        for (int i = 0; i < delivery.length; i++) {
+                            // We get back the index of the delivery
+                            Long deliveryId = Long.valueOf(delivery[i].getId());
+                            if (deliveryId > 0 && mapId.get(deliveryId) != null && delivery[i].getDuree() != null) {
+                                int deliveryIndex = mapId.get(deliveryId);
+                                int deliveryDuration = delivery[i].getDuree();
+                                if (deliveryDuration >= 0) {
+                                    tabDeliveryPoints.add(new Pair<>(deliveryIndex, deliveryDuration));
+                                } else {
+                                    wareHouse = null;
+                                    tabDeliveryPoints = null;
+                                    break;
+                                }
                             } else {
                                 wareHouse = null;
                                 tabDeliveryPoints = null;
                                 break;
                             }
-                        } else {
-                            wareHouse = null;
-                            tabDeliveryPoints = null;
-                            break;
                         }
+                    } else {
+                        wareHouse = null;
+                        tabDeliveryPoints = null; 
                     }
                     if (tabDeliveryPoints != null && tabDeliveryPoints.isEmpty()) {
                         wareHouse = null;
@@ -476,7 +475,6 @@ public class Map {
     }
 
     /**
-     * TODO return value never used
      * Verifies if the hour given in parameter is valid and in the right format
      *
      * @param hourToVerify a String

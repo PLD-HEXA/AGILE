@@ -50,12 +50,6 @@ public class TextualView extends JPanel {
     private MainWindow mainWindow;
 
     /**
-     * TODO never used
-     * It allows to draw graphics
-     */
-    private Graphics g;
-
-    /**
      * It will contains the list of rounds
      */
     private JPanel panel;
@@ -120,7 +114,6 @@ public class TextualView extends JPanel {
         if (itineraryIndex != null && deliveryPointIndex != null) {
             displaySpecificPath();
         }
-        this.g = g;
     }
 
     /**
@@ -166,8 +159,16 @@ public class TextualView extends JPanel {
                         departure = new DefaultMutableTreeNode(
                                 "Arrival        " + arrivalDate.toString().substring(11, 19));
                         diff = new Date(departureDate.getTime() - arrivalDate.getTime());
-                        duration = new DefaultMutableTreeNode(
-                                "Duration     " + diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        int hours=diff.getHours()-1;
+                        if(hours==0){
+                            duration = new DefaultMutableTreeNode(
+                                "Duration     " +diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        }
+                        else{
+                            duration = new DefaultMutableTreeNode(
+                                "Duration     " + hours+"h"+diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        }
+                        
                         curStop.add(departure);
                         curStop.add(arrival);
                         curStop.add(duration);
@@ -189,8 +190,16 @@ public class TextualView extends JPanel {
                         departure = new DefaultMutableTreeNode(
                                 "Arrival        " + arrivalDate.toString().substring(11, 19));
                         diff = new Date(departureDate.getTime() - arrivalDate.getTime());
-                        duration = new DefaultMutableTreeNode(
-                                "Duration     " + diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        int hours=diff.getHours()-1;
+                        if(hours==0){
+                            duration = new DefaultMutableTreeNode(
+                                "Duration     " +diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        }
+                        else{
+                            duration = new DefaultMutableTreeNode(
+                                "Duration     " + hours+"h"+diff.toString().substring(14, 19).replace(':', 'm') + "s");
+                        }
+                      
                         curStop.add(departure);
                         curStop.add(arrival);
                         curStop.add(duration);
@@ -311,16 +320,6 @@ public class TextualView extends JPanel {
     }
 
     /**
-     * TODO never used
-     * This method allows to get the delivery point index
-     *
-     * @return an integer
-     */
-    public Integer getDeliveryPointIndex() {
-        return deliveryPointIndex;
-    }
-
-    /**
      * This method allows to get the index itenerary to delete
      *
      * @return List<Pair   <   Integer   ,       Integer>>
@@ -329,13 +328,4 @@ public class TextualView extends JPanel {
         return indexItineraryToDelete;
     }
 
-    /**
-     * TODO never used
-     * This method allows to set the index itenerary to delete
-     *
-     * @param indexItineraryToDelete
-     */
-    public void setIndexItineraryToDelete(List<Pair<Integer, Integer>> indexItineraryToDelete) {
-        this.indexItineraryToDelete = indexItineraryToDelete;
-    }
 }

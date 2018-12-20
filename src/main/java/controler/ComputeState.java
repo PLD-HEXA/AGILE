@@ -38,6 +38,7 @@ public class ComputeState extends DefaultState {
             if (itineraries != null) {
                 controller.getCmdList().reset();
                 controller.addState.setOriginalPointNumber(0);
+                controller.deleteState.setNumberDeliveryPointDeleted(0);
                 mainWindow.getGraphicalView().setItineraries(itineraries);
                 mainWindow.getGraphicalView().setDeliveryPointIndex(null);
                 mainWindow.getGraphicalView().setItineraryIndex(null);
@@ -73,21 +74,34 @@ public class ComputeState extends DefaultState {
                 mainWindow.getGraphicalView().setIndexToDelete(new ArrayList<>());
                 mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
                 mainWindow.getGraphicalView().getMap().fillTabDeliveryPoint(ddl);
-                mainWindow.getGraphicalView().getMap().fillUnreachablePoints();
-                boolean invalidFile = false;
-                int i = 0;
-                int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
-                while (!invalidFile && i < numberOfDeliveryPoints) {
-                    if (mainWindow.getGraphicalView().getMap().getUnreachablePoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())
-                            || mainWindow.getGraphicalView().getMap().getNonReturnPoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())) {
-                        invalidFile = true;
+                if (mainWindow.getGraphicalView().getMap().getTabDeliveryPoints() != null) {
+                    mainWindow.getGraphicalView().getMap().fillUnreachablePoints();
+                    boolean invalidFile = false;
+                    int i = 0;
+                    int numberOfDeliveryPoints = mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().size();
+                    while (!invalidFile && i < numberOfDeliveryPoints) {
+                        if (mainWindow.getGraphicalView().getMap().getUnreachablePoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())
+                                || mainWindow.getGraphicalView().getMap().getNonReturnPoints().contains(mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(i).getKey())) {
+                            invalidFile = true;
+                        }
+                        i++;
                     }
-                    i++;
-                }
-                if (invalidFile) {
-                    mainWindow.getGraphicalView().getMap().setTabDeliveryPoints(new ArrayList<>());
-                    mainWindow.getGraphicalView().getMap().setWareHouse(null);
-                    mainWindow.showError("The input xml file is invalid.");
+                    if (invalidFile) {
+                        mainWindow.getGraphicalView().getMap().setWareHouse(null);
+                        mainWindow.showError("The input xml file is invalid.");
+                    } else {
+                        mainWindow.getGraphicalView().setItineraries(null);
+                        mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                        mainWindow.getGraphicalView().setItineraryIndex(null);
+                        mainWindow.getGraphicalView().repaint();
+                        mainWindow.getTextualView().setItineraries(null);
+                        mainWindow.getTextualView().setDeliveryPointIndex(null);
+                        mainWindow.getTextualView().setItineraryIndex(null);
+                        mainWindow.getTextualView().displayListOfRounds();
+                        mainWindow.getTextualView().revalidate();
+                        mainWindow.getTextualView().repaint();
+                        controller.setCurState(controller.deliveriesState);
+                    }
                 } else {
                     mainWindow.getGraphicalView().setItineraries(null);
                     mainWindow.getGraphicalView().setDeliveryPointIndex(null);
@@ -99,10 +113,21 @@ public class ComputeState extends DefaultState {
                     mainWindow.getTextualView().displayListOfRounds();
                     mainWindow.getTextualView().revalidate();
                     mainWindow.getTextualView().repaint();
-                    controller.setCurState(controller.deliveriesState);
+                    controller.setCurState(controller.planState);
+                    mainWindow.showError("The input xml file is invalid.");
                 }
-
             } else {
+                mainWindow.getGraphicalView().setItineraries(null);
+                mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                mainWindow.getGraphicalView().setItineraryIndex(null);
+                mainWindow.getGraphicalView().repaint();
+                mainWindow.getTextualView().setItineraries(null);
+                mainWindow.getTextualView().setDeliveryPointIndex(null);
+                mainWindow.getTextualView().setItineraryIndex(null);
+                mainWindow.getTextualView().displayListOfRounds();
+                mainWindow.getTextualView().revalidate();
+                mainWindow.getTextualView().repaint();
+                controller.setCurState(controller.planState);
                 mainWindow.showError("The input xml file is invalid.");
             }
         }
@@ -129,11 +154,6 @@ public class ComputeState extends DefaultState {
             }
         }
         if (nearestDeliveryPoint != null) {
-            // TODO the four variables are never used
-            double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLatitude();
-            double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLongitude();
-            latitude = (mainWindow.getGraphicalView().getLatMax() - mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLatitude()) * mainWindow.getGraphicalView().getWidthScale();
-            longitude = (mainWindow.getGraphicalView().getLongMax() - mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLongitude()) * mainWindow.getGraphicalView().getHeightScale();
             //Finding the itinerary that includes this delivery point
             boolean globalFound = false;
             boolean localFound = false;
