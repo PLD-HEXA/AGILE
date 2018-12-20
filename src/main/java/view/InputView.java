@@ -9,7 +9,6 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 import controler.Controller;
-import entities.Map;
 
 import java.awt.GridLayout;
 import javax.swing.JSpinner.DefaultEditor;
@@ -21,12 +20,6 @@ import javax.swing.JSpinner.DefaultEditor;
  * @author PLD-HEXA-301
  */
 public class InputView extends JPanel {
-
-    /**
-     * TODO never used
-     * The map
-     */
-    Map map;
 
     /**
      * It represents the name of the button that allows to load a plan
@@ -44,7 +37,8 @@ public class InputView extends JPanel {
     protected final static String COMPUTE = "Compute";
 
     /**
-     * It represents the name of the button that allows to delete a delivery point
+     * It represents the name of the button that allows to delete a delivery
+     * point
      */
     protected final static String DELETE = "Delete";
 
@@ -54,12 +48,14 @@ public class InputView extends JPanel {
     protected final static String ADD = "Add";
 
     /**
-     * It represents the name of the button that allows to undoes the last command
+     * It represents the name of the button that allows to undoes the last
+     * command
      */
     protected final static String UNDO = "Undo";
 
     /**
-     * It represents the name of the button that allows to redoes the last command
+     * It represents the name of the button that allows to redoes the last
+     * command
      */
     protected final static String REDO = "Redo";
 
@@ -83,12 +79,9 @@ public class InputView extends JPanel {
     private final String[] buttonNames = new String[]{LOAD_PLAN, LOAD_DELIVERIES, COMPUTE, DELETE, ADD, UNDO, REDO, RESET};
 
     /**
-     * TODO parameter mainWindow not used
      * The constructor
-     *
-     * @param mainWindow It represents our window
      */
-    public InputView(MainWindow mainWindow) {
+    public InputView() {
         super();
         buttons = new ArrayList<>();
     }
@@ -96,7 +89,7 @@ public class InputView extends JPanel {
     /**
      * This method allows to create the buttons
      *
-     * @param controller     The controller
+     * @param controller The controller
      * @param buttonListener The buttonListener
      */
     public void createButtons(Controller controller, ButtonListener buttonListener) {

@@ -110,6 +110,7 @@ public class GraphicalView extends JPanel {
      * The main window
      */
     private MainWindow mainWindow;
+
     /**
      * The constructor
      *
@@ -136,7 +137,7 @@ public class GraphicalView extends JPanel {
                     }
                 } else {
                     double newCurrentZoom = zoom * 1.3;
-                    if (newCurrentZoom < 1000) { // 1000 ~ 10 times zoom
+                    if (newCurrentZoom < 1000) {
                         zoom = newCurrentZoom;
                         zoomed = true;
                     }
@@ -153,6 +154,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to align the view port
+     *
      * @param mousePosition represents the position of the mouse
      */
     public void alignViewPort(Point mousePosition) {
@@ -167,15 +169,16 @@ public class GraphicalView extends JPanel {
             lastScale = scale;
         }
     }
-     /**
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public Dimension getPreferredSize() {
-        // Faut changer par la taille r�elle
         return new Dimension((int) Math.round(mapSize * scale), (int) Math.round(mapSize * scale));
     }
-     /**
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -204,7 +207,7 @@ public class GraphicalView extends JPanel {
 
     }
 
-  /**
+    /**
      * This method allows to draw a plan
      *
      * @param g It is an instance of the class Graphics that allows to draw
@@ -253,7 +256,6 @@ public class GraphicalView extends JPanel {
                     g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13,
                             null);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             } else {
@@ -267,7 +269,6 @@ public class GraphicalView extends JPanel {
                     g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 13,
                             null);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -283,13 +284,12 @@ public class GraphicalView extends JPanel {
             BufferedImage image = ImageIO.read(new File("images/warehouse.png"));
             g.drawImage(image, (int) (mapSize - longitude) - pointRadius, (int) latitude - pointRadius - 20, null);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
 
-      /**
+    /**
      * It allows to edit the map
      *
      * @param map The new map
@@ -306,7 +306,8 @@ public class GraphicalView extends JPanel {
     public Map getMap() {
         return map;
     }
-/**
+
+    /**
      * This method allows to draw all rounds
      *
      * @param g It is an instance of the class Graphics that allows to draw
@@ -368,7 +369,6 @@ public class GraphicalView extends JPanel {
      * graphics
      */
     public void displaySpecificRound(Graphics g) {
-        // Display the specific detailed path
         double latitude1;
         double longitude1;
         double latitude2;
@@ -388,7 +388,6 @@ public class GraphicalView extends JPanel {
             g2.draw(new Line2D.Float((int) (mapSize - longitude1), (int) (latitude1), (int) (mapSize - longitude2),
                     (int) (latitude2)));
         }
-        // Display the specific general path
         double delivLatitude;
         double delivLongitude;
         int numberOfGeneralStops = itineraries.get(itineraryIndex).getGeneralPath().size();
@@ -468,7 +467,6 @@ public class GraphicalView extends JPanel {
 
             }
         }
-
         if (deliveryPointIndex == 0) {
             delivLatitude = (latMax - itineraries.get(itineraryIndex).getGeneralPath().get(deliveryPointIndex)
                     .getCoordinate().getLatitude()) * widthScale;
@@ -491,6 +489,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the scale
+     *
      * @return double
      */
     public double getScale() {
@@ -499,6 +498,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the map size
+     *
      * @return
      */
     public int getMapSize() {
@@ -507,6 +507,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the coordinate position
+     *
      * @param coordinate the coordinate
      * @return a board of double
      */
@@ -516,7 +517,7 @@ public class GraphicalView extends JPanel {
         return new double[]{x, y};
     }
 
-     /**
+    /**
      * It allows to edit the itineraries
      *
      * @param itineraries * The new itineraries
@@ -526,7 +527,8 @@ public class GraphicalView extends JPanel {
     }
 
     /**
-     * It allows to get the max longitude 
+     * It allows to get the max longitude
+     *
      * @return
      */
     public double getLongMax() {
@@ -534,7 +536,8 @@ public class GraphicalView extends JPanel {
     }
 
     /**
-     * It allows to get the max latitude 
+     * It allows to get the max latitude
+     *
      * @return
      */
     public double getLatMax() {
@@ -543,6 +546,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the height scale
+     *
      * @return
      */
     public double getHeightScale() {
@@ -551,6 +555,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get width scale
+     *
      * @return
      */
     public double getWidthScale() {
@@ -559,6 +564,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the point radius
+     *
      * @return
      */
     public static int getPointradius() {
@@ -567,6 +573,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the itinerary index
+     *
      * @return
      */
     public Integer getItineraryIndex() {
@@ -575,6 +582,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the scroll pane that contains the graphical view
+     *
      * @return a JScrollPane
      */
     public JScrollPane getScrollPane() {
@@ -583,6 +591,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to set the itinerary index
+     *
      * @param itineraryIndex
      */
     public void setItineraryIndex(Integer itineraryIndex) {
@@ -591,6 +600,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the delivery point index
+     *
      * @return
      */
     public Integer getDeliveryPointIndex() {
@@ -599,6 +609,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to set the delivery point index
+     *
      * @param deliveryPointIndex
      */
     public void setDeliveryPointIndex(Integer deliveryPointIndex) {
@@ -607,6 +618,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the iteneraries
+     *
      * @return
      */
     public List<Itinerary> getItineraries() {
@@ -615,6 +627,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to set the scrollPane
+     *
      * @param scrollPane
      */
     public void setScrollPane(JScrollPane scrollPane) {
@@ -623,6 +636,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to set the map size
+     *
      * @param mapSize
      */
     public void setMapSize(int mapSize) {
@@ -631,6 +645,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to get the list of index to delete
+     *
      * @return
      */
     public List<Integer> getIndexToDelete() {
@@ -639,6 +654,7 @@ public class GraphicalView extends JPanel {
 
     /**
      * It allows to set the List of index to delete
+     *
      * @param indexToDelete
      */
     public void setIndexToDelete(List<Integer> indexToDelete) {
