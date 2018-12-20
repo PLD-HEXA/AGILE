@@ -30,15 +30,6 @@ public class AddState extends DefaultState {
     }
 
     /**
-     * TODO Function never used Returns originalPointNumber
-     *
-     * @return originalPointNumber
-     */
-    public int getOriginalPointNumber() {
-        return originalPointNumber;
-    }
-
-    /**
      * Sets originalPointNumber to the given value.
      *
      * @param originalPointNumber
@@ -59,15 +50,6 @@ public class AddState extends DefaultState {
      */
     public void subtractPointNumber() {
         originalPointNumber--;
-    }
-
-    /**
-     * TODO Function never used Returns duration.
-     *
-     * @return duration
-     */
-    public int getDuration() {
-        return duration;
     }
 
     /**

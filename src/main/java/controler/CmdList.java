@@ -8,8 +8,14 @@ import java.util.LinkedList;
  * @author PLD-HEXA-301
  */
 public class CmdList {
-    // TODO javadoc
+	
+    /**
+     * List of user commands.
+     */
     private LinkedList<Command> list;
+    /**
+     * Index of the current user command.
+     */
     private int curIndex;
 
     /**
@@ -41,19 +47,6 @@ public class CmdList {
     public void undo() {
         if (curIndex >= 0) {
             Command cmd = list.get(curIndex);
-            curIndex--;
-            cmd.undoCmd();
-        }
-    }
-
-    /**
-     * TODO Function never used
-     * Cancels the last command.
-     */
-    public void cancel() {
-        if (curIndex >= 0) {
-            Command cmd = list.get(curIndex);
-            list.remove(curIndex);
             curIndex--;
             cmd.undoCmd();
         }

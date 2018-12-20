@@ -27,20 +27,9 @@ public class DeleteState extends DefaultState {
         this.numberDeliveryPointDeleted = 0;
     }
 
-    /**
-     * TODO Function never used
-     * Returns numberDeliveryPointDeleted.
-     *
-     * @return numberDeliveryPointDeleted
-     */
-    public int getNumberDeliveryPointDeleted() {
-        return numberDeliveryPointDeleted;
-    }
 
     /**
-     * TODO Function never used
      * Sets numberDeliveryPointDeleted to the given value.
-     *
      * @param numberDeliveryPointDeleted
      */
     public void setNumberDeliveryPointDeleted(int numberDeliveryPointDeleted) {

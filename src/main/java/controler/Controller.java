@@ -5,8 +5,7 @@ import entities.algorithms.PathFinder;
 import view.MainWindow;
 
 /**
- * TODO Reprents? Represents may be?
- * Reprents the controller that orchestrates the different states and changes of the window according
+ * Represents the controller that orchestrates the different states and changes of the window according
  * to those of the entities.
  *
  * @author PLD-HEXA-301

@@ -82,16 +82,6 @@ public interface State {
     public void clickDeleteButton(Controller controller);
 
     /**
-     * TODO the method is never used
-     * Deleted one specific delivery point according to the delivery point chosen by
-     * the user.
-     *
-     * @param controller
-     * @param mainWindow
-     */
-    public void iconClick(Controller controller, MainWindow mainWindow, int x, int y);
-
-    /**
      * Allows the user to move dynamically through a specific round.
      *
      * @param controller
