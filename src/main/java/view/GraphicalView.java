@@ -460,7 +460,6 @@ public class GraphicalView extends JPanel {
                         g.drawImage(image, (int) (mapSize - delivLongitude) - pointRadius,
                                 (int) delivLatitude - pointRadius - 13, null);
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }

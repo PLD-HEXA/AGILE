@@ -337,8 +337,6 @@ public class PathFinder {
         map.setTabDeliveryPoints(tabDeliveryPointsTemp);
 
         Pair<Integer, String> warehouse = map.getWareHouse();
-        // TODO the variable seems to never be used
-        String startingTime = map.getWareHouse().getValue();
 
         long startingTimeTempNanoSeconds = earlierArrivalTime.getTime() + 1000 * 5 * 60;
         DateFormat df = new SimpleDateFormat("hh:mm:ss");

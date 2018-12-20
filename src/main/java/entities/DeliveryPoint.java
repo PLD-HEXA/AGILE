@@ -85,16 +85,6 @@ public class DeliveryPoint {
     }
 
     /**
-     * TODO method never used
-     * Sets the departure time at the delivery point
-     *
-     * @param departureTime a Date in format hh:mm:ss
-     */
-    public void setDepartureTime(Date departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    /**
      * Overrides the {@code toString} method
      *
      * @return the data of the attribut in the form of a String

@@ -154,11 +154,6 @@ public class ComputeState extends DefaultState {
             }
         }
         if (nearestDeliveryPoint != null) {
-            // TODO the four variables are never used
-            double curLatitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLatitude();
-            double curLongitude = mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLongitude();
-            latitude = (mainWindow.getGraphicalView().getLatMax() - mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLatitude()) * mainWindow.getGraphicalView().getWidthScale();
-            longitude = (mainWindow.getGraphicalView().getLongMax() - mainWindow.getGraphicalView().getMap().getCoordinates()[mainWindow.getGraphicalView().getMap().getTabDeliveryPoints().get(nearestDeliveryPoint).getKey()].getLongitude()) * mainWindow.getGraphicalView().getHeightScale();
             //Finding the itinerary that includes this delivery point
             boolean globalFound = false;
             boolean localFound = false;

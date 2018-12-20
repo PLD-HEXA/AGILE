@@ -94,10 +94,6 @@ public class DefaultState implements State {
     }
 
     @Override
-    public void iconClick(Controller controller, MainWindow mainWindow, int x, int y) {
-    }
-
-    @Override
     public void clickDeleteButton(Controller controller) {
     }
 
