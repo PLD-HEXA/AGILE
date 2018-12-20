@@ -6,9 +6,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
- * The class {@Code Reseau} represents an object that has the same structure as
+ * The class represents an object that has the same structure as
  * the analyzed XML City plan file. The parsed XML file has a root tag:
- * {@Code Reseau}
+ * Reseau
  *
  * @author PLD-HEXA-301
  */
@@ -28,17 +28,15 @@ public class Reseau {
     private Troncon[] troncon;
 
     /**
-     * Defaults constructor of {@Code Reseau}
+     * Defaults constructor
      */
     public Reseau() {
     }
 
     /**
-     * Constructor of {@Code Reseau} with the attributes {@code node} and
-     * {@code troncon}initialized.
-     *
-     * @param noeud   The {@code node} attribute
-     * @param troncon The {@code troncon} attribute      
+     * Constructor
+     * @param noeud   The nodes
+     * @param troncon The segments     
      */
     public Reseau(Noeud[] noeud, Troncon[] troncon) {
         this.noeud = noeud;
@@ -46,36 +44,36 @@ public class Reseau {
     }
 
     /**
-     * Gets the value of the {@code node} attribute
+     * Gets the value of the nodes
      *
-     * @return an array that contains all the nodes of the {@Code Reseau} object
+     * @return an array that contains all the nodes of the Reseau object
      */
     public Noeud[] getNoeud() {
         return noeud;
     }
 
     /**
-     * Sets the value of the {@code noeud} attribute
+     * Sets the value of the nodes attribute
      *
-     * @param noeud New value of the attribute {@code noeud}
+     * @param noeud New value of the attribute nodes
      */
     public void setNoeud(Noeud[] noeud) {
         this.noeud = noeud;
     }
 
     /**
-     * Gets the value of the {@code node} attribute
+     * Gets the value of the segments attribute
      *
-     * @return the value of {@code troncon} attribute
+     * @return the value of the segments attribute
      */
     public Troncon[] getTroncon() {
         return troncon;
     }
 
     /**
-     * Sets the value of the attribute {@code troncon}
+     * Sets the value of the attribute segments
      *
-     * @param troncon New value of {@code troncon} attribute
+     * @param troncon New value of segments attribute
      */
     public void setTroncon(Troncon[] troncon) {
         this.troncon = troncon;

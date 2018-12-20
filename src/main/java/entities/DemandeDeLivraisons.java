@@ -30,7 +30,7 @@ public class DemandeDeLivraisons {
     private Livraison[] livraison;
 
     /**
-     * Default constructor of {@DemandeDeLivraisons}.
+     * Default constructor of {DemandeDeLivraisons}.
      */
     public DemandeDeLivraisons() {
     }

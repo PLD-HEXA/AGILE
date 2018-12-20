@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * @author PLD-HEXA-301
  *
- * The class {@Code Troncon} represents an object that has the same structure as
+ * The class represents an object that has the same structure as
  * the element represented by the {@code troncon} tag in the parsed City plan
  * XML file.
  *

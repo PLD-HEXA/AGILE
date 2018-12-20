@@ -85,6 +85,16 @@ public class DeliveriesState extends DefaultState {
                     }
                     if (invalidFile) {
                         mainWindow.getGraphicalView().getMap().setWareHouse(null);
+                        mainWindow.getGraphicalView().setItineraries(null);
+                        mainWindow.getGraphicalView().setDeliveryPointIndex(null);
+                        mainWindow.getGraphicalView().setItineraryIndex(null);
+                        mainWindow.getGraphicalView().repaint();
+                        mainWindow.getTextualView().setItineraries(null);
+                        mainWindow.getTextualView().setDeliveryPointIndex(null);
+                        mainWindow.getTextualView().setItineraryIndex(null);
+                        mainWindow.getTextualView().displayListOfRounds();
+                        mainWindow.getTextualView().revalidate();
+                        mainWindow.getTextualView().repaint();
                         controller.setCurState(controller.planState);
                         mainWindow.showError("The input xml file is invalid.");
                     } else {
