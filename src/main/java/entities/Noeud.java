@@ -36,11 +36,10 @@ public class Noeud {
     }
 
     /**
-     * Constructor of {@Code Noeud} that represents an object with the
-     * attributes {@code id} and {@code coordinate}
+     * Constructor
      *
-     * @param id         The {@code id} attribute
-     * @param coordinate The {@code coordinate} attribute
+     * @param id         
+     * @param coordinate 
      */
     public Noeud(String id, Coordinate coordinate) {
         this.id = id;
@@ -48,7 +47,7 @@ public class Noeud {
     }
 
     /**
-     * Gets the value of the {@code id} attribute
+     * Gets the value of the id attribute
      *
      * @return a string that represents the id of the node.
      */
@@ -57,18 +56,18 @@ public class Noeud {
     }
 
     /**
-     * Sets the value of the {@code id} attribute
+     * Sets the value of the id attribute
      *
-     * @param id New value of the {@code id} attribute      
+     * @param id New value of the id attribute      
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * Gets the value of the {@code coordinate} attribute
+     * Gets the value of the coordinate attribute
      *
-     * @return a {@code Coordinate} object that represents the coordinates of
+     * @return a coordinate object that represents the coordinates of
      * the node.
      */
     public Coordinate getCoordinate() {
@@ -76,16 +75,16 @@ public class Noeud {
     }
 
     /**
-     * Sets the value of the {@code coordinate} attribute    
+     * Sets the value of the coordinate attribute    
      *
-     * @param coordinate New value of the {@code coordinate} attribute      
+     * @param coordinate New value of the coordinate attribute      
      */
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
     }
 
     /**
-     * Overrides of the {@code toString} method
+     * Overrides of the toString method
      *
      * @return the different data of the object in a String format
      */
@@ -95,7 +94,7 @@ public class Noeud {
     }
 
     /**
-     * Overrides of the {@code equals} method
+     * Overrides of the equals method
      *
      * @param obj
      * @return true if obj is equal, false otherwise

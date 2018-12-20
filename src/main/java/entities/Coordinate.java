@@ -57,8 +57,7 @@ public class Coordinate {
     /**
      * Gets the value of the {@code longitude} attribute
      *
-     * @return a real number {
-     * @Double Code} that represents the longitude.
+     * @return a real number {Code} that represents the longitude.
      */
     public Double getLongitude() {
         return longitude;

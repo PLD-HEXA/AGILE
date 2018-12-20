@@ -212,7 +212,7 @@ public class Map {
     /**
      * Gets waraHouse
      *
-     * @return wareHouse, a Pair<Integer,String>
+     * @return wareHouse
      */
     public Pair<Integer, String> getWareHouse() {
         return wareHouse;
@@ -256,8 +256,8 @@ public class Map {
 
     /**
      * Fills mapId and Coordinates with the data contained in param res. The
-     * data must be valid (e.g. id of the node is a number and is > 0 and a
-     * number, non-null tag noeud or troncon, non-null attribute, length > 0,
+     * data must be valid (e.g. id of the node is a number and is superior to 0 and a
+     * number, non-null tag noeud or troncon, non-null attribute, length is superior to 0,
      * ...). If data in res are invalid, mapId and coordinates are null
      *
      * @param res contains the information retrieved from the xml document in
@@ -410,8 +410,8 @@ public class Map {
 
     /**
      * Fills tabDeliveryPoints with the data contained in param ddl. The data
-     * must be valid (e.g. address attribute > 0, non-null tag Warehouse and
-     * delivery, non-null attribute, attribute duration > 0, attribute address
+     * must be valid (e.g. address attribute superior to 0, non-null tag Warehouse and
+     * delivery, non-null attribute, attribute duration superior to 0, attribute address
      * which represents an id must be contained in mapId, ...). If data in res
      * are invalid, tabDeliveryPoints is null
      *

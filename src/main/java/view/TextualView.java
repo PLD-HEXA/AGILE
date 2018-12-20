@@ -322,7 +322,7 @@ public class TextualView extends JPanel {
     /**
      * This method allows to get the index itenerary to delete
      *
-     * @return List<Pair   <   Integer   ,       Integer>>
+     * @return IndexItineraryToDelete
      */
     public List<Pair<Integer, Integer>> getIndexItineraryToDelete() {
         return indexItineraryToDelete;
